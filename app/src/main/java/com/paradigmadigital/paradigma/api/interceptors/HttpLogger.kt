@@ -1,4 +1,4 @@
-package es.tid.gconnect.analytics.evs
+package com.paradigmadigital.paradigma.api.interceptors
 
 import android.util.Log
 import okhttp3.logging.HttpLoggingInterceptor

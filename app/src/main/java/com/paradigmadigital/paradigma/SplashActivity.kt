@@ -1,18 +1,22 @@
 package com.paradigmadigital.paradigma
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.paradigmadigital.paradigma.api.model.WeatherData
+import com.paradigmadigital.paradigma.platform.BaseActivity
+import javax.inject.Inject
 
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
+
+    @Inject
+    lateinit var useCase: CurrentWeatherUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        getApplicationComponent().inject(this)
 
-        val useCase = CurrentWeatherUseCase()
         useCase.execute("Islamabad").subscribe({ this.handleOnResult(it) }, { this.handleOnError(it) })
     }
 
