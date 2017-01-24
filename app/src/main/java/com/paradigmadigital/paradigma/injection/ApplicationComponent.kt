@@ -2,7 +2,7 @@ package com.paradigmadigital.paradigma.injection
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.paradigmadigital.paradigma.SplashActivity
+import com.paradigmadigital.paradigma.splash.SplashActivity
 import com.paradigmadigital.paradigma.platform.ApplicationModule
 import dagger.Component
 import okhttp3.OkHttpClient

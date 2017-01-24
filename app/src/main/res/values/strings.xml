@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Paradigma</string>
+    <string name="app_name">WeatherSample</string>
+    <string name="refresh">Refresh</string>
 </resources>

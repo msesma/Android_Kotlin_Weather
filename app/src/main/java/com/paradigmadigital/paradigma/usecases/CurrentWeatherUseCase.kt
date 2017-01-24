@@ -1,4 +1,4 @@
-package com.paradigmadigital.paradigma
+package com.paradigmadigital.paradigma.usecases
 
 import com.paradigmadigital.paradigma.api.model.WeatherData
 import com.paradigmadigital.paradigma.api.services.CurrentWeatherService
@@ -12,7 +12,9 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class CurrentWeatherUseCase @Inject constructor(client: OkHttpClient) {
+class CurrentWeatherUseCase
+@Inject
+constructor(client: OkHttpClient) {
 
     companion object {
         val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"

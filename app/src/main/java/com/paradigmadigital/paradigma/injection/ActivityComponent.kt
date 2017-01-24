@@ -1,7 +1,8 @@
 package com.paradigmadigital.paradigma.injection
 
 import android.app.Activity
-import com.paradigmadigital.paradigma.SplashActivity
+import android.support.v7.app.AppCompatActivity
+import com.paradigmadigital.paradigma.splash.SplashActivity
 import com.paradigmadigital.paradigma.platform.ActivityModule
 import dagger.Component
 
@@ -12,5 +13,5 @@ interface ActivityComponent {
     fun inject(splashActivity: SplashActivity)
 
     //Exposed to sub-graphs.
-    fun activity(): Activity
+    fun activity(): AppCompatActivity
 }
