@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        apply from: 'buildsystem/dependencies.gradle'
+
+        classpath build_plugins.gradle
+//        classpath build_plugins.fabric
+        classpath build_plugins.retrolambda
+        classpath build_plugins.retrolambda_lombok
+        classpath build_plugins.kotlin
+    }
+
+    // Workaround retrolambda lint error issue https://github.com/evant/gradle-retrolambda/issues/96 by using
+    // https://github.com/evant/android-retrolambda-lombok
+    configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    fastBuild = properties.containsKey('ANDROID_FAST')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

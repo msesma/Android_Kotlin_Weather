@@ -1,0 +1,130 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../quality/quality.gradle'
+
+android {
+    compileSdkVersion android_build.compile_sdk
+    buildToolsVersion android_build.build_tools
+
+    defaultConfig {
+        applicationId "com.paradigmadigital.paradigma"
+        minSdkVersion !fastBuild ? android_build.min_sdk : 21
+        targetSdkVersion android_build.target_sdk
+
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        println("--------" + "VERSION DATA--------")
+        println("- CODE: $versionCode")
+        println("- NAME: $versionName")
+        println("- FAST BUILD: " + (fastBuild ? "ENABLED" : "DISABLED"))
+        println("----------------------------")
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+        }
+        release {
+//            storeFile file('paradigma.keystore')
+//            storePassword 'Paradigma'
+//            keyAlias 'paradigma'
+//            keyPassword 'Paradigma'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility versions.common.java
+        targetCompatibility versions.common.java
+    }
+
+    dexOptions {
+        maxProcessCount 4
+        javaMaxHeapSize "4g"
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+repositories {
+//    maven { url 'https://maven.fabric.io/public' }
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile libs.support.design
+    compile libs.support.recyclerview
+
+    compile libs.easy_permissions
+//    compile libs.firebase
+
+    compile libs.retrofit
+    compile libs.okhttp
+    compile libs.okhttp_logging
+    compile libs.gson
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+
+//    compile(libs.crashlytics) { transitive = true }
+
+    kapt libs.butterknife_compiler
+    compile libs.butterknife
+    kapt libs.dagger_compiler
+    compile libs.dagger
+    provided libs.javax_annotations
+
+//    compile(libs.material_drawer) {
+//        transitive = true
+//        exclude module: 'support-v4'
+//    }
+//    compile(libs.material_dialogs) {
+//        transitive = true
+//        exclude module: 'support-v4'
+//        exclude module: 'recyclerview-v7'
+//    }
+
+//    compile libs.picasso
+
+    compile libs.rx_app_state
+    compile libs.rx_java
+    compile libs.rx_android
+    compile libs.kotlin
+
+    debugCompile libs.debug.stetho
+
+    testCompile libs.test.junit
+    testCompile libs.rx_java
+    testCompile libs.test.robolectric
+    testCompile(libs.test.assertj) { exclude module: 'support-annotations' }
+    testCompile libs.test.mockito
+    testCompile libs.test.kotlin_junit
+    testCompile(libs.test.rx_kotlin) { exclude module: 'kotlin-stdlib' }
+    testCompile(libs.test.mockito_kotlin) {
+        exclude module: 'kotlin-stdlib'
+        exclude module: 'mockito-core'
+    }
+    testCompile libs.test.mockwebserver
+
+    androidTestCompile(libs.test.runner) { exclude module: 'support-annotations' }
+    androidTestCompile(libs.test.espresso) { exclude module: 'support-annotations' }
+    androidTestCompile(libs.test.espresso_intents) { exclude module: 'support-annotations' }
+}
+
+//apply plugin: 'com.google.gms.google-services'

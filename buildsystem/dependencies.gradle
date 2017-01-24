@@ -1,0 +1,109 @@
+ext {
+    android_build = [
+            build_tools: '25.0.2',
+            compile_sdk: 25,
+            min_sdk    : 16,
+            target_sdk : 25
+    ]
+
+    versions = [
+            common       : [
+                    java     : JavaVersion.VERSION_1_8,
+                    kotlin   : '1.0.6'
+            ],
+
+            build_plugins: [
+                    gradle            : '2.2.3',
+                    fabric            : '1.21.4',
+                    retrolambda       : '3.4.0',
+                    retrolambda_lombok: '0.2.3.a2'
+            ],
+
+            libs         : [
+                    assertj                 : '1.1.1',
+                    butterknife             : '8.4.0',
+                    butterknife_compiler    : '8.4.0',
+                    crashlytics             : '2.5.2',
+                    dagger                  : '2.5',
+                    easy_permissions        : '0.1.5',
+                    espresso                : '2.2.2',
+                    gson                    : '2.4',
+                    javax_annotations       : '1.0',
+                    junit                   : '4.11',
+                    material_dialogs        : '0.8.5.6',
+                    material_drawer         : '3.1.2',
+                    mockito                 : '2.5.0',
+                    mockito_kotlin          : '1.1.0',
+                    mockwebserver           : '3.5.0',
+                    okhttp                  : '3.5.0',
+                    okhttp_logging          : '3.5.0',
+                    otto                    : '1.3.8',
+                    picasso                 : '2.5.2',
+                    play                    : '9.0.2',
+                    retrofit                : '2.1.0',
+                    robolectric             : '3.1.1',
+                    runner                  : '0.5',
+                    rx_app_state            : '2.0.0',
+                    rx_java                 : '1.2.2',
+                    rx_android              : '1.2.1',
+                    rx_kotlin               : '0.60.0',
+                    stetho                  : '1.2.0',
+                    support                 : '25.1.0'
+            ]
+
+    ]
+
+    build_plugins = [
+            gradle            : [group: 'com.android.tools.build', name: 'gradle', version: versions.build_plugins.gradle],
+            fabric            : [group: 'io.fabric.tools', name: 'gradle', version: versions.build_plugins.fabric],
+            retrolambda       : [group: 'me.tatarka', name: 'gradle-retrolambda', version: versions.build_plugins.retrolambda],
+            retrolambda_lombok: [group: 'me.tatarka.retrolambda.projectlombok', name: 'lombok.ast', version: versions.build_plugins.retrolambda_lombok],
+            kotlin            : [group: 'org.jetbrains.kotlin', name: 'kotlin-gradle-plugin', version: versions.common.kotlin],
+    ]
+
+    libs = [
+            support                 : [
+                    annotations       : [group: 'com.android.support', name: 'support-annotations', version: versions.libs.support],
+                    design            : [group: 'com.android.support', name: 'design', version: versions.libs.support],
+                    recyclerview      : [group: 'com.android.support', name: 'recyclerview-v7', version: versions.libs.support],
+            ],
+
+            debug                   : [
+                    stetho: [group: 'com.facebook.stetho', name: 'stetho', version: versions.libs.stetho]
+            ],
+
+            test                    : [
+                    junit           : [group: 'junit', name: 'junit', version: versions.libs.junit],
+                    robolectric     : [group: 'org.robolectric', name: 'robolectric', version: versions.libs.robolectric],
+                    assertj         : [group: 'com.squareup.assertj', name: 'assertj-android', version: versions.libs.assertj],
+                    espresso        : [group: 'com.android.support.test.espresso', name: 'espresso-core', version: versions.libs.espresso],
+                    espresso_intents: [group: 'com.android.support.test.espresso', name: 'espresso-intents', version: versions.libs.espresso],
+                    runner          : [group: 'com.android.support.test', name: 'runner', version: versions.libs.runner],
+                    mockito         : [group: 'org.mockito', name: 'mockito-core', version: versions.libs.mockito],
+                    mockito_kotlin  : [group: 'com.nhaarman', name: 'mockito-kotlin', version: versions.libs.mockito_kotlin],
+                    mockwebserver   : [group: 'com.squareup.okhttp3', name: 'mockwebserver', version: versions.libs.mockwebserver],
+                    kotlin_junit    : [group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: versions.common.kotlin],
+                    rx_kotlin       : [group: 'io.reactivex', name: 'rxkotlin', version: versions.libs.rx_kotlin]
+            ],
+
+            butterknife             : [group: 'com.jakewharton', name: 'butterknife', version: versions.libs.butterknife],
+            butterknife_compiler    : [group: 'com.jakewharton', name: 'butterknife-compiler', version: versions.libs.butterknife_compiler],
+            crashlytics             : [group: 'com.crashlytics.sdk.android', name: 'crashlytics', version: versions.libs.crashlytics, ext: 'aar'],
+            dagger                  : [group: 'com.google.dagger', name: 'dagger', version: versions.libs.dagger],
+            dagger_compiler         : [group: 'com.google.dagger', name: 'dagger-compiler', version: versions.libs.dagger],
+            easy_permissions        : [group: 'pub.devrel', name: 'easypermissions', version: versions.libs.easy_permissions],
+            firebase                : [group: 'com.google.firebase', name: 'firebase-core', version: versions.libs.play],
+            gson                    : [group: 'com.google.code.gson', name: 'gson', version: versions.libs.gson],
+            javax_annotations       : [group: 'javax.annotation', name: 'jsr250-api', version: versions.libs.javax_annotations],
+            kotlin                  : [group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: versions.common.kotlin],
+            material_dialogs        : [group: 'com.github.afollestad.material-dialogs', name: 'core', version: versions.libs.material_dialogs],
+            material_drawer         : [group: 'com.mikepenz', name: 'materialdrawer', version: versions.libs.material_drawer, ext: 'aar'],
+            okhttp                  : [group: 'com.squareup.okhttp3', name: 'okhttp', version: versions.libs.okhttp],
+            okhttp_logging          : [group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: versions.libs.okhttp_logging],
+            picasso                 : [group: 'com.squareup.picasso', name: 'picasso', version: versions.libs.picasso],
+            retrofit                : [group: 'com.squareup.retrofit2', name: 'retrofit', version: versions.libs.retrofit],
+            rx_app_state            : [group: 'com.jenzz', name: 'RxAppState', version: versions.libs.rx_app_state],
+            rx_java                 : [group: 'io.reactivex', name: 'rxjava', version: versions.libs.rx_java],
+            rx_android              : [group: 'io.reactivex', name: 'rxandroid', version: versions.libs.rx_android]
+    ]
+}
