@@ -1,4 +1,4 @@
-package com.paradigmadigital.paradigma.splash
+package com.paradigmadigital.paradigma.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -11,9 +11,9 @@ import butterknife.OnClick
 import com.paradigmadigital.paradigma.R
 import javax.inject.Inject
 
-class SplashActivityDecorator
+class MainActivityDecorator
 @Inject
-constructor(val activity: AppCompatActivity) : SplashActivityUserInterface {
+constructor(val activity: AppCompatActivity) : MainActivityUserInterface {
 
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
@@ -22,7 +22,7 @@ constructor(val activity: AppCompatActivity) : SplashActivityUserInterface {
     @BindView(R.id.weather)
     lateinit var text: TextView
 
-    private var delegate: SplashActivityUserInterface.Delegate? = null
+    private var delegate: MainActivityUserInterface.Delegate? = null
     private var city: String? = null
 
     fun bind(view: View) {
@@ -34,7 +34,7 @@ constructor(val activity: AppCompatActivity) : SplashActivityUserInterface {
         delegate = null
     }
 
-    override fun initialize(delegate: SplashActivityUserInterface.Delegate, city: String) {
+    override fun initialize(delegate: MainActivityUserInterface.Delegate, city: String) {
         if (delegate != null) {
             this.delegate = delegate
         }

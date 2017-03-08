@@ -1,22 +1,22 @@
-package com.paradigmadigital.paradigma.splash
+package com.paradigmadigital.paradigma.ui
 
 import javax.inject.Inject
 
-class SplashActivityPresenter
+class MainActivityPresenter
 @Inject
-constructor(private val interactor: SplashActivityInteractor) {
+constructor(private val interactor: MainActivityInteractor) {
 
-    private var decorator: SplashActivityUserInterface? = null
+    private var decorator: MainActivityUserInterface? = null
 
     private var city: String? = null
-    private val delegate = object : SplashActivityUserInterface.Delegate {
+    private val delegate = object : MainActivityUserInterface.Delegate {
 
         override fun onRefreshButtonClick() {
             interactor.refresh(city ?: "")
         }
     }
 
-    private val subscriber = object : SplashActivityInteractor.RefreshSubscriber {
+    private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
 
         override fun onResult(currentWeather: String) {
             decorator?.showMessage(currentWeather)
@@ -27,7 +27,7 @@ constructor(private val interactor: SplashActivityInteractor) {
         }
     }
 
-    fun initialize(decorator: SplashActivityUserInterface) {
+    fun initialize(decorator: MainActivityUserInterface) {
         interactor.initialize(subscriber)
         city = interactor.getCity()
         this.decorator = decorator

@@ -2,9 +2,8 @@ package com.paradigmadigital.paradigma.api.model
 
 import com.google.gson.annotations.SerializedName
 
-class Rain {
+class MoonPhase {
 
-    @SerializedName("1h")
-    val _1h: Double? = null
-
+    @SerializedName("ageOfMoon")
+    val ageOfMoon: String? = null
 }

@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.paradigmadigital.paradigma.splash.SplashActivity"
+    tools:context="com.paradigmadigital.paradigma.ui.MainActivity"
     android:orientation="vertical"
     >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarlayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
         >
 
         <android.support.v7.widget.Toolbar
@@ -25,34 +31,42 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/listPreferredItemHeight"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        >
+    <TextView
+        android:id="@+id/weather"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:text=""
+        tools:text="haze"
+        style="@style/TextAppearance.AppCompat.Large"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="107dp"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
-        <TextView
-            android:id="@+id/weather"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            tools:text="haze"
-            android:layout_gravity="center_vertical"
-            style="@style/TextAppearance.AppCompat.Large"
-            />
+    <Button
+        android:id="@+id/refresh"
+        android:text="@string/refresh"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        tools:layout_conversion_absoluteX="268dp"
+        tools:layout_conversion_absoluteY="80dp"
+        tools:layout_conversion_absoluteWidth="100dp"
+        tools:layout_conversion_absoluteHeight="48dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        />
 
-        <Button
-            android:id="@+id/refresh"
-            android:text="@string/refresh"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_vertical"
-            style="@style/Widget.AppCompat.Button.Colored"
-            />
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

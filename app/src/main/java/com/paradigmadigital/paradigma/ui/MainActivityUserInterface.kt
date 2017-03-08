@@ -1,6 +1,6 @@
-package com.paradigmadigital.paradigma.splash
+package com.paradigmadigital.paradigma.ui
 
-interface SplashActivityUserInterface {
+interface MainActivityUserInterface {
 
     fun initialize(delegate: Delegate, city: String)
 

@@ -1,13 +1,13 @@
-package com.paradigmadigital.paradigma.splash
+package com.paradigmadigital.paradigma.ui
 
 import android.os.Bundle
-import android.view.ViewGroup
 import com.paradigmadigital.paradigma.R
 import com.paradigmadigital.paradigma.platform.BaseActivity
+import com.paradigmadigital.paradigma.platform.getRootView
 import javax.inject.Inject
 
 
-class SplashActivity : BaseActivity() {
+class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var delegate: Delegate
@@ -17,8 +17,7 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         activityComponent.inject(this)
 
-        val rootView = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup //TODO simplify
-        delegate.onCreate(rootView)
+        delegate.onCreate(this.getRootView())
     }
 
     override fun onResume() {

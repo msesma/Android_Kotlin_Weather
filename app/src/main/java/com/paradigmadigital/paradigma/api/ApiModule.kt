@@ -1,6 +1,7 @@
 package com.paradigmadigital.paradigma.injection
 
-import com.paradigmadigital.paradigma.api.interceptors.HttpLogger
+import android.util.Log
+import com.paradigmadigital.paradigma.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,13 +11,17 @@ import okhttp3.logging.HttpLoggingInterceptor
 class ApiModule() {
 
     @Provides
-    internal fun provideOkHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor(HttpLogger())
-        logging.level = HttpLoggingInterceptor.Level.BODY
-
-        return OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build()
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val interceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.d("Retrofit", message) })
+        interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
+        return interceptor
     }
 
+    @Provides
+    internal fun provideOkHttpClient(
+            loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+         return OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
+    }
 }

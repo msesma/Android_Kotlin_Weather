@@ -1,7 +1,8 @@
 package com.paradigmadigital.paradigma.usecases
 
-import com.paradigmadigital.paradigma.api.model.WeatherData
-import com.paradigmadigital.paradigma.api.services.CurrentWeatherService
+import com.paradigmadigital.paradigma.api.model.WuWeatherData
+import com.paradigmadigital.paradigma.api.services.WuWeatherService
+import com.paradigmadigital.paradigma.usecases.UseCase.Companion.URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -12,16 +13,11 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class CurrentWeatherUseCase
+class AstronomyUseCase
 @Inject
-constructor(client: OkHttpClient) {
+constructor(client: OkHttpClient) : UseCase {
 
-    companion object {
-        val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
-        val URL = "http://api.openweathermap.org/data/2.5/"
-    }
-
-    val service: CurrentWeatherService
+    val service: WuWeatherService
 
     init {
         service = Retrofit.Builder()
@@ -30,11 +26,11 @@ constructor(client: OkHttpClient) {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(URL)
                 .build()
-                .create(CurrentWeatherService::class.java)
+                .create(WuWeatherService::class.java)
     }
 
-    fun execute(city: String): Observable<WeatherData> {
-        return service.getCurrentWeather(APP_ID, city)
+    fun execute(country: String = "ES", city: String): Observable<WuWeatherData> {
+        return service.getWeather(country, city)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
     }

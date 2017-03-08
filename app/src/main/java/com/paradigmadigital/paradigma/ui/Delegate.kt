@@ -1,4 +1,4 @@
-package com.paradigmadigital.paradigma.splash
+package com.paradigmadigital.paradigma.ui
 
 import android.content.Intent
 import android.view.View
@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class Delegate
 @Inject
-constructor(private val decorator: SplashActivityDecorator,
-            private val presenter: SplashActivityPresenter) {
+constructor(private val decorator: MainActivityDecorator,
+            private val presenter: MainActivityPresenter) {
 
     fun onCreate(view: View) {
         decorator.bind(view)
