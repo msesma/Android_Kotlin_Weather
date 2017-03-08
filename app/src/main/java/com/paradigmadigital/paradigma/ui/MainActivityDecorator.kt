@@ -34,12 +34,9 @@ constructor(val activity: AppCompatActivity) : MainActivityUserInterface {
         delegate = null
     }
 
-    override fun initialize(delegate: MainActivityUserInterface.Delegate, city: String) {
-        if (delegate != null) {
-            this.delegate = delegate
-        }
-        this.city = city
-        toolbar.title = city
+    override fun initialize(delegate: MainActivityUserInterface.Delegate) {
+        this.delegate = delegate
+        toolbar.title = ""
     }
 
     override fun showError(errorMessage: String) {
@@ -48,6 +45,11 @@ constructor(val activity: AppCompatActivity) : MainActivityUserInterface {
 
     override fun showMessage(message: String) {
         text.setText(message)
+    }
+
+    override fun setCity(city: String) {
+        this.city = city
+        toolbar.title = city
     }
 
     @OnClick(R.id.refresh)

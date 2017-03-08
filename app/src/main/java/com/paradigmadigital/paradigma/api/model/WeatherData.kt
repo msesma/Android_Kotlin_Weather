@@ -2,7 +2,7 @@ package com.paradigmadigital.paradigma.api.model
 
 import com.google.gson.annotations.SerializedName
 
-class WuWeatherData {
+class WeatherData {
 
     @SerializedName("response")
     val response: Response? = null

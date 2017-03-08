@@ -8,18 +8,18 @@ constructor(private val interactor: MainActivityInteractor) {
 
     private var decorator: MainActivityUserInterface? = null
 
-    private var city: String? = null
     private val delegate = object : MainActivityUserInterface.Delegate {
 
         override fun onRefreshButtonClick() {
-            interactor.refresh(city ?: "")
+            interactor.refresh()
         }
     }
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
 
-        override fun onResult(currentWeather: String) {
+        override fun onResult(currentWeather: String, city: String) {
             decorator?.showMessage(currentWeather)
+            decorator?.setCity(city)
         }
 
         override fun onError(ex: Exception) {
@@ -29,13 +29,12 @@ constructor(private val interactor: MainActivityInteractor) {
 
     fun initialize(decorator: MainActivityUserInterface) {
         interactor.initialize(subscriber)
-        city = interactor.getCity()
         this.decorator = decorator
-        this.decorator?.initialize(delegate, city ?: "")
+        this.decorator?.initialize(delegate)
     }
 
     fun onResume() {
-        interactor.refresh(city ?: "")
+        interactor.refresh()
     }
 
     fun dispose() {

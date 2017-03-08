@@ -1,8 +1,8 @@
 package com.paradigmadigital.paradigma.usecases
 
-import com.paradigmadigital.paradigma.api.model.WuWeatherData
-import com.paradigmadigital.paradigma.api.services.WuWeatherService
-import com.paradigmadigital.paradigma.usecases.UseCase.Companion.URL
+import com.paradigmadigital.paradigma.api.model.GeoLookUp
+import com.paradigmadigital.paradigma.api.services.WeatherService
+import com.paradigmadigital.paradigma.usecases.ApiUseCase.Companion.URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -13,11 +13,12 @@ import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class AstronomyUseCase
+class GeoLookUpApiUseCase
 @Inject
-constructor(client: OkHttpClient) : UseCase {
+constructor(client: OkHttpClient) : ApiUseCase {
 
-    val service: WuWeatherService
+    val service: WeatherService
+
 
     init {
         service = Retrofit.Builder()
@@ -26,11 +27,11 @@ constructor(client: OkHttpClient) : UseCase {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(URL)
                 .build()
-                .create(WuWeatherService::class.java)
+                .create(WeatherService::class.java)
     }
 
-    fun execute(country: String = "ES", city: String): Observable<WuWeatherData> {
-        return service.getWeather(country, city)
+    fun execute(latitude: String, longitude: String): Observable<GeoLookUp> {
+        return service.getGeoLookUp(latitude, longitude)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
     }

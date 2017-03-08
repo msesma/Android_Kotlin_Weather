@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'me.tatarka.retrolambda'
 //apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android-extensions'
 apply from: '../quality/quality.gradle'
@@ -71,8 +70,15 @@ repositories {
 dependencies {
     compile libs.support.design
     compile libs.support.recyclerview
+//    compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    ext.playservices = '10.2.0'
+//    compile "com.google.android.gms:play-services-base:$playservices@aar"
+////    compile "com.google.android.gms:play-services-wearable:$playservices@aar"
+    compile 'com.google.android.gms:play-services:10.2.0'
+
+    compile "com.google.android.gms:play-services-location:$playservices@aar"
 
     compile libs.easy_permissions
 //    compile libs.firebase
@@ -106,8 +112,11 @@ dependencies {
 
     compile libs.rx_app_state
     compile libs.rx_java
+    compile 'io.reactivex:rxjava-async-util:0.21.0'
     compile libs.rx_android
     compile libs.kotlin
+
+
 
     debugCompile libs.debug.stetho
 
@@ -128,5 +137,3 @@ dependencies {
     androidTestCompile(libs.test.espresso) { exclude module: 'support-annotations' }
     androidTestCompile(libs.test.espresso_intents) { exclude module: 'support-annotations' }
 }
-
-//apply plugin: 'com.google.gms.google-services'
