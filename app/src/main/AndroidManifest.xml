@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.paradigmadigital.paradigma">
+    package="com.paradigmadigital.paraguas">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="com.paradigmadigital.paradigma.platform.AndroidApplication"
+        android:name="com.paradigmadigital.paraguas.platform.AndroidApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.paradigmadigital.paradigma.ui.MainActivity">
+        <activity android:name="com.paradigmadigital.paraguas.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
