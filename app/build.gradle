@@ -1,17 +1,23 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-//apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android-extensions'
+
+
+
 apply from: '../quality/quality.gradle'
 
+
+
+
+
 android {
-    compileSdkVersion android_build.compile_sdk
-    buildToolsVersion android_build.build_tools
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.paradigmadigital.paradigma"
-        minSdkVersion !fastBuild ? android_build.min_sdk : 21
-        targetSdkVersion android_build.target_sdk
+        minSdkVersion !fastBuild ? 16 : 21
+        targetSdkVersion 25
 
         versionCode 1
         versionName "1.0"
@@ -48,8 +54,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility versions.common.java
-        targetCompatibility versions.common.java
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
 
     dexOptions {
@@ -63,77 +69,86 @@ kapt {
 }
 
 repositories {
-//    maven { url 'https://maven.fabric.io/public' }
     maven { url "https://jitpack.io" }
+    mavenCentral()
 }
 
+ext {
+    rx_java = '1.2.7'
+    rx_android = '1.2.1'
+    rx_kotlin = '1.0.0-RC2'
+
+    playservices = '10.2.0'
+    support = '25.2.0'
+    constraint = '1.0.2'
+
+    easy_permissions = '0.1.5'
+    retrofit = '2.1.0'
+    adapter_rxjava = '2.2.0'
+    converter_gson = '2.0.0'
+    okhttp = '3.6.0'
+    butterknife = '8.5.1'
+    dagger = '2.5'
+    picasso = '2.5.2'
+
+    junit = '4.11'
+    robolectric = '3.3'
+    assertj = '1.1.1'
+    mockito = '2.7.14'
+    mockito_kotlin = '1.3.0'
+    espresso = '2.2.2'
+    mockwebserver = '3.6.0'
+    runner = '0.5'
+}
+
+
 dependencies {
-    compile libs.support.design
-    compile libs.support.recyclerview
-//    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    ext.playservices = '10.2.0'
-//    compile "com.google.android.gms:play-services-base:$playservices@aar"
-////    compile "com.google.android.gms:play-services-wearable:$playservices@aar"
-    compile 'com.google.android.gms:play-services:10.2.0'
+    compile "io.reactivex:rxjava:$rx_java"
+    compile "io.reactivex:rxandroid:$rx_android"
+    compile "io.reactivex:rxkotlin:$rx_kotlin"
 
-    compile "com.google.android.gms:play-services-location:$playservices@aar"
+    compile "com.android.support:design:$support"
+    compile "com.android.support:support-annotations:$support"
+    compile "com.android.support.constraint:constraint-layout:$constraint"
+    compile "com.google.android.gms:play-services-base:$playservices"
+    compile "com.google.android.gms:play-services-location:$playservices"
 
-    compile libs.easy_permissions
-//    compile libs.firebase
+    compile "pub.devrel:easypermissions:$easy_permissions"
 
-    compile libs.retrofit
-    compile libs.okhttp
-    compile libs.okhttp_logging
-    compile libs.gson
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0'
+    compile "com.squareup.okhttp3:okhttp:$okhttp"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    compile "com.squareup.retrofit2:retrofit:$retrofit"
+    compile "com.squareup.retrofit2:adapter-rxjava:$adapter_rxjava"
+    compile "com.squareup.retrofit2:converter-gson:$converter_gson"
 
-//    compile(libs.crashlytics) { transitive = true }
+    kapt "com.jakewharton:butterknife-compiler:$butterknife"
+    compile "com.jakewharton:butterknife:$butterknife"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    compile "com.google.dagger:dagger:$dagger"
+    compile "com.squareup.picasso:picasso:$picasso"
 
-    kapt libs.butterknife_compiler
-    compile libs.butterknife
-    kapt libs.dagger_compiler
-    compile libs.dagger
-    provided libs.javax_annotations
-
-//    compile(libs.material_drawer) {
-//        transitive = true
-//        exclude module: 'support-v4'
-//    }
-//    compile(libs.material_dialogs) {
-//        transitive = true
-//        exclude module: 'support-v4'
-//        exclude module: 'recyclerview-v7'
-//    }
-
-//    compile libs.picasso
-
-    compile libs.rx_app_state
-    compile libs.rx_java
-    compile 'io.reactivex:rxjava-async-util:0.21.0'
-    compile libs.rx_android
-    compile libs.kotlin
-
-
-
-    debugCompile libs.debug.stetho
-
-    testCompile libs.test.junit
-    testCompile libs.rx_java
-    testCompile libs.test.robolectric
-    testCompile(libs.test.assertj) { exclude module: 'support-annotations' }
-    testCompile libs.test.mockito
-    testCompile libs.test.kotlin_junit
-    testCompile(libs.test.rx_kotlin) { exclude module: 'kotlin-stdlib' }
-    testCompile(libs.test.mockito_kotlin) {
+    testCompile "junit:junit:$junit"
+    testCompile "io.reactivex:rxjava:$rx_java"
+    testCompile "org.robolectric:robolectric:$robolectric"
+    testCompile("com.squareup.assertj:assertj-android:$assertj") {
+        exclude module: 'support-annotations'
+    }
+    testCompile "org.mockito:mockito-core:$mockito"
+    testCompile("com.nhaarman:mockito-kotlin:$mockito_kotlin") {
         exclude module: 'kotlin-stdlib'
         exclude module: 'mockito-core'
     }
-    testCompile libs.test.mockwebserver
+    testCompile "com.squareup.okhttp3:mockwebserver:$mockwebserver"
 
-    androidTestCompile(libs.test.runner) { exclude module: 'support-annotations' }
-    androidTestCompile(libs.test.espresso) { exclude module: 'support-annotations' }
-    androidTestCompile(libs.test.espresso_intents) { exclude module: 'support-annotations' }
+    androidTestCompile("com.android.support.test:runner:$runner") {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso") {
+        exclude module: 'support-annotations'
+    }
+    androidTestCompile("com.android.support.test.espresso:espresso-intents:$espresso") {
+        exclude module: 'support-annotations'
+    }
 }

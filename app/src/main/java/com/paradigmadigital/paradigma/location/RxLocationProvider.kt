@@ -11,13 +11,13 @@ import rx.Subscriber
 import javax.inject.Inject
 
 
-class LocationProvider
+class RxLocationProvider
 @Inject
 constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
 
     private var googleApiClient: GoogleApiClient? = null
 
-    var subscriber: Subscriber<GeoLookUp>? = null;
+    var subscriber: Subscriber<GeoLookUp>? = null
 
     private val connectionCallback = object : GoogleApiClient.ConnectionCallbacks {
         override fun onConnected(bundle: Bundle?) {
@@ -27,31 +27,34 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
         }
 
         override fun onConnectionSuspended(i: Int) {
-
+            subscriber?.onError(Throwable("Connection error"))
         }
     }
 
     private val connectFailListener = object : GoogleApiClient.OnConnectionFailedListener {
         override fun onConnectionFailed(result: com.google.android.gms.common.ConnectionResult) {
+            subscriber?.onError(Throwable(result.errorMessage))
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun getGeoLookUpObservable(): Observable<GeoLookUp> {
         return Observable.create(
-                Observable.OnSubscribe<GeoLookUp>({ sub ->
-                    this.subscriber = sub as Subscriber<GeoLookUp>?
+                { sub ->
+                    this.subscriber = sub as Subscriber<GeoLookUp>
                     buildGoogleApiClient()
-                })
+                }
         )
     }
 
-
     @Synchronized private fun buildGoogleApiClient() {
-        googleApiClient = GoogleApiClient.Builder(context)
-                .addConnectionCallbacks(connectionCallback)
-                .addOnConnectionFailedListener(GoogleApiClient.OnConnectionFailedListener { })
-                .addApi(LocationServices.API)
-                .build()
+        if (googleApiClient == null) {
+            googleApiClient = GoogleApiClient.Builder(context)
+                    .addConnectionCallbacks(connectionCallback)
+                    .addOnConnectionFailedListener(connectFailListener)
+                    .addApi(LocationServices.API)
+                    .build()
+        }
 
         googleApiClient?.connect()
     }
@@ -59,9 +62,11 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
     private fun handleOnResult(geoLookUp: GeoLookUp) {
         subscriber?.onNext(geoLookUp)
         subscriber?.onCompleted()
+        googleApiClient?.disconnect()
     }
 
     private fun handleOnError(throwable: Throwable) {
         subscriber?.onError(throwable)
+        googleApiClient?.disconnect()
     }
 }
