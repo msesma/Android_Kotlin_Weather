@@ -3,7 +3,7 @@ package com.paradigmadigital.paradigma.usecases
 import com.paradigmadigital.paradigma.domain.City
 import com.paradigmadigital.paradigma.location.CityMapper
 import com.paradigmadigital.paradigma.location.RxLocationProvider
-import rx.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 
 

@@ -5,9 +5,9 @@ import com.paradigmadigital.paradigma.api.model.AstronomyData
 import com.paradigmadigital.paradigma.api.model.ConditionsData
 import com.paradigmadigital.paradigma.api.model.GeoLookUp
 import com.paradigmadigital.paradigma.api.model.WeatherData
+import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
-import rx.Observable
 
 interface WeatherService {
 

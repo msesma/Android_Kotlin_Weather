@@ -74,8 +74,8 @@ repositories {
 }
 
 ext {
-    rx_java = '1.2.7'
-    rx_android = '1.2.1'
+    rx_java = '2.0.6'
+    rx_android = '2.0.1'
     rx_kotlin = '1.0.0-RC2'
 
     playservices = '10.2.0'
@@ -105,8 +105,8 @@ ext {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile "io.reactivex:rxjava:$rx_java"
-    compile "io.reactivex:rxandroid:$rx_android"
+    compile "io.reactivex.rxjava2:rxjava:$rx_java"
+    compile "io.reactivex.rxjava2:rxandroid:$rx_android"
 
     compile "com.android.support:design:$support"
     compile "com.android.support:support-annotations:$support"
@@ -119,7 +119,7 @@ dependencies {
     compile "com.squareup.okhttp3:okhttp:$okhttp"
     compile "com.squareup.okhttp3:logging-interceptor:$okhttp"
     compile "com.squareup.retrofit2:retrofit:$retrofit"
-    compile "com.squareup.retrofit2:adapter-rxjava:$adapter_rxjava"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$adapter_rxjava"
     compile "com.squareup.retrofit2:converter-gson:$converter_gson"
 
     kapt "com.jakewharton:butterknife-compiler:$butterknife"

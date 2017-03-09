@@ -6,8 +6,8 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.paradigmadigital.paradigma.api.model.GeoLookUp
 import com.paradigmadigital.paradigma.usecases.GeoLookUpApiUseCase
-import rx.Observable
-import rx.Subscriber
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import javax.inject.Inject
 
 
@@ -17,7 +17,7 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
 
     private var googleApiClient: GoogleApiClient? = null
 
-    var subscriber: Subscriber<GeoLookUp>? = null
+    var observableEmitter: ObservableEmitter<GeoLookUp>? = null
 
     private val connectionCallback = object : GoogleApiClient.ConnectionCallbacks {
         override fun onConnected(bundle: Bundle?) {
@@ -29,24 +29,21 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
         }
 
         override fun onConnectionSuspended(i: Int) {
-            subscriber?.onError(Throwable("Connection error"))
+            observableEmitter?.onError(Throwable("Connection error"))
         }
     }
 
     private val connectFailListener = object : GoogleApiClient.OnConnectionFailedListener {
         override fun onConnectionFailed(result: com.google.android.gms.common.ConnectionResult) {
-            subscriber?.onError(Throwable(result.errorMessage))
+            observableEmitter?.onError(Throwable(result.errorMessage))
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun getGeoLookUpObservable(): Observable<GeoLookUp> {
-        return Observable.create(
-                { sub ->
-                    this.subscriber = sub as Subscriber<GeoLookUp>
-                    buildGoogleApiClient()
-                }
-        )
+        return Observable.create {
+            observableEmitter = it
+            buildGoogleApiClient()
+        }
     }
 
     @Synchronized private fun buildGoogleApiClient() {
@@ -62,13 +59,13 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
     }
 
     private fun handleOnResult(geoLookUp: GeoLookUp) {
-        subscriber?.onNext(geoLookUp)
-        subscriber?.onCompleted()
+        observableEmitter?.onNext(geoLookUp)
+        observableEmitter?.onComplete()
         googleApiClient?.disconnect()
     }
 
     private fun handleOnError(throwable: Throwable) {
-        subscriber?.onError(throwable)
+        observableEmitter?.onError(throwable)
         googleApiClient?.disconnect()
     }
 }
