@@ -22,8 +22,10 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
     private val connectionCallback = object : GoogleApiClient.ConnectionCallbacks {
         override fun onConnected(bundle: Bundle?) {
             val lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
-            useCase.execute(lastLocation.latitude.toString(), lastLocation.longitude.toString())
-                    .subscribe({ handleOnResult(it) }, { handleOnError(it) })
+            if (lastLocation != null) {
+                useCase.execute(lastLocation.latitude.toString(), lastLocation.longitude.toString())
+                        .subscribe({ handleOnResult(it) }, { handleOnError(it) })
+            }
         }
 
         override fun onConnectionSuspended(i: Int) {

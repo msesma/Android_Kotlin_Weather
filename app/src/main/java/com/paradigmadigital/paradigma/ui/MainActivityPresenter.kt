@@ -4,7 +4,8 @@ import javax.inject.Inject
 
 class MainActivityPresenter
 @Inject
-constructor(private val interactor: MainActivityInteractor) {
+constructor(
+        private val interactor: MainActivityInteractor) {
 
     private var decorator: MainActivityUserInterface? = null
 

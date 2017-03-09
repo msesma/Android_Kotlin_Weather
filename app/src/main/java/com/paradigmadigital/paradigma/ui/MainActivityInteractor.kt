@@ -2,13 +2,17 @@ package com.paradigmadigital.paradigma.ui
 
 import com.paradigmadigital.paradigma.api.model.ConditionsData
 import com.paradigmadigital.paradigma.domain.City
+import com.paradigmadigital.paradigma.platform.PermissionManager
 import com.paradigmadigital.paradigma.usecases.CityUseCase
 import com.paradigmadigital.paradigma.usecases.ConditionsApiUseCase
 import javax.inject.Inject
 
 class MainActivityInteractor
 @Inject
-constructor(private val conditionsUseCase: ConditionsApiUseCase, private val cityUseCase: CityUseCase) {
+constructor(
+        private val conditionsUseCase: ConditionsApiUseCase,
+        private val cityUseCase: CityUseCase,
+        private val permissionManager: PermissionManager) {
 
     private var subscriber: RefreshSubscriber? = null
 
@@ -19,9 +23,10 @@ constructor(private val conditionsUseCase: ConditionsApiUseCase, private val cit
     }
 
     fun refresh() {
-        cityUseCase.execute()
-                .subscribe({ this.handleOnCityResult(it) }, { subscriber?.onError(it.cause as Exception) })
-
+        if (hasLocationPermission()) {
+            cityUseCase.execute()
+                    .subscribe({ this.handleOnCityResult(it) }, { subscriber?.onError(it.cause as Exception) })
+        }
     }
 
     private fun handleOnCityResult(city: City) {
@@ -42,5 +47,9 @@ constructor(private val conditionsUseCase: ConditionsApiUseCase, private val cit
         fun onError(ex: Exception)
 
         fun onResult(currentWeather: String, city: String)
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        return permissionManager.locationPremission;
     }
 }

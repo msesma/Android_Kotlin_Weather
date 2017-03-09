@@ -8,9 +8,10 @@ import com.paradigmadigital.paradigma.injection.ActivityComponent
 import com.paradigmadigital.paradigma.injection.ApplicationComponent
 import com.paradigmadigital.paradigma.injection.DaggerActivityComponent
 
-fun Activity.getRootView(): ViewGroup = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
 
 open class BaseActivity : AppCompatActivity() {
+
+    fun Activity.getRootView(): ViewGroup = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
 
     private val applicationComponent: ApplicationComponent
         get() = (application as AndroidApplication).applicationComponent

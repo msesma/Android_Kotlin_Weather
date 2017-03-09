@@ -82,7 +82,7 @@ ext {
     support = '25.2.0'
     constraint = '1.0.2'
 
-    easy_permissions = '0.1.5'
+    easy_permissions = '0.3.0'
     retrofit = '2.1.0'
     adapter_rxjava = '2.2.0'
     converter_gson = '2.0.0'

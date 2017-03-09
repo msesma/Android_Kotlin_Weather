@@ -3,7 +3,7 @@ package com.paradigmadigital.paradigma.ui
 import android.os.Bundle
 import com.paradigmadigital.paradigma.R
 import com.paradigmadigital.paradigma.platform.BaseActivity
-import com.paradigmadigital.paradigma.platform.getRootView
+import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 
@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         activityComponent.inject(this)
 
-        delegate.onCreate(this.getRootView())
+        delegate.onCreate(getRootView())
     }
 
     override fun onResume() {
@@ -28,5 +28,10 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         delegate.onDestroy()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }
