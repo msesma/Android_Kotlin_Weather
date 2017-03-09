@@ -74,9 +74,10 @@ repositories {
 }
 
 ext {
-    rx_java = '2.0.6'
+    rx_java = '2.0.'
     rx_android = '2.0.1'
     rx_kotlin = '1.0.0-RC2'
+    rx_relay =  '2.0.0'
 
     playservices = '10.2.0'
     support = '25.2.0'
@@ -107,6 +108,7 @@ dependencies {
 
     compile "io.reactivex.rxjava2:rxjava:$rx_java"
     compile "io.reactivex.rxjava2:rxandroid:$rx_android"
+    compile "com.jakewharton.rxrelay2:rxrelay:$rx_relay"
 
     compile "com.android.support:design:$support"
     compile "com.android.support:support-annotations:$support"
