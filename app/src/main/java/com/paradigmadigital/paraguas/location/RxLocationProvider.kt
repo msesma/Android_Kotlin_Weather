@@ -59,6 +59,7 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
 
     private fun handleOnResult(geoLookUp: GeoLookUp) {
         relay.accept(geoLookUp)
+        relay.doOnComplete {  }
         googleApiClient?.disconnect()
     }
 }

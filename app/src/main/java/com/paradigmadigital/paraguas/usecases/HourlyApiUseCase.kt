@@ -29,7 +29,7 @@ constructor(client: OkHttpClient) : ApiUseCase {
                 .create(WeatherService::class.java)
     }
 
-    fun execute(country: String = "ES", city: String): Observable<WeatherData> {
+    fun execute(country: String, city: String): Observable<WeatherData> {
         return service.getWeather(country, city)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

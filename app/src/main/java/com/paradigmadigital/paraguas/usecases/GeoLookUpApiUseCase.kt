@@ -1,8 +1,8 @@
 package com.paradigmadigital.paraguas.usecases
 
+import com.paradigmadigital.paraguas.api.Endpoint
 import com.paradigmadigital.paraguas.api.model.GeoLookUp
 import com.paradigmadigital.paraguas.api.services.WeatherService
-import com.paradigmadigital.paraguas.usecases.ApiUseCase.Companion.URL
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,17 +15,16 @@ import javax.inject.Inject
 
 class GeoLookUpApiUseCase
 @Inject
-constructor(client: OkHttpClient) : ApiUseCase {
+constructor(client: OkHttpClient, endpoint: Endpoint) {
 
     val service: WeatherService
-
 
     init {
         service = Retrofit.Builder()
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(URL)
+                .baseUrl(endpoint.URL)
                 .build()
                 .create(WeatherService::class.java)
     }
@@ -35,5 +34,4 @@ constructor(client: OkHttpClient) : ApiUseCase {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
     }
-
 }
