@@ -1,8 +1,8 @@
-package com.paradigmadigital.paraguas.location
+package com.paradigmadigital.paraguas.domain.mappers
 
 import com.paradigmadigital.paraguas.api.model.GeoLookUp
 import com.paradigmadigital.paraguas.domain.City
-import com.paradigmadigital.paraguas.domain.Mapper
+import com.paradigmadigital.paraguas.domain.mappers.Mapper
 import javax.inject.Inject
 
 class CityMapper

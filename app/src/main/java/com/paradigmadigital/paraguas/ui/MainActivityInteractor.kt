@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas.ui
 
-import com.paradigmadigital.paraguas.api.model.ConditionsData
+import com.paradigmadigital.paraguas.api.model.CurrentWeather
 import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.platform.PermissionManager
 import com.paradigmadigital.paraguas.usecases.CityUseCase
@@ -11,12 +11,15 @@ class MainActivityInteractor
 @Inject
 constructor(
         private val conditionsUseCase: ConditionsApiUseCase,
+        //        private val astronomyUseCase: AstronomyApiUseCase,
+//        private val hourlyUseCase: ForecastApiUseCase,
         private val cityUseCase: CityUseCase,
         private val permissionManager: PermissionManager) {
 
     private var subscriber: RefreshSubscriber? = null
 
-    private var city: String? = null
+    var city: String? = null
+        private set
 
     fun initialize(subscriber: RefreshSubscriber) {
         this.subscriber = subscriber
@@ -32,24 +35,24 @@ constructor(
     private fun handleOnCityResult(city: City) {
         this.city = city.city
         conditionsUseCase.execute(country = city.countryCode, city = city.city)
-                .subscribe({ this.handleOnWheatherResult(it) }, { subscriber?.onError(it.cause as Exception) })
-    }
-
-    private fun handleOnWheatherResult(weatherData: ConditionsData?) {
-        val temp: Float = weatherData?.currenObservation?.tempC ?: 0f
-        val text = weatherData?.currenObservation?.icon + ", " + temp + "ºC"
-
-        subscriber?.onResult(text, city ?: "City not found")
-        city = null;
+                .subscribe({ subscriber?.handleOnWheatherResult(it) }, { subscriber?.onError(it.cause as Exception) })
+//        conditionsUseCase.execute(country = city.countryCode, city = city.city)
+//                .subscribe({ subscriber?.handleOnAstronomyResult(it) }, { subscriber?.onError(it.cause as Exception) })
+//        conditionsUseCase.execute(country = city.countryCode, city = city.city)
+//                .subscribe({ subscriber?.handleOnHourlyResult(it) }, { subscriber?.onError(it.cause as Exception) })
     }
 
     interface RefreshSubscriber {
         fun onError(ex: Exception)
 
-        fun onResult(currentWeather: String, city: String)
+        fun handleOnWheatherResult(currentWeather: CurrentWeather?)
+//        fun handleOnAstronomyResult(weatherData: ConditionsData?)
+
+//        fun handleOnHourlyResult(weatherData: ConditionsData?)
     }
 
     private fun hasLocationPermission(): Boolean {
         return permissionManager.locationPremission;
     }
+
 }

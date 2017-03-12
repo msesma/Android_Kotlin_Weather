@@ -8,3 +8,5 @@ class ConditionsData {
     val currenObservation: CurrentObservation? = null
 
 }
+
+

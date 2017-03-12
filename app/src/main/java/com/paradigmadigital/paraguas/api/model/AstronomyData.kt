@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 class AstronomyData {
 
-    @SerializedName("response")
-    val response: Response? = null
-
     @SerializedName("moon_phase")
     val moonPhase: MoonPhase? = null
 

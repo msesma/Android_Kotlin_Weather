@@ -1,8 +1,9 @@
 package com.paradigmadigital.paraguas.usecases
 
-import com.paradigmadigital.paraguas.api.model.WeatherData
+import com.paradigmadigital.paraguas.api.Endpoint
+import com.paradigmadigital.paraguas.api.model.ForecastItem
 import com.paradigmadigital.paraguas.api.services.WeatherService
-import com.paradigmadigital.paraguas.usecases.ApiUseCase.Companion.URL
+import com.paradigmadigital.paraguas.domain.mappers.ForecastMapper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -13,9 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
 
-class HourlyApiUseCase
+class ForecastApiUseCase
 @Inject
-constructor(client: OkHttpClient) : ApiUseCase {
+constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: ForecastMapper) {
 
     val service: WeatherService
 
@@ -24,15 +25,15 @@ constructor(client: OkHttpClient) : ApiUseCase {
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(URL)
+                .baseUrl(endpoint.URL)
                 .build()
                 .create(WeatherService::class.java)
     }
 
-    fun execute(country: String, city: String): Observable<WeatherData> {
+    fun execute(country: String, city: String): Observable<List<ForecastItem>> {
         return service.getWeather(country, city)
+                .map { mapper.map(it) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
     }
-
 }

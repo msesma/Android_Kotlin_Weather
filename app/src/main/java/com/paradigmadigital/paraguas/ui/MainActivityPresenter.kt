@@ -1,5 +1,6 @@
 package com.paradigmadigital.paraguas.ui
 
+import com.paradigmadigital.paraguas.api.model.CurrentWeather
 import javax.inject.Inject
 
 class MainActivityPresenter
@@ -17,10 +18,9 @@ constructor(
     }
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
-
-        override fun onResult(currentWeather: String, city: String) {
-            decorator?.showMessage(currentWeather)
-            decorator?.setCity(city)
+        override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
+            decorator?.showMessage("${currentWeather?.temp} ºC")
+            decorator?.setCity(interactor.city ?: "")
         }
 
         override fun onError(ex: Exception) {

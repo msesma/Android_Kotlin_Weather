@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.domain
+package com.paradigmadigital.paraguas.domain.mappers
 
 
 interface Mapper<OUT, IN> {
