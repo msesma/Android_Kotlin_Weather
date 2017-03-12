@@ -7,13 +7,13 @@ import org.junit.Test
 
 class GeoLookUpApiUseCaseShould : MockWebServerTestBase() {
 
-    lateinit private var usecase: GeoLookUpApiUseCase
+    lateinit private var useCase: GeoLookUpApiUseCase
 
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        usecase = GeoLookUpApiUseCase(httpClient, baseEndpoint)
+        useCase = GeoLookUpApiUseCase(httpClient, baseEndpoint)
     }
 
     @Test
@@ -21,11 +21,21 @@ class GeoLookUpApiUseCaseShould : MockWebServerTestBase() {
     fun getCityForCoordinatesHappyPath() {
         enqueueMockResponse(200, "geolookup_mock_response.json")
 
-        usecase.execute("37.776289", "-122.395234")
+        useCase.execute("37.776289", "-122.395234")
 
                 .subscribe({
             assertThat(it?.location?.city).isEqualTo("San Francisco")
             assertThat(it?.location?.country).isEqualTo("US")
         })
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getCityForCoordinatesUsesCorrectUrl() {
+        enqueueMockResponse(200)
+
+        useCase.execute("37.776289", "-122.395234").subscribe()
+
+        assertGetRequestSentTo("/geolookup/q/37.776289,-122.395234.json")
     }
 }
