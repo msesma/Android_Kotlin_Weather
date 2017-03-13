@@ -9,7 +9,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
-import java.text.SimpleDateFormat
+import java.util.*
 
 class ForecastApiUseCaseShould : MockWebServerTestBase() {
 
@@ -27,12 +27,11 @@ class ForecastApiUseCaseShould : MockWebServerTestBase() {
 
     @Test
     @Throws(Exception::class)
-    fun getCityForCoordinatesHappyPath() {
+    fun getForecastHappyPath() {
         enqueueMockResponse(200, "hourly_mock_response.json")
-        val format = SimpleDateFormat("EEE mm")
         val observer = TestObserver<List<ForecastItem>>()
         val forecastItem = ForecastItem(
-                time = format.parse("07 01"),
+                time = Date(1341338400000),
                 condition = "Clear",
                 feelslike = 19f,
                 humidity = 65f,
@@ -48,7 +47,7 @@ class ForecastApiUseCaseShould : MockWebServerTestBase() {
         observer.await()
 
         observer.assertNoErrors()
-                .assertValue( it -> it.get(0).equals(forecastItem))
+                .assertValue { it -> it.get(0).equals(forecastItem) }
     }
 
     @Test

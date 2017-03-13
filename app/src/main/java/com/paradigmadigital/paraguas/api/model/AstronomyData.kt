@@ -7,8 +7,6 @@ class AstronomyData {
     @SerializedName("moon_phase")
     val moonPhase: MoonPhase? = null
 
-    @SerializedName("sun_phase")
-    val sunPhase: SunPhase? = null
 }
 // {
 // "response": {

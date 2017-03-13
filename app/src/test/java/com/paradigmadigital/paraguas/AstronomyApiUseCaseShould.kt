@@ -27,7 +27,7 @@ class AstronomyApiUseCaseShould : MockWebServerTestBase() {
 
     @Test
     @Throws(Exception::class)
-    fun getCityForCoordinatesHappyPath() {
+    fun getAstronomyHappyPath() {
         enqueueMockResponse(200, "astronomy_mock_response.json")
         val format = SimpleDateFormat("HH mm")
         val observer = TestObserver<Astronomy>()

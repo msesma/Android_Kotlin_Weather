@@ -12,8 +12,8 @@ constructor() : Mapper<Astronomy, AstronomyData> {
     override fun map(input: AstronomyData): Astronomy {
         return Astronomy(
                 ageOfMoon = input.moonPhase?.ageOfMoon?.toInt() ?: 0,
-                sunrise = getTime(input.sunPhase?.sunrise?.hour ?: "00", input.sunPhase?.sunrise?.minute ?: "00"),
-                sunset = getTime(input.sunPhase?.sunset?.hour ?: "00", input.sunPhase?.sunset?.minute ?: "00")
+                sunrise = getTime(input.moonPhase?.sunrise?.hour ?: "00", input.moonPhase?.sunrise?.minute ?: "00"),
+                sunset = getTime(input.moonPhase?.sunset?.hour ?: "00", input.moonPhase?.sunset?.minute ?: "00")
         )
     }
 

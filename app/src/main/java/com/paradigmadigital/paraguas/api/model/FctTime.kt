@@ -7,6 +7,9 @@ class FctTime {
     @SerializedName("hour")
     val hour: String? = null
 
+    @SerializedName("epoch")
+    val epoch: String? = null
+
     @SerializedName("weekday_name_abbrev")
     val weekdayNameAbbrev: String? = null
 }

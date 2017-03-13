@@ -8,7 +8,7 @@ data class ForecastItem(
         val feelslike: Float = 0f,
         val windSpeed: Float = 0f,
         val rainQuantity: Float = 0f,
-        val rainProbability: Float? = 0f,
+        val rainProbability: Float = 0f,
         val snow: Float = 0f,
         val condition: String = "",
         val iconUrl: String = "",
