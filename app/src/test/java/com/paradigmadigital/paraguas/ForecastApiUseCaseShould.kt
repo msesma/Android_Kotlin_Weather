@@ -1,12 +1,14 @@
 package com.paradigmadigital.paraguas
 
+import com.paradigmadigital.paraguas.api.model.ForecastItem
 import com.paradigmadigital.paraguas.domain.mappers.ForecastMapper
 import com.paradigmadigital.paraguas.usecases.ForecastApiUseCase
-import org.assertj.core.api.Assertions.assertThat
+import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import retrofit2.HttpException
 import java.text.SimpleDateFormat
 
 class ForecastApiUseCaseShould : MockWebServerTestBase() {
@@ -20,7 +22,7 @@ class ForecastApiUseCaseShould : MockWebServerTestBase() {
     override fun setUp() {
         super.setUp()
         MockitoAnnotations.initMocks(this)
-        useCase = ForecastApiUseCase(httpClient, baseEndpoint, mapperMock)
+        useCase = ForecastApiUseCase(httpClient, baseEndpoint, ForecastMapper())
     }
 
     @Test
@@ -28,29 +30,46 @@ class ForecastApiUseCaseShould : MockWebServerTestBase() {
     fun getCityForCoordinatesHappyPath() {
         enqueueMockResponse(200, "hourly_mock_response.json")
         val format = SimpleDateFormat("EEE mm")
+        val observer = TestObserver<List<ForecastItem>>()
+        val forecastItem = ForecastItem(
+                time = format.parse("07 01"),
+                condition = "Clear",
+                feelslike = 19f,
+                humidity = 65f,
+                rainProbability = 0f,
+                rainQuantity = 0f,
+                snow = 0f,
+                temp = 19f,
+                windSpeed = 8f,
+                iconUrl = "http://icons-ak.wxug.com/i/c/k/clear.gif"
+        )
 
-        useCase.execute("CA", "San Francisco")
+        useCase.execute("CA", "San Francisco").subscribe(observer)
+        observer.await()
 
-                .subscribe({
-                    assertThat(it?.get(0)?.condition).isEqualTo("Clear")
-                    assertThat(it?.get(0)?.feelslike).isEqualTo(19)
-                    assertThat(it?.get(0)?.humidity).isEqualTo(65)
-                    assertThat(it?.get(0)?.rainProbability).isEqualTo(0)
-                    assertThat(it?.get(0)?.rainQuantity).isEqualTo(0)
-                    assertThat(it?.get(0)?.snow).isEqualTo(0)
-                    assertThat(it?.get(0)?.temp).isEqualTo(19)
-                    assertThat(it?.get(0)?.windSpeed).isEqualTo(8)
-                    assertThat(it?.get(0)?.iconUrl).isEqualTo("http://icons-ak.wxug.com/i/c/k/clear.gif")
-                })
+        observer.assertNoErrors()
+                .assertValue( it -> it.get(0).equals(forecastItem))
     }
 
     @Test
     @Throws(Exception::class)
     fun getCityForCoordinatesUsesCorrectUrl() {
-        enqueueMockResponse(200)
+        enqueueMockResponse(200, "hourly_mock_response.json")
 
         useCase.execute("CA", "San Francisco").subscribe()
 
-        assertGetRequestSentTo("/hourly/q/CA/San Francisco.json")
+        assertGetRequestSentTo("/hourly/q/CA/San%20Francisco.json")
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getCityForCoordinatesManagerHttpError() {
+        enqueueMockResponse(500, "hourly_mock_response.json")
+        val observer = TestObserver<List<ForecastItem>>()
+
+        useCase.execute("CA", "San Francisco").subscribe(observer)
+        observer.await()
+
+        observer.assertError { it -> (it as HttpException).code() == 500 }
     }
 }
