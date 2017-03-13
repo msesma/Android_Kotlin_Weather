@@ -1,6 +1,8 @@
 package com.paradigmadigital.paraguas.ui
 
+import com.paradigmadigital.paraguas.api.model.Astronomy
 import com.paradigmadigital.paraguas.api.model.CurrentWeather
+import com.paradigmadigital.paraguas.api.model.ForecastItem
 import javax.inject.Inject
 
 class MainActivityPresenter
@@ -18,6 +20,12 @@ constructor(
     }
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
+        override fun handleOnAstronomyResult(astronomy: Astronomy?) {
+        }
+
+        override fun handleOnHourlyResult(forecast: List<ForecastItem>?) {
+        }
+
         override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
             decorator?.showMessage("${currentWeather?.temp} ºC")
             decorator?.setCity(interactor.city ?: "")
