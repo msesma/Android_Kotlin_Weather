@@ -68,11 +68,6 @@ kapt {
     generateStubs = true
 }
 
-repositories {
-    maven { url "https://jitpack.io" }
-    mavenCentral()
-}
-
 ext {
     rx_java = '2.0.'
     rx_android = '2.0.1'
@@ -91,6 +86,7 @@ ext {
     butterknife = '8.5.1'
     dagger = '2.5'
     picasso = '2.5.2'
+    android_chart = 'v3.0.1'
 
     junit = '4.11'
     robolectric = '3.3'
@@ -116,6 +112,7 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:$constraint"
     compile "com.google.android.gms:play-services-base:$playservices"
     compile "com.google.android.gms:play-services-location:$playservices"
+    compile "com.github.PhilJay:MPAndroidChart:$android_chart"
 
     compile "pub.devrel:easypermissions:$easy_permissions"
 

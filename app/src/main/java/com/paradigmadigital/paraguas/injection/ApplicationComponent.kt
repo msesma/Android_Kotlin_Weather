@@ -2,8 +2,9 @@ package com.paradigmadigital.paraguas.injection
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.paradigmadigital.paraguas.ui.MainActivity
+import com.paradigmadigital.paraguas.api.ApiModule
 import com.paradigmadigital.paraguas.platform.ApplicationModule
+import com.squareup.picasso.Picasso
 import dagger.Component
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
@@ -20,4 +21,6 @@ interface ApplicationComponent {
     fun provideSharedPreferences(): SharedPreferences
 
     fun provideOkHttpClient(): OkHttpClient
+
+    fun providePicasso(): Picasso
 }

@@ -21,13 +21,14 @@ constructor(
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
         override fun handleOnAstronomyResult(astronomy: Astronomy?) {
+            if (astronomy != null) decorator?.showCurrentAstronomy(astronomy)
         }
 
         override fun handleOnHourlyResult(forecast: List<ForecastItem>?) {
         }
 
         override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
-            decorator?.showMessage("${currentWeather?.temp} ºC")
+            if (currentWeather != null) decorator?.showCurrentWeather(currentWeather)
             decorator?.setCity(interactor.city ?: "")
         }
 

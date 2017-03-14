@@ -1,11 +1,16 @@
-package com.paradigmadigital.paraguas.injection
+package com.paradigmadigital.paraguas.api
 
+import android.content.Context
 import android.util.Log
 import com.paradigmadigital.paraguas.BuildConfig
+import com.squareup.picasso.Cache
+import com.squareup.picasso.LruCache
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Singleton
 
 @Module
 class ApiModule() {
@@ -18,10 +23,23 @@ class ApiModule() {
     }
 
     @Provides
-    internal fun provideOkHttpClient(
-            loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-         return OkHttpClient.Builder()
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCache(application: Context): Cache {
+        return LruCache(application)
+    }
+
+    @Provides
+    @Singleton
+    fun providePicasso(cache: Cache, application: Context): Picasso {
+        val builder = Picasso.Builder(application)
+        builder.memoryCache(cache)
+        return builder.build()
     }
 }
