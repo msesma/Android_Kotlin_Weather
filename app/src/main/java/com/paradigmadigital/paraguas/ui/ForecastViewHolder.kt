@@ -25,6 +25,8 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
     lateinit var temp: TextView
     @BindView(R.id.data)
     lateinit var data: TextView
+    @BindView(R.id.hour)
+    lateinit var hour: TextView
 
     lateinit private var forecastItem: ForecastItem
 
@@ -57,8 +59,9 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
 
     private fun configureView() {
         imageRepo.getCurrentIcon(forecastItem.iconUrl, iconTarget)
-        val hour = SimpleDateFormat("HH").format(forecastItem.time).toFloat()
-        temp.setText("$hour: ${forecastItem.temp} ºC")
-        data.setText("(${forecastItem.feelslike}ºC) ${forecastItem.condition} ${forecastItem.windSpeed}kmh ${forecastItem.rainProbability}%")
+        val hr = SimpleDateFormat("HH").format(forecastItem.time).toInt()
+        hour.setText("$hr")
+        temp.setText("${forecastItem.temp} ºC")
+        data.setText("(${forecastItem.feelslike}ºC) ${forecastItem.windSpeed}kmh ${forecastItem.rainProbability}%")
     }
 }
