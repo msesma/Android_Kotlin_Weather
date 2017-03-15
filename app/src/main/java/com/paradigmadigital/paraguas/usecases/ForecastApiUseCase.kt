@@ -1,10 +1,8 @@
 package com.paradigmadigital.paraguas.usecases
 
 import com.paradigmadigital.paraguas.api.Endpoint
-import com.paradigmadigital.paraguas.api.model.ForecastItem
 import com.paradigmadigital.paraguas.api.services.WeatherService
 import com.paradigmadigital.paraguas.domain.mappers.ForecastMapper
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -30,10 +28,8 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: ForecastMapper
                 .create(WeatherService::class.java)
     }
 
-    fun execute(country: String, city: String): Observable<List<ForecastItem>> {
-        return service.getWeather(country, city)
-                .map { mapper.map(it) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun execute(country: String, city: String) = service.getWeather(country, city)
+            .map { mapper.map(it) }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
 }

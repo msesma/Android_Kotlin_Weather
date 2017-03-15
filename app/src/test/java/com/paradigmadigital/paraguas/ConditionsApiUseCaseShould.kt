@@ -6,21 +6,16 @@ import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 
 class ConditionsApiUseCaseShould : MockWebServerTestBase() {
 
     lateinit private var useCase: ConditionsApiUseCase
-    @Mock
-    private lateinit var mapperMock: CurrentWeatherMapper
 
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        MockitoAnnotations.initMocks(this)
         useCase = ConditionsApiUseCase(httpClient, baseEndpoint, CurrentWeatherMapper())
     }
 

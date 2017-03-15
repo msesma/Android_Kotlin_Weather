@@ -13,7 +13,6 @@ interface WeatherService {
 
     @GET("hourly/q/{countryCode}/{city}.json")
     fun getWeather(@Path("countryCode") countryCode: String, @Path("city") city: String): Observable<WeatherData>
-//        url = "http://api.wunderground.com/api/93d0c442f87c0b10/hourly/q/UK/Glasgow.json";
 
     @GET("conditions/q/{countryCode}/{city}.json")
     fun getConditions(@Path("countryCode") countryCode: String, @Path("city") city: String): Observable<ConditionsData>

@@ -1,10 +1,8 @@
 package com.paradigmadigital.paraguas.usecases
 
 import com.paradigmadigital.paraguas.api.Endpoint
-import com.paradigmadigital.paraguas.api.model.Astronomy
 import com.paradigmadigital.paraguas.api.services.WeatherService
 import com.paradigmadigital.paraguas.domain.mappers.AstronomyMapper
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -12,7 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
-
 
 class AstronomyApiUseCase
 @Inject
@@ -30,10 +27,8 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: AstronomyMappe
                 .create(WeatherService::class.java)
     }
 
-    fun execute(country: String = "ES", city: String): Observable<Astronomy> {
-        return service.getAstronomy(country, city)
-                .map { mapper.map(it) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun execute(country: String = "ES", city: String) = service.getAstronomy(country, city)
+            .map { mapper.map(it) }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
 }

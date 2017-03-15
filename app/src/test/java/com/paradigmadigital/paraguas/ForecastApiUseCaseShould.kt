@@ -6,7 +6,6 @@ import com.paradigmadigital.paraguas.usecases.ForecastApiUseCase
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import java.util.*
@@ -14,14 +13,11 @@ import java.util.*
 class ForecastApiUseCaseShould : MockWebServerTestBase() {
 
     lateinit private var useCase: ForecastApiUseCase
-    @Mock
-    private lateinit var mapperMock: ForecastMapper
 
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        MockitoAnnotations.initMocks(this)
         useCase = ForecastApiUseCase(httpClient, baseEndpoint, ForecastMapper())
     }
 

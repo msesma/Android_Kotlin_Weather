@@ -10,7 +10,3 @@ class Feelslike {
     @SerializedName("metric")
     val metric: String? = null
 }
-// "feelslike": {
-// "english": "45",
-// "metric": "7"
-// },

@@ -31,7 +31,5 @@ constructor() : Mapper<List<ForecastItem>, WeatherData> {
         return forecast
     }
 
-    fun getTime(epoch: String): Date {
-        return Date(epoch.toLong() * 1000)
-    }
+    fun getTime(epoch: String)= Date(epoch.toLong() * 1000)
 }

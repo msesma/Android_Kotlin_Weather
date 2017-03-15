@@ -10,7 +10,3 @@ class Sunrise {
     @SerializedName("minute")
     val minute: String? = null
 }
-// "sunrise": {
-// "hour": "7",
-// "minute": "01"
-// },

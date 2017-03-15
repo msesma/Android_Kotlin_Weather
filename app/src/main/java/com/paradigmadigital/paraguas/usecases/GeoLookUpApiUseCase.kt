@@ -1,9 +1,7 @@
 package com.paradigmadigital.paraguas.usecases
 
 import com.paradigmadigital.paraguas.api.Endpoint
-import com.paradigmadigital.paraguas.api.model.GeoLookUp
 import com.paradigmadigital.paraguas.api.services.WeatherService
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
@@ -29,9 +27,7 @@ constructor(client: OkHttpClient, endpoint: Endpoint) {
                 .create(WeatherService::class.java)
     }
 
-    fun execute(latitude: String, longitude: String): Observable<GeoLookUp> {
-        return service.getGeoLookUp(latitude, longitude)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
+    fun execute(latitude: String, longitude: String) = service.getGeoLookUp(latitude, longitude)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
 }

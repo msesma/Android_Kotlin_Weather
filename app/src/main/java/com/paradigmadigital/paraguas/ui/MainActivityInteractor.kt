@@ -30,7 +30,7 @@ constructor(
     }
 
     fun refresh() {
-        if (hasLocationPermission()) {
+        if (permissionManager.locationPremission) {
             cityUseCase.execute()
                     .subscribe({ this.handleOnCityResult(it) }, { subscriber?.onError(it.cause as Exception) })
         }
@@ -55,9 +55,4 @@ constructor(
 
         fun handleOnHourlyResult(forecast: List<ForecastItem>?)
     }
-
-    private fun hasLocationPermission(): Boolean {
-        return permissionManager.locationPremission;
-    }
-
 }

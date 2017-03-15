@@ -10,9 +10,8 @@ class ImageRepository
 @Inject
 constructor(private val picasso: Picasso) {
 
-    fun getCurrentIcon(url: String, iconTarget: Target) {
-        picasso.load(url)
-                .resizeDimen(R.dimen.main_icon_width, R.dimen.main_icon_height)
-                .into(iconTarget)
-    }
+    fun getCurrentIcon(url: String, iconTarget: Target) = picasso.load(url)
+            .resizeDimen(R.dimen.main_icon_width, R.dimen.main_icon_height)
+            .into(iconTarget)
+
 }

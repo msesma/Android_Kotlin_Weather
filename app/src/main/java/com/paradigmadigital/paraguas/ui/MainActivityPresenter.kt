@@ -14,7 +14,7 @@ constructor(
 
     private val delegate = object : MainActivityUserInterface.Delegate {
 
-        override fun onRefreshButtonClick() {
+        override fun onRefresh() {
             interactor.refresh()
         }
     }
@@ -25,6 +25,7 @@ constructor(
         }
 
         override fun handleOnHourlyResult(forecast: List<ForecastItem>?) {
+            if (forecast != null) decorator?.showForecast(forecast)
         }
 
         override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
@@ -43,9 +44,7 @@ constructor(
         this.decorator?.initialize(delegate)
     }
 
-    fun onResume() {
-        interactor.refresh()
-    }
+    fun onResume() = interactor.refresh()
 
     fun dispose() {
         this.decorator = null

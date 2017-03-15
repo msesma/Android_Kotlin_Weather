@@ -10,7 +10,3 @@ class Wspd {
     @SerializedName("metric")
     val metric: String? = null
 }
-// "wspd": {
-// "english": "7",
-// "metric": "11"
-// },

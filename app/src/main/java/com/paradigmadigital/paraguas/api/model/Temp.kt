@@ -10,7 +10,3 @@ class Temp {
     @SerializedName("metric")
     val metric: String? = null
 }
-// "temp": {
-// "english": "45",
-// "metric": "7"
-// },

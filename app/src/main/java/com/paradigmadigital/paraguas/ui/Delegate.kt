@@ -1,8 +1,6 @@
 package com.paradigmadigital.paraguas.ui
 
-import android.content.Intent
 import android.view.View
-
 import javax.inject.Inject
 
 class Delegate
@@ -15,9 +13,7 @@ constructor(private val decorator: MainActivityDecorator,
         presenter.initialize(decorator)
     }
 
-    fun onResume() {
-        presenter.onResume()
-    }
+    fun onResume() = presenter.onResume()
 
     fun onDestroy() {
         presenter.dispose()

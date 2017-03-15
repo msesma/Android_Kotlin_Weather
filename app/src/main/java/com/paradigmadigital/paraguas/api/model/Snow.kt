@@ -10,7 +10,3 @@ class Snow {
     @SerializedName("metric")
     val metric: String? = null
 }
-// "snow": {
-// "english": "",
-// "metric": ""
-// },

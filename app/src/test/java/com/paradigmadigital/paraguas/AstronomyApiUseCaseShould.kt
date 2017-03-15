@@ -6,22 +6,17 @@ import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import java.text.SimpleDateFormat
 
 class AstronomyApiUseCaseShould : MockWebServerTestBase() {
 
     lateinit private var useCase: AstronomyApiUseCase
-    @Mock
-    private lateinit var mapperMock: AstronomyMapper
 
     @Before
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        MockitoAnnotations.initMocks(this)
         useCase = AstronomyApiUseCase(httpClient, baseEndpoint, AstronomyMapper())
     }
 
@@ -42,7 +37,7 @@ class AstronomyApiUseCaseShould : MockWebServerTestBase() {
 
     @Test
     @Throws(Exception::class)
-    fun getCityForCoordinatesUsesCorrectUrl() {
+    fun getAstronomyUsesCorrectUrl() {
         enqueueMockResponse(200, "astronomy_mock_response.json")
 
         useCase.execute("CA", "San Francisco").subscribe()
@@ -52,7 +47,7 @@ class AstronomyApiUseCaseShould : MockWebServerTestBase() {
 
     @Test
     @Throws(Exception::class)
-    fun getCityForCoordinatesManagerHttpError() {
+    fun getAstronomyManagerHttpError() {
         enqueueMockResponse(500, "astronomy_mock_response.json")
         val observer = TestObserver<Astronomy>()
 

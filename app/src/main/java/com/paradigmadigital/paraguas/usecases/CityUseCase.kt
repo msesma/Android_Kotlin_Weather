@@ -11,9 +11,7 @@ class CityUseCase
 @Inject
 constructor(val locationProvider: RxLocationProvider, val cityMapper: CityMapper) {
 
-    fun execute(): Observable<City> {
-        return locationProvider.getGeoLookUpObservable()
+    fun execute(): Observable<City> = locationProvider.getGeoLookUpObservable()
                 .map { geoLookUp -> cityMapper.map(geoLookUp) }
-    }
 
 }

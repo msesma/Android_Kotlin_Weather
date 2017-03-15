@@ -10,7 +10,3 @@ class Qpf {
     @SerializedName("metric")
     val metric: String? = null
 }
-// "qpf": {
-// "english": "",
-// "metric": "0"
-// },
