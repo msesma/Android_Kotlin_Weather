@@ -6,10 +6,9 @@ import javax.inject.Inject
 
 class CityMapper
 @Inject
-constructor(): Mapper<City, GeoLookUp> {
+constructor() : Mapper<City, GeoLookUp> {
     override fun map(input: GeoLookUp): City {
         return City(
-                timestamp = System.currentTimeMillis(),
                 city = input.location?.city ?: "",
                 countryCode = input.location?.country ?: ""
         )

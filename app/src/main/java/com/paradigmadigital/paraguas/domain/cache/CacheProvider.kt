@@ -14,13 +14,12 @@ class CacheProvider
 
     val TAG = CacheProvider::class.simpleName
 
-    val time
-        get() = System.currentTimeMillis()
+    val time get() = System.currentTimeMillis()
 
-
+    var cityTimestamp = 0L
     var city: City? = null
         get() {
-            val timedOut = (field?.timestamp ?: 0 < time - TimeUnit.MINUTES.toMillis(5))
+            val timedOut = (cityTimestamp < time - TimeUnit.MINUTES.toMillis(5))
             Log.d(TAG, "GET city timed out $timedOut, previous value = $field")
             return if (!timedOut) field else null
         }
@@ -31,39 +30,46 @@ class CacheProvider
                 currentWeather = null
                 forecast = null
             }
+            cityTimestamp = time
             field = value
         }
 
+    var astronomyTimestamp = 0L
     var astronomy: Astronomy? = null
         get() {
-            val timedOut = (field?.timestamp ?: 0 < time - TimeUnit.HOURS.toMillis(1))
+            val timedOut = (astronomyTimestamp < time - TimeUnit.HOURS.toMillis(1))
             Log.d(TAG, "GET astronomy timed out $timedOut, previous value = $field")
             return if (!timedOut) field else null
         }
         set(value) {
             Log.d(TAG, "SET astronomy $value, previous value = $field")
+            astronomyTimestamp = time
             field = value
         }
 
+    var currentWeatherTimestamp = 0L
     var currentWeather: CurrentWeather? = null
         get() {
-            val timedOut = (field?.timestamp ?: 0 < time - TimeUnit.HOURS.toMillis(1))
+            val timedOut = (currentWeatherTimestamp < time - TimeUnit.HOURS.toMillis(1))
             Log.d(TAG, "GET currentWeather timed out $timedOut, previous value = $field")
             return if (!timedOut) field else null
         }
         set(value) {
             Log.d(TAG, "SET currentWeather $value, previous value = $field")
+            currentWeatherTimestamp = time
             field = value
         }
 
+    var forecastTimestamp = 0L
     var forecast: List<ForecastItem>? = null
         get() {
-            val timedOut = (field?.get(0)?.timestamp ?: 0 < time - TimeUnit.HOURS.toMillis(1))
+            val timedOut = (forecastTimestamp < time - TimeUnit.HOURS.toMillis(1))
             Log.d(TAG, "GET forecast timed out $timedOut, previous value = $field")
             return if (!timedOut) field else null
         }
         set(value) {
             Log.d(TAG, "SET forecast $value, previous value = $field")
+            forecastTimestamp = time
             field = value
         }
 }

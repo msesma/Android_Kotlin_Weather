@@ -3,7 +3,6 @@ package com.paradigmadigital.paraguas.api.model
 import java.util.*
 
 data class ForecastItem(
-        val timestamp: Long = 0,
         val time: Date? = null,
         val temp: Float = 0f,
         val feelslike: Float = 0f,

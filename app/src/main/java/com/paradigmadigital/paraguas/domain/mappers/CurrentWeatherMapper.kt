@@ -9,7 +9,6 @@ class CurrentWeatherMapper
 constructor() : Mapper<CurrentWeather, ConditionsData> {
     override fun map(input: ConditionsData): CurrentWeather {
         return CurrentWeather(
-                timestamp = System.currentTimeMillis(),
                 precip1hrMetric = input.currenObservation?.precip1hrMetric?.toFloatOrNull() ?: 0f,
                 iconUrl = input.currenObservation?.iconUrl ?: "",
                 temp = input.currenObservation?.tempC ?: 0f,

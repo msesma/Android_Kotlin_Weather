@@ -11,7 +11,6 @@ class AstronomyMapper
 constructor() : Mapper<Astronomy, AstronomyData> {
     override fun map(input: AstronomyData): Astronomy {
         return Astronomy(
-                timestamp = System.currentTimeMillis(),
                 ageOfMoon = input.moonPhase?.ageOfMoon?.toInt() ?: 0,
                 sunrise = getTime(input.moonPhase?.sunrise?.hour ?: "00", input.moonPhase?.sunrise?.minute ?: "00"),
                 sunset = getTime(input.moonPhase?.sunset?.hour ?: "00", input.moonPhase?.sunset?.minute ?: "00")
