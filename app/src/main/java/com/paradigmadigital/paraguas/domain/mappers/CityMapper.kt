@@ -2,7 +2,6 @@ package com.paradigmadigital.paraguas.domain.mappers
 
 import com.paradigmadigital.paraguas.api.model.GeoLookUp
 import com.paradigmadigital.paraguas.domain.City
-import com.paradigmadigital.paraguas.domain.mappers.Mapper
 import javax.inject.Inject
 
 class CityMapper
@@ -10,6 +9,7 @@ class CityMapper
 constructor(): Mapper<City, GeoLookUp> {
     override fun map(input: GeoLookUp): City {
         return City(
+                timestamp = System.currentTimeMillis(),
                 city = input.location?.city ?: "",
                 countryCode = input.location?.country ?: ""
         )

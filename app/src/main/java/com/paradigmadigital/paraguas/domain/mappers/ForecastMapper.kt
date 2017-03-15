@@ -15,6 +15,7 @@ constructor() : Mapper<List<ForecastItem>, WeatherData> {
         for (hourlyForecast in apiForecast) {
             forecast.add(
                     ForecastItem(
+                            timestamp = System.currentTimeMillis(),
                             time = getTime(hourlyForecast.fctTime?.epoch ?: "0"),
                             temp = hourlyForecast.temp?.metric?.toFloatOrNull() ?: 0f,
                             feelslike = hourlyForecast.feelslike?.metric?.toFloatOrNull() ?: 0f,

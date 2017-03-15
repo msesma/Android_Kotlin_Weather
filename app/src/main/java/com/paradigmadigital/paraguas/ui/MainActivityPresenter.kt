@@ -1,5 +1,6 @@
 package com.paradigmadigital.paraguas.ui
 
+import android.util.Log
 import com.paradigmadigital.paraguas.api.model.Astronomy
 import com.paradigmadigital.paraguas.api.model.CurrentWeather
 import com.paradigmadigital.paraguas.api.model.ForecastItem
@@ -9,6 +10,8 @@ class MainActivityPresenter
 @Inject
 constructor(
         private val interactor: MainActivityInteractor) {
+
+    val TAG = MainActivityPresenter::class.simpleName
 
     private var decorator: MainActivityUserInterface? = null
 
@@ -21,14 +24,18 @@ constructor(
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
         override fun handleOnAstronomyResult(astronomy: Astronomy?) {
+            Log.d(TAG, astronomy.toString())
             if (astronomy != null) decorator?.showCurrentAstronomy(astronomy)
         }
 
-        override fun handleOnHourlyResult(forecast: List<ForecastItem>?) {
+        override fun handleOnForecastResult(forecast: List<ForecastItem>?) {
+            Log.d(TAG, forecast.toString())
             if (forecast != null) decorator?.showForecast(forecast)
         }
 
         override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
+            Log.d(TAG, currentWeather.toString())
+            Log.d(TAG, "City: ${interactor.city}")
             if (currentWeather != null) decorator?.showCurrentWeather(currentWeather)
             decorator?.setCity(interactor.city ?: "")
         }

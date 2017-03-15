@@ -1,7 +1,8 @@
 package com.paradigmadigital.paraguas.platform
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.preference.PreferenceManager
+import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +12,15 @@ class ApplicationModule(private val application: AndroidApplication) {
 
     @Provides
     @Singleton
-    internal fun provideContext() = this.application
+    internal fun provideContext(): Context {
+        return this.application
+    }
 
     @Provides
     @Singleton
-    internal fun provideSharedPreferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+    internal fun provideSharedPreferences() = PreferenceManager.getDefaultSharedPreferences(application)
+
+    @Provides
+    @Singleton
+    internal fun provideCacheProvider() = CacheProvider()
 }

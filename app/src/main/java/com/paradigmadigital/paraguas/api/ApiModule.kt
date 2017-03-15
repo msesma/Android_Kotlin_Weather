@@ -23,13 +23,15 @@ class ApiModule() {
     }
 
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor) = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor)= OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build()
 
     @Provides
     @Singleton
-    fun provideCache(application: Context) = LruCache(application)
+    fun provideCache(application: Context): Cache {
+        return LruCache(application)
+    }
 
     @Provides
     @Singleton

@@ -3,6 +3,7 @@ package com.paradigmadigital.paraguas.injection
 import android.content.Context
 import android.content.SharedPreferences
 import com.paradigmadigital.paraguas.api.ApiModule
+import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import com.paradigmadigital.paraguas.platform.ApplicationModule
 import com.squareup.picasso.Picasso
 import dagger.Component
@@ -23,4 +24,6 @@ interface ApplicationComponent {
     fun provideOkHttpClient(): OkHttpClient
 
     fun providePicasso(): Picasso
+
+    fun provideCacheProvider(): CacheProvider
 }

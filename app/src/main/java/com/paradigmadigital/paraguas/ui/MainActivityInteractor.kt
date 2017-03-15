@@ -1,9 +1,11 @@
 package com.paradigmadigital.paraguas.ui
 
+import android.util.Log
 import com.paradigmadigital.paraguas.api.model.Astronomy
 import com.paradigmadigital.paraguas.api.model.CurrentWeather
 import com.paradigmadigital.paraguas.api.model.ForecastItem
 import com.paradigmadigital.paraguas.domain.City
+import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import com.paradigmadigital.paraguas.platform.PermissionManager
 import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import com.paradigmadigital.paraguas.usecases.CityUseCase
@@ -18,32 +20,57 @@ constructor(
         private val astronomyUseCase: AstronomyApiUseCase,
         private val hourlyUseCase: ForecastApiUseCase,
         private val cityUseCase: CityUseCase,
+        private val cache: CacheProvider,
         private val permissionManager: PermissionManager) {
+
+    val TAG = MainActivityInteractor::class.simpleName
 
     private var subscriber: RefreshSubscriber? = null
 
-    var city: String? = null
-        private set
+    val city get() = cache.city?.city
 
     fun initialize(subscriber: RefreshSubscriber) {
         this.subscriber = subscriber
     }
 
     fun refresh() {
+        val city = cache.city
+        if (city != null) {
+            handleOnCityResult(city)
+            return
+        }
+
         if (permissionManager.locationPremission) {
             cityUseCase.execute()
-                    .subscribe({ this.handleOnCityResult(it) }, { subscriber?.onError(it.cause as Exception) })
+                    .subscribe(
+                            {cache.city = it; this.handleOnCityResult(it) },
+                            { subscriber?.onError(it.cause as Exception) }
+                    )
         }
     }
 
     private fun handleOnCityResult(city: City) {
-        this.city = city.city
-        conditionsUseCase.execute(country = city.countryCode, city = city.city)
-                .subscribe({ subscriber?.handleOnWheatherResult(it) }, { subscriber?.onError(it.cause as Exception) })
-        astronomyUseCase.execute(country = city.countryCode, city = city.city)
-                .subscribe({ subscriber?.handleOnAstronomyResult(it) }, { subscriber?.onError(it.cause as Exception) })
-        hourlyUseCase.execute(country = city.countryCode, city = city.city)
-                .subscribe({ subscriber?.handleOnHourlyResult(it) }, { subscriber?.onError(it.cause as Exception) })
+        Log.d(TAG, cache.city.toString())
+        if (cache.currentWeather == null) conditionsUseCase.execute(country = city.countryCode, city = city.city)
+                .subscribe(
+                        { cache.currentWeather = it; subscriber?.handleOnWheatherResult(it) },
+                        { subscriber?.onError(it.cause as Exception) }
+                )
+        else subscriber?.handleOnWheatherResult(cache.currentWeather)
+
+        if (cache.astronomy == null) astronomyUseCase.execute(country = city.countryCode, city = city.city)
+                .subscribe(
+                        { cache.astronomy = it; subscriber?.handleOnAstronomyResult(it) },
+                        { subscriber?.onError(it.cause as Exception) }
+                )
+        else subscriber?.handleOnAstronomyResult(cache.astronomy)
+
+        if (cache.forecast == null) hourlyUseCase.execute(country = city.countryCode, city = city.city)
+                .subscribe(
+                        { cache.forecast = it; subscriber?.handleOnForecastResult(it) },
+                        { subscriber?.onError(it.cause as Exception) }
+                )
+        else subscriber?.handleOnForecastResult(cache.forecast)
     }
 
     interface RefreshSubscriber {
@@ -53,6 +80,6 @@ constructor(
 
         fun handleOnAstronomyResult(astronomy: Astronomy?)
 
-        fun handleOnHourlyResult(forecast: List<ForecastItem>?)
+        fun handleOnForecastResult(forecast: List<ForecastItem>?)
     }
 }
