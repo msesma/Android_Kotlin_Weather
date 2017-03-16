@@ -19,12 +19,18 @@ import java.text.SimpleDateFormat
 
 class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : RecyclerView.ViewHolder(itemView) {
 
+    fun Float.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
+
     @BindView(R.id.icon)
     lateinit var icon: ImageView
     @BindView(R.id.temp)
     lateinit var temp: TextView
     @BindView(R.id.data)
     lateinit var data: TextView
+    @BindView(R.id.data2)
+    lateinit var data2: TextView
+    @BindView(R.id.data3)
+    lateinit var data3: TextView
     @BindView(R.id.hour)
     lateinit var hour: TextView
 
@@ -59,9 +65,17 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
 
     private fun configureView() {
         imageRepo.getCurrentIcon(forecastItem.iconUrl, iconTarget)
+
         val hr = SimpleDateFormat("HH").format(forecastItem.time).toInt()
         hour.setText("$hr")
-        temp.setText("${forecastItem.temp} ºC")
-        data.setText("(${forecastItem.feelslike}ºC) ${forecastItem.windSpeed}kmh ${forecastItem.rainProbability}%")
+
+        temp.setText("${forecastItem.temp}")
+
+        var dataText = "ºC "
+        if (forecastItem.feelslike != forecastItem.temp) dataText += "(${forecastItem.feelslike}ºC) "
+        data.setText(dataText)
+
+        data2.setText("${forecastItem.windSpeed.format(0)} km/h")
+        data3.setText("${forecastItem.rainProbability.format(0)}%")
     }
 }

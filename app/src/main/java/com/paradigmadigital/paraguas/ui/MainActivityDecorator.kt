@@ -32,13 +32,15 @@ constructor(
         val imagerepo: ImageRepository,
         val layoutManager: LinearLayoutManager,
         val adapter: ForecastAdapter,
-        val chartDecorator: ChartDecorator
+        val graph: Graph
 ) : MainActivityUserInterface {
 
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
     @BindView(R.id.icon)
     lateinit var icon: ImageView
+    @BindView(R.id.graph)
+    lateinit var graphView: ImageView
     @BindView(R.id.condition)
     lateinit var tvcondition: TextView
     @BindView(R.id.temp)
@@ -47,8 +49,6 @@ constructor(
     lateinit var tvfeelslike: TextView
     @BindView(R.id.daylight)
     lateinit var tvdaylight: TextView
-    @BindView(R.id.chart)
-    lateinit var chart: com.github.mikephil.charting.charts.LineChart
     @BindView(R.id.forecast_list)
     lateinit var list: RecyclerView
     @BindView(R.id.swipeRefreshLayout)
@@ -75,7 +75,6 @@ constructor(
     fun bind(view: View) {
         ButterKnife.bind(this, view)
         initToolbar()
-        chartDecorator.init(chart)
         list.layoutManager = layoutManager
         list.itemAnimator = DefaultItemAnimator()
         swipeRefresh.setOnRefreshListener(refreshListener)
@@ -104,6 +103,8 @@ constructor(
         tvcondition.setText(currentWeather.condition)
         tvtemp.setText("${currentWeather.temp} ºC")
         tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), currentWeather.feelsLike))
+        graph.currentWeather = currentWeather
+        graph.draw(graphView);
     }
 
     override fun showCurrentAstronomy(astronomy: Astronomy) {
@@ -111,13 +112,16 @@ constructor(
         val sunrise = SimpleDateFormat("HH:mm").format(astronomy.sunrise)
         val sunset = SimpleDateFormat("HH:mm").format(astronomy.sunset)
         tvdaylight.setText(String.format(activity.getString(R.string.daylight), sunrise, sunset))
+        graph.astronomy = astronomy
+        graph.draw(graphView);
     }
 
     override fun showForecast(forecast: List<ForecastItem>) {
         setWaitingMode(false)
         list.visibility = if (forecast.isEmpty()) INVISIBLE else VISIBLE
-        chartDecorator.setData(forecast)
         adapter.swap(forecast)
+        graph.forecast = forecast
+        graph.draw(graphView);
     }
 
     override fun setCity(city: String) {

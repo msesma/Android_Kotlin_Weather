@@ -113,7 +113,6 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:$constraint"
     compile "com.google.android.gms:play-services-base:$playservices"
     compile "com.google.android.gms:play-services-location:$playservices"
-    compile "com.github.PhilJay:MPAndroidChart:$android_chart"
 
     compile "pub.devrel:easypermissions:$easy_permissions"
 
