@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas
 
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
+import com.paradigmadigital.paraguas.domain.CurrentWeather
 import com.paradigmadigital.paraguas.domain.mappers.CurrentWeatherMapper
 import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase
 import io.reactivex.observers.TestObserver

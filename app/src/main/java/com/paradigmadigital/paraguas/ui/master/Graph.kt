@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,9 +10,9 @@ import android.text.format.Time
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import com.paradigmadigital.paraguas.R
-import com.paradigmadigital.paraguas.api.model.Astronomy
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.CurrentWeather
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 

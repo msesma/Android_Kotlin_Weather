@@ -1,9 +1,9 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.util.Log
-import com.paradigmadigital.paraguas.api.model.Astronomy
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.CurrentWeather
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import javax.inject.Inject
 
 class MainActivityPresenter
@@ -17,9 +17,9 @@ constructor(
 
     private val delegate = object : MainActivityUserInterface.Delegate {
 
-        override fun onRefresh() {
-            interactor.refresh()
-        }
+        override fun onClick(forecastItem: ForecastItem) = interactor.navigateToDetail(forecastItem)
+
+        override fun onRefresh() = interactor.refresh()
     }
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {

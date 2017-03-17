@@ -1,11 +1,12 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.util.Log
-import com.paradigmadigital.paraguas.api.model.Astronomy
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.CurrentWeather
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.domain.cache.CacheProvider
+import com.paradigmadigital.paraguas.navigation.Navigator
 import com.paradigmadigital.paraguas.platform.PermissionManager
 import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import com.paradigmadigital.paraguas.usecases.CityUseCase
@@ -21,7 +22,9 @@ constructor(
         private val hourlyUseCase: ForecastApiUseCase,
         private val cityUseCase: CityUseCase,
         private val cache: CacheProvider,
-        private val permissionManager: PermissionManager) {
+        private val permissionManager: PermissionManager,
+        private val navigator: Navigator
+) {
 
     val TAG = MainActivityInteractor::class.simpleName
 
@@ -43,7 +46,7 @@ constructor(
         if (permissionManager.locationPremission) {
             cityUseCase.execute()
                     .subscribe(
-                            {cache.city = it; this.handleOnCityResult(it) },
+                            { cache.city = it; this.handleOnCityResult(it) },
                             { subscriber?.onError(it.cause as Exception) }
                     )
         }
@@ -73,6 +76,10 @@ constructor(
         else subscriber?.handleOnForecastResult(cache.forecast)
     }
 
+    fun navigateToDetail(forecastItem: ForecastItem) {
+        navigator.navigateToDetail(forecastItem)
+    }
+
     interface RefreshSubscriber {
         fun onError(ex: Exception)
 
@@ -82,4 +89,5 @@ constructor(
 
         fun handleOnForecastResult(forecast: List<ForecastItem>?)
     }
+
 }

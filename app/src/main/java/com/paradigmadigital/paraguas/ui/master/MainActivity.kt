@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.os.Bundle
 import com.paradigmadigital.paraguas.R
@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     @Inject
-    lateinit var delegate: Delegate
+    lateinit var delegate: MainActivityDelegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

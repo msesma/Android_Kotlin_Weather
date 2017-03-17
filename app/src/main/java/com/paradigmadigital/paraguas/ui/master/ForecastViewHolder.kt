@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.content.Context
 import android.content.res.Resources
@@ -10,14 +10,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.paradigmadigital.paraguas.R
 import com.paradigmadigital.paraguas.api.ImageRepository
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.text.SimpleDateFormat
 
-class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : RecyclerView.ViewHolder(itemView) {
+class ForecastViewHolder(
+        itemView: ViewGroup,
+        val imageRepo: ImageRepository
+) : RecyclerView.ViewHolder(itemView) {
 
     fun Float.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
 
@@ -35,6 +39,7 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
     lateinit var hour: TextView
 
     lateinit private var forecastItem: ForecastItem
+    private var forecastClickListener: ForecastClickListener? = null
 
     private val context: Context
     private val resources: Resources
@@ -58,8 +63,9 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
         context = itemView.context
     }
 
-    fun bind(forecastItem: ForecastItem) {
+    fun bind(forecastItem: ForecastItem, forecastClickListener: ForecastClickListener?) {
         this.forecastItem = forecastItem
+        this.forecastClickListener = forecastClickListener
         configureView()
     }
 
@@ -77,5 +83,10 @@ class ForecastViewHolder(itemView: ViewGroup, val imageRepo: ImageRepository) : 
 
         data2.setText("${forecastItem.windSpeed.format(0)} km/h")
         data3.setText("${forecastItem.rainProbability.format(0)}%")
+    }
+
+    @OnClick(R.id.forecast_row)
+    internal fun onRowClick() {
+        forecastClickListener?.onClick(adapterPosition)
     }
 }

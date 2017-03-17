@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.api.model
+package com.paradigmadigital.paraguas.domain
 
 import java.util.*
 

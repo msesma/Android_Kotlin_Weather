@@ -1,9 +1,9 @@
 package com.paradigmadigital.paraguas.injection
 
-import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import com.paradigmadigital.paraguas.ui.MainActivity
 import com.paradigmadigital.paraguas.platform.ActivityModule
+import com.paradigmadigital.paraguas.ui.detail.DetailActivity
+import com.paradigmadigital.paraguas.ui.master.MainActivity
 import dagger.Component
 
 @PerActivity
@@ -11,6 +11,8 @@ import dagger.Component
 interface ActivityComponent {
 
     fun inject(mainActivity: MainActivity)
+
+    fun inject(detailActivity: DetailActivity)
 
     //Exposed to sub-graphs.
     fun activity(): AppCompatActivity

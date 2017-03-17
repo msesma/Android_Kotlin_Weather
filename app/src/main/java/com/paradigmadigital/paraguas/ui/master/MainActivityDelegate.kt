@@ -1,9 +1,9 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
 import android.view.View
 import javax.inject.Inject
 
-class Delegate
+class MainActivityDelegate
 @Inject
 constructor(private val decorator: MainActivityDecorator,
             private val presenter: MainActivityPresenter) {

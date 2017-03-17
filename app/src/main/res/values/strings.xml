@@ -5,4 +5,5 @@
     <string name="connection_error">Connection error</string>
     <string name="feels_like">Feels like %.1f ºC</string>
     <string name="daylight">Daylight from %1$s to %2$s</string>
+    <string name="item_key">item_key</string>
 </resources>

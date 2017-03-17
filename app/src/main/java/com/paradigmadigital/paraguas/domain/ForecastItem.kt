@@ -1,5 +1,6 @@
-package com.paradigmadigital.paraguas.api.model
+package com.paradigmadigital.paraguas.domain
 
+import java.io.Serializable
 import java.util.*
 
 data class ForecastItem(
@@ -13,4 +14,4 @@ data class ForecastItem(
         val condition: String = "",
         val iconUrl: String = "",
         val humidity: Float? = 0f
-)
+) : Serializable

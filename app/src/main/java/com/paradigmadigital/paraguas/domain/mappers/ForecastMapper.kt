@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas.domain.mappers
 
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.api.model.HourlyForecast
 import com.paradigmadigital.paraguas.api.model.WeatherData
 import java.util.*

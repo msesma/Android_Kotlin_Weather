@@ -1,7 +1,7 @@
 package com.paradigmadigital.paraguas.domain.mappers
 
 import com.paradigmadigital.paraguas.api.model.ConditionsData
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
+import com.paradigmadigital.paraguas.domain.CurrentWeather
 import javax.inject.Inject
 
 class CurrentWeatherMapper

@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas
 
-import com.paradigmadigital.paraguas.api.model.Astronomy
+import com.paradigmadigital.paraguas.domain.Astronomy
 import com.paradigmadigital.paraguas.domain.mappers.AstronomyMapper
 import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import io.reactivex.observers.TestObserver

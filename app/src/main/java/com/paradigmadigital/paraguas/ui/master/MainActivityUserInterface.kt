@@ -1,8 +1,8 @@
-package com.paradigmadigital.paraguas.ui
+package com.paradigmadigital.paraguas.ui.master
 
-import com.paradigmadigital.paraguas.api.model.Astronomy
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.CurrentWeather
+import com.paradigmadigital.paraguas.domain.ForecastItem
 
 interface MainActivityUserInterface {
 
@@ -21,6 +21,8 @@ interface MainActivityUserInterface {
     interface Delegate {
 
         fun onRefresh()
+
+        fun onClick(forecastItem: ForecastItem)
 
     }
 }

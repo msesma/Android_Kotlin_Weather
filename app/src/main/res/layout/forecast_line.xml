@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/forecast_row"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    tools:context="com.paradigmadigital.paraguas.ui.MainActivity"
+    tools:context="com.paradigmadigital.paraguas.ui.master.MainActivity"
     android:orientation="horizontal"
     >
 

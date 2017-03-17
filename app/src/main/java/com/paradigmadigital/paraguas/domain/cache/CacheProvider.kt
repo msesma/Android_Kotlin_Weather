@@ -1,9 +1,9 @@
 package com.paradigmadigital.paraguas.domain.cache
 
 import android.util.Log
-import com.paradigmadigital.paraguas.api.model.Astronomy
-import com.paradigmadigital.paraguas.api.model.CurrentWeather
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.CurrentWeather
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.domain.City
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

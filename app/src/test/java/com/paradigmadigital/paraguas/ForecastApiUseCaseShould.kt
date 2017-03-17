@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas
 
-import com.paradigmadigital.paraguas.api.model.ForecastItem
+import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.domain.mappers.ForecastMapper
 import com.paradigmadigital.paraguas.usecases.ForecastApiUseCase
 import io.reactivex.observers.TestObserver

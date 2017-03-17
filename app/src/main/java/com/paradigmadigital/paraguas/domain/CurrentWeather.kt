@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.api.model
+package com.paradigmadigital.paraguas.domain
 
 data class CurrentWeather(
         val precip1hrMetric: Float = 0f,

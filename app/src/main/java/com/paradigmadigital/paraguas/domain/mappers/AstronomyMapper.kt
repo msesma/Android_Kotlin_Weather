@@ -1,6 +1,6 @@
 package com.paradigmadigital.paraguas.domain.mappers
 
-import com.paradigmadigital.paraguas.api.model.Astronomy
+import com.paradigmadigital.paraguas.domain.Astronomy
 import com.paradigmadigital.paraguas.api.model.AstronomyData
 import java.text.SimpleDateFormat
 import java.util.*
