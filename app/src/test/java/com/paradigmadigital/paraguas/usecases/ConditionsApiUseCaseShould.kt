@@ -1,5 +1,6 @@
-package com.paradigmadigital.paraguas
+package com.paradigmadigital.paraguas.usecases
 
+import com.paradigmadigital.paraguas.MockWebServerTestBase
 import com.paradigmadigital.paraguas.domain.CurrentWeather
 import com.paradigmadigital.paraguas.domain.mappers.CurrentWeatherMapper
 import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase

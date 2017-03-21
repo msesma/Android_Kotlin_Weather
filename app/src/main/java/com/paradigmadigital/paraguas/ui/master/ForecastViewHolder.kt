@@ -75,7 +75,8 @@ class ForecastViewHolder(
         val hr = SimpleDateFormat("HH").format(forecastItem.time).toInt()
         hour.setText("$hr")
 
-        temp.setText("${forecastItem.temp}")
+//        temp.setText("${forecastItem.temp}")
+        temp.setText(String.format(context.getString(R.string.number), forecastItem.temp))
 
         var dataText = "ºC "
         if (forecastItem.feelslike != forecastItem.temp) dataText += "(${forecastItem.feelslike}ºC) "

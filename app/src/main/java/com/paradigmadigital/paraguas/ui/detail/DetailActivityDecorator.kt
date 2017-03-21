@@ -72,12 +72,12 @@ constructor(
         val url = forecast?.iconUrl ?: ""
         imageRepo.getCurrentIcon(url, iconTarget)
         tvcondition.setText(forecast?.condition)
-        tvtemp.setText("${forecast?.temp} ºC")
+        tvtemp.setText(String.format(activity.getString(R.string.temp), forecast?.temp))
         tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), forecast?.feelslike))
-        rain.setText("Rain probability: ${forecast?.rainProbability}%, ${forecast?.rainQuantity}mm")
-        humidity.setText("Air humidity: ${forecast?.humidity}%")
-        snow.setText("Snow: ${forecast?.snow}mm")
-        wind.setText("Wind: ${forecast?.windSpeed} Km/h")
+        rain.setText(String.format(activity.getString(R.string.rain), forecast?.rainProbability, forecast?.rainQuantity))
+        humidity.setText(String.format(activity.getString(R.string.humidity), forecast?.humidity))
+        snow.setText(String.format(activity.getString(R.string.snow), forecast?.snow))
+        wind.setText(String.format(activity.getString(R.string.wind), forecast?.windSpeed))
     }
 
     private fun initToolbar() {
