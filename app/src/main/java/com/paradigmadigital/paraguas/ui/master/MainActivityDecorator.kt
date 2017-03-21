@@ -8,6 +8,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -34,6 +35,8 @@ constructor(
         val adapter: ForecastAdapter,
         val graph: Graph
 ) : MainActivityUserInterface {
+
+    private val TAG = MainActivityDecorator::class.simpleName
 
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
@@ -98,9 +101,12 @@ constructor(
         adapter.setClickListener(forecastClickListener)
     }
 
-    override fun showError(errorMessage: String) {
-        setWaitingMode(false)
-        tvdaylight.setText(errorMessage)
+    override fun showError(error: Exception) {
+        activity.runOnUiThread {
+            setWaitingMode(false)
+            Log.e(TAG, error.toString())
+            tvtemp.setText(activity.getString(R.string.connection_error))
+        }
     }
 
     override fun showCurrentWeather(currentWeather: CurrentWeather) {

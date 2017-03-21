@@ -41,7 +41,7 @@ constructor(
         }
 
         override fun onError(ex: Exception) {
-            decorator?.showError(ex.message ?: ex.toString())
+            decorator?.showError(ex)
         }
     }
 

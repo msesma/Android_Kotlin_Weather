@@ -25,7 +25,7 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
             val lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
             if (lastLocation != null) {
                 useCase.execute(lastLocation.latitude.toString(), lastLocation.longitude.toString())
-                        .subscribe({ handleOnResult(it) })
+                        .subscribe({ handleOnResult(it) }, { handleOnError(it) })
             }
         }
 
@@ -60,6 +60,10 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
     private fun handleOnResult(geoLookUp: GeoLookUp) {
         relay.accept(geoLookUp)
         relay.doOnComplete {  }
+        googleApiClient?.disconnect()
+    }
+
+    private fun  handleOnError(error: Throwable) {
         googleApiClient?.disconnect()
     }
 }

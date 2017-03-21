@@ -2,9 +2,9 @@ package com.paradigmadigital.paraguas.ui.master
 
 import android.util.Log
 import com.paradigmadigital.paraguas.domain.Astronomy
+import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.domain.CurrentWeather
 import com.paradigmadigital.paraguas.domain.ForecastItem
-import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import com.paradigmadigital.paraguas.navigation.Navigator
 import com.paradigmadigital.paraguas.platform.PermissionManager
@@ -47,7 +47,7 @@ constructor(
             cityUseCase.execute()
                     .subscribe(
                             { cache.city = it; this.handleOnCityResult(it) },
-                            { subscriber?.onError(it.cause as Exception) }
+                            { subscriber?.onError(it as Exception) }
                     )
         }
     }

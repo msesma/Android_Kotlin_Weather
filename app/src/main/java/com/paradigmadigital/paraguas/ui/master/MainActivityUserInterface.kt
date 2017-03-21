@@ -8,7 +8,7 @@ interface MainActivityUserInterface {
 
     fun initialize(delegate: Delegate)
 
-    fun showError(errorMessage: String)
+    fun showError(error: Exception)
 
     fun showCurrentWeather(currentWeather: CurrentWeather)
 
