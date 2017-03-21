@@ -12,9 +12,11 @@ class CityUseCase
 @Inject
 constructor(val locationProvider: RxLocationProvider, val cityMapper: CityMapper) {
 
+    private val TIMEOUT = 5L
+
     fun execute(): Observable<City> = locationProvider.getGeoLookUpObservable()
             .take(1)
-            .timeout(5, TimeUnit.SECONDS)
+            .timeout(TIMEOUT, TimeUnit.SECONDS)
             .map { geoLookUp -> cityMapper.map(geoLookUp) }
 
 }
