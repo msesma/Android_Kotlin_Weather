@@ -2,7 +2,7 @@ package com.paradigmadigital.paraguas.usecases
 
 import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.domain.mappers.CityMapper
-import com.paradigmadigital.paraguas.location.RxLocationProvider
+import com.paradigmadigital.paraguas.provider.RxLocationProvider
 import io.reactivex.Observable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

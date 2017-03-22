@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.location
+package com.paradigmadigital.paraguas.provider
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import javax.inject.Inject
 class RxLocationProvider
 @Inject
 constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
+//  https://developers.google.com/android/guides/api-client
 
     private var googleApiClient: GoogleApiClient? = null
 
@@ -50,7 +51,6 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
 
     private fun handleOnResult(geoLookUp: GeoLookUp) {
         relay.accept(geoLookUp)
-        relay.doOnComplete { }
         googleApiClient?.disconnect()
     }
 }

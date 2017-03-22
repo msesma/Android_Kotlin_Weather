@@ -14,6 +14,7 @@ import butterknife.OnClick
 import com.paradigmadigital.paraguas.R
 import com.paradigmadigital.paraguas.api.ImageRepository
 import com.paradigmadigital.paraguas.domain.ForecastItem
+import com.paradigmadigital.paraguas.platform.format
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import java.text.SimpleDateFormat
@@ -22,8 +23,6 @@ class ForecastViewHolder(
         itemView: ViewGroup,
         val imageRepo: ImageRepository
 ) : RecyclerView.ViewHolder(itemView) {
-
-    fun Float.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
 
     @BindView(R.id.icon)
     lateinit var icon: ImageView

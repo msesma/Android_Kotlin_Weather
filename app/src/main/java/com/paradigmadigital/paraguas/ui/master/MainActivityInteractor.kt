@@ -8,6 +8,7 @@ import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import com.paradigmadigital.paraguas.navigation.Navigator
 import com.paradigmadigital.paraguas.platform.PermissionManager
+import com.paradigmadigital.paraguas.scheduler.Scheduler
 import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import com.paradigmadigital.paraguas.usecases.CityUseCase
 import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase
@@ -23,7 +24,8 @@ constructor(
         private val cityUseCase: CityUseCase,
         private val cache: CacheProvider,
         private val permissionManager: PermissionManager,
-        private val navigator: Navigator
+        private val navigator: Navigator,
+        private val scheduler: Scheduler
 ) {
 
     val TAG = MainActivityInteractor::class.simpleName
@@ -37,6 +39,8 @@ constructor(
     }
 
     fun refresh() {
+        scheduler.dispatch();
+
         val city = cache.city
         if (city != null) {
             handleOnCityResult(city)

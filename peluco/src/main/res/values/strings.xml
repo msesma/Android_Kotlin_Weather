@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Peluco</string>
+    <string name="face_name">Peluco 2</string>
+
+    <string name="digital_am">AM</string>
+    <string name="digital_pm">PM</string>
+</resources>

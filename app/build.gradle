@@ -101,6 +101,8 @@ ext {
 
 
 dependencies {
+    wearApp project(':peluco')
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
@@ -113,6 +115,7 @@ dependencies {
     compile "com.android.support.constraint:constraint-layout:$constraint"
     compile "com.google.android.gms:play-services-base:$playservices"
     compile "com.google.android.gms:play-services-location:$playservices"
+    compile "com.google.android.gms:play-services-wearable:$playservices"
 
     compile "pub.devrel:easypermissions:$easy_permissions"
 
