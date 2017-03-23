@@ -1,14 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
-
-
-apply from: '../quality/quality.gradle'
-
-
-
-
 
 android {
     compileSdkVersion 25
@@ -74,7 +65,7 @@ ext {
     rx_kotlin = '1.0.0-RC2'
     rx_relay =  '2.0.0'
 
-    playservices = '10.2.0'
+    playservices = '10.2.1'
     support = '25.3.0'
     constraint = '1.0.2'
 

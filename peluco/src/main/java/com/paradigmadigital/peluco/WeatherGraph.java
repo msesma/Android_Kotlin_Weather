@@ -63,13 +63,13 @@ public class WeatherGraph {
             }
             drawTempForecast();
             drawRainForecast();
-            return new CurrentConditions(iconBitmap, temp, settings.getString(WearConstants.CITY, ""));
+            return new CurrentConditions(iconBitmap, temp, settings.getString(WearConstants.INSTANCE.getCITY(), ""));
         }
         return new CurrentConditions(null, "", "");
     }
 
     private boolean retrieveWeather() {
-        Long lastUpdateTime = settings.getLong(WearConstants.LAST_UPDATE_TIME, System.currentTimeMillis());
+        Long lastUpdateTime = settings.getLong(WearConstants.INSTANCE.getLAST_UPDATE_TIME(), System.currentTimeMillis());
         if (filesLastUpdateTime == lastUpdateTime) {
             long offset = System.currentTimeMillis() - filesLastUpdateTime;
             firstSet = (int) (offset / (TimeUnit.HOURS.toMillis(1)));
@@ -85,18 +85,18 @@ public class WeatherGraph {
         filesLastUpdateTime = lastUpdateTime;
 
         try {
-            tempsJSONArray = new JSONArray(settings.getString(WearConstants.KEY_TEMPS, ""));
-            rainsQpfJSONArray = new JSONArray(settings.getString(WearConstants.KEY_RAINS_QPF, ""));
-            rainsPopJSONArray = new JSONArray(settings.getString(WearConstants.KEY_RAINS_POP, ""));
-            long sunrise = settings.getLong(WearConstants.KEY_SUNRISE, 0L);
-            long sunset = settings.getLong(WearConstants.KEY_SUNSET, 0L);
+            tempsJSONArray = new JSONArray(settings.getString(WearConstants.INSTANCE.getKEY_TEMPS(), ""));
+            rainsQpfJSONArray = new JSONArray(settings.getString(WearConstants.INSTANCE.getKEY_RAINS_QPF(), ""));
+            rainsPopJSONArray = new JSONArray(settings.getString(WearConstants.INSTANCE.getKEY_RAINS_POP(), ""));
+            long sunrise = settings.getLong(WearConstants.INSTANCE.getKEY_SUNRISE(), 0L);
+            long sunset = settings.getLong(WearConstants.INSTANCE.getKEY_SUNSET(), 0L);
             Date dateSunrise = new Date(sunrise);
             sunriseH = dateSunrise.getHours();
             sunriseM = dateSunrise.getMinutes();
             Date dateSunset = new Date(sunset);
             sunsetH = dateSunset.getHours();
             sunsetM = dateSunset.getMinutes();
-            iconBitmap = getIconBitmap(sunrise, sunset, settings.getString(WearConstants.ICON, ""));
+            iconBitmap = getIconBitmap(sunrise, sunset, settings.getString(WearConstants.INSTANCE.getICON(), ""));
             loadFromCache();
             return true;
         } catch (JSONException jse) {

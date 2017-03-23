@@ -34,15 +34,12 @@ class ForecastRetriever @Inject constructor(
     private var jobService: JobService? = null
     private var jobParameters: JobParameters? = null
 
-    private var city: City? = null
-
     fun start(jobService: ForecastJobService?, jobParameters: JobParameters?) {
         this.jobService = jobService
         this.jobParameters = jobParameters
 
-        city = cache.city
-        if (city != null) {
-            handleOnCityResult(city!!)
+        if (cache.city != null) {
+            handleOnCityResult(cache.city!!)
             return
         }
 
@@ -57,7 +54,7 @@ class ForecastRetriever @Inject constructor(
 
     private fun handleOnCityResult(city: City) {
         Log.d(TAG, cache.city.toString())
-        handleOnResult()
+        handleOnResult(city = city)
 
         if (cache.currentWeather == null) conditionsUseCase.execute(country = city.countryCode, city = city.city)
                 .subscribe(
@@ -87,9 +84,9 @@ class ForecastRetriever @Inject constructor(
     private fun handleOnResult(
             currentWeather: CurrentWeather? = cache.currentWeather,
             astronomy: Astronomy? = cache.astronomy,
-            forecast: List<ForecastItem>? = cache.forecast) {
+            forecast: List<ForecastItem>? = cache.forecast,
+            city: City? = cache.city) {
         if (currentWeather == null || astronomy == null || forecast == null) return
-        Log.d(TAG, "Sending data to Wear")
         wearUpdater.update(currentWeather, astronomy, forecast, city?.city ?: "")
         diskLogger.log(TAG, "Job finished OK in: " + city?.city)
         Log.d(TAG, "Job finished OK")

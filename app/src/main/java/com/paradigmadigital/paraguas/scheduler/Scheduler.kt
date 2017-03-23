@@ -16,7 +16,7 @@ constructor(
 ) {
     private val TAG = Scheduler::class.simpleName!!
 
-    private val SECONDS_MIN = 0
+    private val SECONDS_MIN = 1800
     private val SECONDS_MAX = 3600
     private val JOB_TAG = "forecast-job-tag"
 
@@ -38,6 +38,7 @@ constructor(
     fun dispatch() {
         Log.d(TAG, "Job dispatched")
         diskLogger.log(TAG, "Job dispatched")
+        dispatcher.cancelAll()
         dispatcher.mustSchedule(job)
         forecastRetriever.start(null, null)
     }
