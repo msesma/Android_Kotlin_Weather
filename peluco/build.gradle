@@ -6,7 +6,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "com.paradigmadigital.peluco"
+        applicationId "com.paradigmadigital.paraguas"
         minSdkVersion 23
         targetSdkVersion 25
         versionCode 1

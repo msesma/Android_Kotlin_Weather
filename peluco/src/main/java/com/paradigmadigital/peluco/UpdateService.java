@@ -37,7 +37,7 @@ public class UpdateService extends WearableListenerService {
             if (dataEvent.getType() == DataEvent.TYPE_CHANGED
                     && WearConstants.WATCH_SET_FORECAST_PATH.equals(dataEvent.getDataItem().getUri().getPath())) {
                 DataMap dataMap = DataMapItem.fromDataItem(dataEvent.getDataItem()).getDataMap();
-                ArrayList<String> temps = dataMap.getStringArrayList(WearConstants.KEY_TEMPS);
+                ArrayList<Integer> temps = dataMap.getIntegerArrayList(WearConstants.KEY_TEMPS);
                 ArrayList<Integer> rainsQpf = dataMap.getIntegerArrayList(WearConstants.KEY_RAINS_QPF);
                 ArrayList<Integer> rainsPop = dataMap.getIntegerArrayList(WearConstants.KEY_RAINS_POP);
                 long sunrise = dataMap.getLong(WearConstants.KEY_SUNRISE);
@@ -50,7 +50,7 @@ public class UpdateService extends WearableListenerService {
     }
 
     private void persistWeatherData(
-            List<String> temps,
+            List<Integer> temps,
             List<Integer> rainsQpf,
             List<Integer> rainsPop,
             long sunrise,

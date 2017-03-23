@@ -9,7 +9,6 @@ import com.google.android.gms.wearable.Wearable
 import com.paradigmadigital.paraguas.domain.Astronomy
 import com.paradigmadigital.paraguas.domain.CurrentWeather
 import com.paradigmadigital.paraguas.domain.ForecastItem
-import com.paradigmadigital.paraguas.platform.format
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -46,28 +45,28 @@ class WearUpdater @Inject constructor(val context: Context) {
 
         val sunrise = astronomy.sunrise?.time
         val sunset = astronomy.sunset?.time
-        val temps = mutableListOf<String>()
+        val temps = mutableListOf<Int>()
         val rainsQpf = mutableListOf<Int>()
         val rainsPop = mutableListOf<Int>()
 
-        temps.add(currentWeather.temp.toString())
+        temps.add((currentWeather.temp * 10).toInt())
         rainsQpf.add(currentWeather.precip1hrMetric.toInt())
         rainsPop.add(if (currentWeather.precip1hrMetric > 0) 100 else 0)
 
         for (forecastItem in forecast) {
-            temps.add(forecastItem.temp.format(1))
+            temps.add((forecastItem.temp * 10).toInt())
             rainsQpf.add(forecastItem.rainQuantity.toInt())
             rainsPop.add(forecastItem.rainProbability.toInt())
         }
 
         val putDataMapRequest = PutDataMapRequest.create(WearConstants.WATCH_SET_FORECAST_PATH)
-        putDataMapRequest.getDataMap().putStringArrayList(WearConstants.KEY_TEMPS, temps as ArrayList<String>)
+        putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_TEMPS, temps as ArrayList<Int>)
         putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_RAINS_QPF, rainsQpf as ArrayList<Int>)
         putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_RAINS_POP, rainsPop as ArrayList<Int>)
         putDataMapRequest.getDataMap().putLong(WearConstants.KEY_SUNRISE, sunrise ?: 0)
         putDataMapRequest.getDataMap().putLong(WearConstants.KEY_SUNSET, sunset ?: TimeUnit.DAYS.toMillis(1))
         putDataMapRequest.getDataMap().putString(WearConstants.CITY, city)
-        putDataMapRequest.getDataMap().putString(WearConstants.ICON, currentWeather.condition)
+        putDataMapRequest.getDataMap().putString(WearConstants.ICON, currentWeather.iconName)
 
         putDataMapRequest.getDataMap().putLong(WearConstants.LAST_UPDATE_TIME, Date().time)
         val request = putDataMapRequest.asPutDataRequest()
@@ -75,6 +74,9 @@ class WearUpdater @Inject constructor(val context: Context) {
                 .setResultCallback { dataItemResult ->
                     if (!dataItemResult.getStatus().isSuccess()) {
                         Log.e(TAG, "Update Wearable forecast(): Failed to set the data, "
+                                + "status: " + dataItemResult.getStatus().getStatusCode())
+                    } else {
+                        Log.d(TAG, "Update Wearable forecast(): Success "
                                 + "status: " + dataItemResult.getStatus().getStatusCode())
                     }
                 }

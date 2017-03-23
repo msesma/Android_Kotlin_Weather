@@ -1,4 +1,4 @@
-package com.paradigmadigital.paraguas.provider
+package com.paradigmadigital.paraguas.location
 
 import android.content.Context
 import android.os.Bundle

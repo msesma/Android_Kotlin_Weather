@@ -8,6 +8,7 @@ import com.paradigmadigital.paraguas.domain.ForecastItem
 import com.paradigmadigital.paraguas.domain.cache.CacheProvider
 import com.paradigmadigital.paraguas.navigation.Navigator
 import com.paradigmadigital.paraguas.platform.PermissionManager
+import com.paradigmadigital.paraguas.scheduler.ForecastRetriever
 import com.paradigmadigital.paraguas.scheduler.Scheduler
 import com.paradigmadigital.paraguas.usecases.AstronomyApiUseCase
 import com.paradigmadigital.paraguas.usecases.CityUseCase

@@ -10,6 +10,9 @@ class CurrentObservation {
     @SerializedName("icon_url")
     val iconUrl: String? = null
 
+    @SerializedName("icon")
+    val iconName: String? = null
+
     @SerializedName("temp_c")
     val tempC: Float = 0f
 

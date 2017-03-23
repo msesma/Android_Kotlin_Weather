@@ -117,6 +117,8 @@ dependencies {
     compile "com.google.android.gms:play-services-location:$playservices"
     compile "com.google.android.gms:play-services-wearable:$playservices"
 
+    compile 'com.firebase:firebase-jobdispatcher:0.5.2'
+
     compile "pub.devrel:easypermissions:$easy_permissions"
 
     kapt "com.jakewharton:butterknife-compiler:$butterknife"

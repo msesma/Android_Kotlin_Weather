@@ -14,5 +14,5 @@ public final class WearConstants {
     public static final String KEY_SUNSET = "sunset";
     public static final String CITY = "city";
     public static final String ICON = "icon";
-    public static final String LAST_UPDATE_TIME = "time";
+    public static final String LAST_UPDATE_TIME = "last_update_time";
 }

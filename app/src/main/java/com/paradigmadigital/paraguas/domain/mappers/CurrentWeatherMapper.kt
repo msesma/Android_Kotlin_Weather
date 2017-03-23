@@ -11,6 +11,7 @@ constructor() : Mapper<CurrentWeather, ConditionsData> {
         return CurrentWeather(
                 precip1hrMetric = input.currenObservation?.precip1hrMetric?.toFloatOrNull() ?: 0f,
                 iconUrl = input.currenObservation?.iconUrl ?: "",
+                iconName = input.currenObservation?.iconName ?: "",
                 temp = input.currenObservation?.tempC ?: 0f,
                 feelsLike = input.currenObservation?.feelsLikeC ?: 0f,
                 condition = input.currenObservation?.condition ?: ""

@@ -1,33 +1,44 @@
 package com.paradigmadigital.paraguas.scheduler
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
 import android.content.Context
+import android.util.Log
+import com.firebase.jobdispatcher.*
+import com.paradigmadigital.paraguas.log.DiskLogger
 import javax.inject.Inject
-
 
 
 class Scheduler
 @Inject
-constructor(context: Context) {
+constructor(
+        context: Context,
+        val forecastRetriever: ForecastRetriever,
+        val diskLogger: DiskLogger
+) {
+    private val TAG = Scheduler::class.simpleName!!
 
     private val SECONDS_MIN = 0
-    private val SECONDS_MAX = 15
+    private val SECONDS_MAX = 3600
     private val JOB_TAG = "forecast-job-tag"
 
-    private val scheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler;
-    private val jobinfo: JobInfo
+    private var dispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
+    private val job: Job
 
     init {
-        jobinfo = JobInfo.Builder(1, ComponentName(context.getPackageName(),
-                ForecastJobService::class.java.getName()))
-                .setPeriodic(60000)
-                .setPersisted(true)
-                .build()
+        job = dispatcher.newJobBuilder()
+                .setService(ForecastJobService::class.java)
+                .setTag(JOB_TAG)
+                .setRecurring(true)
+                .setLifetime(Lifetime.FOREVER)
+                .setTrigger(Trigger.executionWindow(SECONDS_MIN, SECONDS_MAX))
+                .setReplaceCurrent(true)
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                .build();
     }
 
     fun dispatch() {
-        scheduler.schedule(jobinfo)
+        Log.d(TAG, "Job dispatched")
+        diskLogger.log(TAG, "Job dispatched")
+        dispatcher.mustSchedule(job)
+        forecastRetriever.start(null, null)
     }
 }

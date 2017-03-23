@@ -20,7 +20,7 @@ constructor(
 
     val locationPremission: Boolean
         get() {
-            if (hasLocationPremission) {
+            if (EasyPermissions.hasPermissions(context, ACCESS_COARSE_LOCATION)) {
                 return true
             }
 
@@ -35,10 +35,5 @@ constructor(
                     REQUEST_LOCATION_PERMISSION,
                     ACCESS_COARSE_LOCATION)
             return false
-        }
-
-    val hasLocationPremission: Boolean
-        get() {
-            return EasyPermissions.hasPermissions(context, ACCESS_COARSE_LOCATION)
         }
 }

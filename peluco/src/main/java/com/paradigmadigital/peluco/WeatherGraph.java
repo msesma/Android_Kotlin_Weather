@@ -28,7 +28,7 @@ public class WeatherGraph {
     private static JSONArray rainsQpfJSONArray;
     private static JSONArray rainsPopJSONArray;
 
-    private ArrayList<Float> temps = new ArrayList<>();
+    private ArrayList<Integer> temps = new ArrayList<>();
     private ArrayList<Integer> rainsQpf = new ArrayList<>();
     private ArrayList<Integer> rainsPop = new ArrayList<>();
     private int sunriseH;
@@ -58,7 +58,8 @@ public class WeatherGraph {
         if (retrieveWeather()) {
             String temp = "";
             if (temps != null && !temps.isEmpty()) {
-                temp = String.format("%.1f", temps.get(0));
+                float tempf = temps.get(0) / 10f;
+                temp = String.format("%.1f", tempf);
             }
             drawTempForecast();
             drawRainForecast();
@@ -99,28 +100,29 @@ public class WeatherGraph {
             loadFromCache();
             return true;
         } catch (JSONException jse) {
-            Log.d(TAG, jse.getMessage());
+//            Log.d(TAG, jse.getMessage());
             return false;
         }
     }
 
     private void loadFromCache() throws JSONException {
-        temps = jsonArrayToArrayList(tempsJSONArray);
-        rainsQpf = jsonArrayToArrayList(rainsQpfJSONArray);
-        rainsPop = jsonArrayToArrayList(rainsPopJSONArray);
+        temps = jsonArrayToIntArrayList(tempsJSONArray);
+        rainsQpf = jsonArrayToIntArrayList(rainsQpfJSONArray);
+        rainsPop = jsonArrayToIntArrayList(rainsPopJSONArray);
     }
 
-    private <T> ArrayList<T> jsonArrayToArrayList(JSONArray jsonArray) throws JSONException {
-        ArrayList<T> result = new ArrayList<>();
+    private ArrayList<Integer> jsonArrayToIntArrayList(JSONArray jsonArray) throws JSONException {
+        ArrayList<Integer> result = new ArrayList<>();
         if (jsonArray != null) {
             for (int i = 0; i < jsonArray.length(); i++) {
-                result.add((T) jsonArray.get(i));
+                result.add((Integer) jsonArray.get(i));
             }
         }
         return result;
     }
 
     private Bitmap getIconBitmap(long sunrise, long sunset, String iconKey) {
+        Log.e("===", iconKey + sunrise + " " + sunset);
         int resource = new IconMapper().map(iconKey, sunrise, sunset);
         if (resource != 0) {
             return BitmapFactory.decodeResource(context.getResources(), resource);
@@ -136,13 +138,13 @@ public class WeatherGraph {
         int min = 100;
         int max = -100;
         for (int i = firstSet; i < firstSet + hours; i++) {
-            int temp = Math.round(temps.get(i));
+            int temp = Math.round(temps.get(i) / 10);
             min = Math.min(min, temp);
             max = Math.max(max, temp);
         }
         double degree = bounds.height() * 0.8 / (max - min);
         for (int i = firstSet; i < firstSet + hours; i++) {
-            temps.add(i, temps.get(i) - min);
+            temps.add(i, temps.get(i)  / 10 - min);
             temps.remove(i + 1);
         }
 
