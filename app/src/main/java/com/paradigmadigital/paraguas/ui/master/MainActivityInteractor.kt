@@ -37,10 +37,10 @@ constructor(
 
     fun initialize(subscriber: RefreshSubscriber) {
         this.subscriber = subscriber
+        scheduler.dispatch()
     }
 
     fun refresh() {
-        scheduler.dispatch();
 
         val city = cache.city
         if (city != null) {

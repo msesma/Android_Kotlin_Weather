@@ -49,9 +49,11 @@ class WearUpdater @Inject constructor(val context: Context) {
         val rainsQpf = mutableListOf<Int>()
         val rainsPop = mutableListOf<Int>()
 
-        temps.add((currentWeather.temp * 10).toInt())
-        rainsQpf.add(currentWeather.precip1hrMetric.toInt())
-        rainsPop.add(if (currentWeather.precip1hrMetric > 0) 100 else 0)
+        if (forecast.get(0).time?.hours != Date().hours) {
+            temps.add((currentWeather.temp * 10).toInt())
+            rainsQpf.add(currentWeather.precip1hrMetric.toInt())
+            rainsPop.add(if (currentWeather.precip1hrMetric > 0) 100 else 0)
+        }
 
         for (forecastItem in forecast) {
             temps.add((forecastItem.temp * 10).toInt())

@@ -4,27 +4,22 @@
 
     <uses-feature android:name="android.hardware.type.watch" />
 
-    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:icon="@drawable/clear"
         android:theme="@android:style/Theme.DeviceDefault">
         <service
             android:name=".WatchFaceService"
-            android:allowEmbedded="true"
             android:label="@string/face_name"
-            android:permission="android.permission.BIND_WALLPAPER"
-            android:taskAffinity="">
+            android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/watch_face" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
                 android:resource="@drawable/preview_digital" />
-
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
 
