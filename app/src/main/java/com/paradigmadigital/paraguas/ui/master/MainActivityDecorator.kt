@@ -114,7 +114,7 @@ constructor(
         val url = currentWeather.iconUrl
         imagerepo.getCurrentIcon(url, iconTarget)
         tvcondition.setText(currentWeather.condition)
-        tvtemp.setText(String.format(activity.getString(R.string.number), currentWeather?.temp))
+        tvtemp.setText(String.format(activity.getString(R.string.number), currentWeather.temp))
         tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), currentWeather.feelsLike))
         graph.currentWeather = currentWeather
         graph.draw(graphView);

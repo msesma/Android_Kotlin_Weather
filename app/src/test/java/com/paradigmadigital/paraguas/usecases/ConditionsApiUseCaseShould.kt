@@ -3,7 +3,6 @@ package com.paradigmadigital.paraguas.usecases
 import com.paradigmadigital.paraguas.MockWebServerTestBase
 import com.paradigmadigital.paraguas.domain.CurrentWeather
 import com.paradigmadigital.paraguas.domain.mappers.CurrentWeatherMapper
-import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase
 import io.reactivex.observers.TestObserver
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +24,7 @@ class ConditionsApiUseCaseShould : MockWebServerTestBase() {
     fun getCityForCoordinatesHappyPath() {
         enqueueMockResponse(200, "conditions_mock_response.json")
         val observer = TestObserver<CurrentWeather>()
-        val currentWeather = CurrentWeather(0f, "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif", 19.1f, 19.1f, "Partly Cloudy")
+        val currentWeather = CurrentWeather(0f, "http://icons-ak.wxug.com/i/c/k/partlycloudy.gif", "partlycloudy", 19.1f, 19.1f, "Partly Cloudy")
 
         useCase.execute("CA", "San Francisco").subscribe(observer)
         observer.await()

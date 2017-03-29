@@ -18,8 +18,8 @@ open class BaseActivity : AppCompatActivity() {
 
     lateinit var activityComponent: ActivityComponent
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    public override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
         activityComponent = DaggerActivityComponent.builder()
                 .applicationComponent(applicationComponent)
                 .activityModule(ActivityModule(this))
