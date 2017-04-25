@@ -61,24 +61,24 @@ class WeatherGraph(private val context: Context) {
     }
 
     fun drawWeather(canvas: Canvas, bounds: Rect): CurrentConditions {
-        if (configureData()) {
-            this.canvas = canvas
-            this.bounds = bounds
-            time.setToNow()
-            rainHeight = bounds.height().toFloat()
-            rainDegree = rainHeight / 100
-            rainStep = bounds.width().toFloat() / hours
-            tempHeight = bounds.height() * 0.9f
-            tempDegree = tempHeight / (maxTemp - minTemp)
-            tempStep = bounds.width().toFloat() / (hours - 1)
-            val temp = if (!temps.isEmpty()) String.format("%.1f", temps[0] / 10f) else ""
-
-            drawTempForecast()
-            if (willRain) drawRainForecast()
-
-            return CurrentConditions(iconBitmap, temp, settings.getString(WearConstants.CITY, ""))
+        if (!configureData()) {
+            return CurrentConditions(null, "", "")
         }
-        return CurrentConditions(null, "", "")
+        this.canvas = canvas
+        this.bounds = bounds
+        time.setToNow()
+        rainHeight = bounds.height().toFloat()
+        rainDegree = rainHeight / 100
+        rainStep = bounds.width().toFloat() / hours
+        tempHeight = bounds.height() * 0.9f
+        tempDegree = tempHeight / (maxTemp - minTemp)
+        tempStep = bounds.width().toFloat() / (hours - 1)
+        val temp = if (!temps.isEmpty()) String.format("%.1f", temps[0] / 10f) else ""
+
+        drawTempForecast()
+        if (willRain) drawRainForecast()
+
+        return CurrentConditions(iconBitmap, temp, settings.getString(WearConstants.CITY, ""))
     }
 
     private fun configureData(): Boolean {
@@ -162,8 +162,10 @@ class WeatherGraph(private val context: Context) {
             val rainsPopJSONArray = JSONArray(settings.getString(WearConstants.KEY_RAINS_POP, ""))
 
             temps = jsonArrayToIntArrayList(tempsJSONArray)
-            minTemp = (temps.min() ?: -500) / 10
-            maxTemp = (temps.max() ?: 500) / 10
+
+            val toIndex = if (temps.size >= firstSet + DATA_SETS) firstSet + DATA_SETS else temps.size
+            minTemp = (temps.subList(fromIndex = firstSet, toIndex = toIndex).min() ?: -500) / 10
+            maxTemp = (temps.subList(fromIndex = firstSet, toIndex = toIndex).max() ?: 500) / 10
             adjustedTemps = temps.map { Math.round(it.toFloat() / 10) - minTemp }
 
             rainsQpf = jsonArrayToIntArrayList(rainsQpfJSONArray)

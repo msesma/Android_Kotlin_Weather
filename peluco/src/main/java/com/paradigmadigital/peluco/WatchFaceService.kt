@@ -163,8 +163,8 @@ class WatchFaceService : CanvasWatchFaceService() {
             val currentConditions = weatherGraph.drawWeather(canvas, rect)
 
             if (currentConditions.icon != null) {
-                canvas.drawBitmap(currentConditions.icon, (bounds.width() / 2).toFloat(), 0f, Paint())
-                canvas.drawText(currentConditions.temp, (bounds.width() * 3 / 4).toFloat(), yStep * 1.5f, currentTempPaint)
+                canvas.drawBitmap(currentConditions.icon, ((bounds.width() / 2)-20).toFloat(), 0f, Paint())
+                canvas.drawText(currentConditions.temp, ((bounds.width() * 3 / 4)-20).toFloat(), yStep * 1.5f, currentTempPaint)
                 val xOffset = (canvas.width - cityPaint.measureText(currentConditions.city)) / 2
                 canvas.drawText(currentConditions.city, xOffset, cityYOffset, cityPaint)
             }

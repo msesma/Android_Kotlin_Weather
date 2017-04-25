@@ -7,9 +7,11 @@ Pet project for testing several technologies:
 - Kotlin
 - MVP architecture
 - Dagger 2 Dependency injection
+- RxJava 2
 - Retrofit Rx
 - Firebase Job dispatcher
 - Android wear face with weather support
+- Constraint layout
 - MockWebServer based Unit testing for RxJava
 - Espresso tests
  
