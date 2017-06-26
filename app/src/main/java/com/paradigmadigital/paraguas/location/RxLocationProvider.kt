@@ -1,8 +1,7 @@
 package com.paradigmadigital.paraguas.location
 
 import android.content.Context
-import android.os.Bundle
-import com.google.android.gms.common.api.GoogleApiClient
+import android.location.Location
 import com.google.android.gms.location.LocationServices
 import com.jakewharton.rxrelay2.PublishRelay
 import com.paradigmadigital.paraguas.api.model.GeoLookUp
@@ -14,43 +13,21 @@ import javax.inject.Inject
 class RxLocationProvider
 @Inject
 constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
-//  https://developers.google.com/android/guides/api-client
 
-    private var googleApiClient: GoogleApiClient? = null
-
+    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     private val relay: PublishRelay<GeoLookUp> = PublishRelay.create()
 
-    private val connectionCallback = object : GoogleApiClient.ConnectionCallbacks {
-        override fun onConnected(bundle: Bundle?) {
-            val lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
-            if (lastLocation != null) {
-                useCase.execute(lastLocation.latitude.toString(), lastLocation.longitude.toString())
-                        .subscribe({ handleOnResult(it) }, { googleApiClient?.disconnect() })
-            }
-        }
-
-        override fun onConnectionSuspended(i: Int) {
-        }
-    }
-
     fun getGeoLookUpObservable(): Observable<GeoLookUp> {
-        buildGoogleApiClient()
+        getLocation()
         return relay
     }
 
-    @Synchronized private fun buildGoogleApiClient() {
-        if (googleApiClient == null) {
-            googleApiClient = GoogleApiClient.Builder(context)
-                    .addConnectionCallbacks(connectionCallback)
-                    .addApi(LocationServices.API)
-                    .build()
+    @Synchronized private fun getLocation() {
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            location?.let {
+                useCase.execute(location.latitude.toString(), location.longitude.toString())
+                        .subscribe({ relay.accept(it) })
+            }
         }
-
-        googleApiClient?.connect()
-    }
-
-    private fun handleOnResult(geoLookUp: GeoLookUp) {
-        relay.accept(geoLookUp)
-        googleApiClient?.disconnect()
     }
 }
