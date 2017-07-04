@@ -29,7 +29,6 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: CurrentWeather
     }
 
     fun execute(country: String, city: String) = service.getConditions(country, city)
-            .take(1)
             .map { mapper.map(it) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())

@@ -26,7 +26,7 @@ constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             location?.let {
                 useCase.execute(location.latitude.toString(), location.longitude.toString())
-                        .subscribe({ relay.accept(it) })
+                        .subscribe( { s -> relay.accept(s) })
             }
         }
     }

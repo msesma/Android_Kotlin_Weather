@@ -28,7 +28,6 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: AstronomyMappe
     }
 
     fun execute(country: String = "ES", city: String) = service.getAstronomy(country, city)
-            .take(1)
             .map { mapper.map(it) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
