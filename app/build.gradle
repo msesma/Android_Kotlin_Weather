@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 26
 
     defaultConfig {
         applicationId "com.paradigmadigital.paraguas"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
 
         versionCode 1
         versionName "1.0"
@@ -52,18 +51,14 @@ kapt {
     generateStubs = true
 }
 
-tasks.matching { it instanceof Test }.all {
-    testLogging.events = ["failed", "passed", "skipped"]
-}
-
 ext {
     rx_java = '2.0.'
     rx_android = '2.0.1'
     rx_kotlin = '1.0.0-RC2'
     rx_relay = '2.0.0'
 
-    playservices = '11.0.1'
-    support = '25.3.1'
+    playservices = '11.4.2'
+    support = '26.0.2'
     constraint = '1.0.2'
 
     easy_permissions = '0.3.0'
@@ -71,7 +66,7 @@ ext {
     adapter_rxjava = '2.2.0'
     converter_gson = '2.0.0'
     okhttp = '3.6.0'
-    butterknife = '8.5.1'
+    butterknife = '8.6.0'
     dagger = '2.5'
     picasso = '2.5.2'
     android_chart = 'v3.0.1'

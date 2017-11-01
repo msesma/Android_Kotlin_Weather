@@ -28,6 +28,6 @@ constructor(client: OkHttpClient, endpoint: Endpoint) {
     }
 
     fun execute(latitude: String, longitude: String) = service.getGeoLookUp(latitude, longitude)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 }
