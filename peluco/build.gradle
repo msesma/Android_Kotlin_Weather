@@ -11,6 +11,19 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        debug {
+            storeFile file('../app/debug.keystore')
+        }
+        release {
+//            storeFile file('paradigma.keystore')
+//            storePassword 'Paradigma'
+//            keyAlias 'paradigma'
+//            keyPassword 'Paradigma'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

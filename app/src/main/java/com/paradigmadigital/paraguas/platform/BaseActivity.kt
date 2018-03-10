@@ -11,7 +11,7 @@ import com.paradigmadigital.paraguas.injection.DaggerActivityComponent
 
 open class BaseActivity : AppCompatActivity() {
 
-    fun Activity.getRootView(): ViewGroup = (this.findViewById(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
+    fun Activity.getRootView(): ViewGroup = (this.findViewById<ViewGroup>(android.R.id.content) as ViewGroup).getChildAt(0) as ViewGroup
 
     private val applicationComponent: ApplicationComponent
         get() = (application as AndroidApplication).applicationComponent
