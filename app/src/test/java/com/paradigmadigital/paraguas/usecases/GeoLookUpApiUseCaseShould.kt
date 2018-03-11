@@ -1,7 +1,6 @@
 package com.paradigmadigital.paraguas.usecases
 
 import com.paradigmadigital.paraguas.MockWebServerTestBase
-import com.paradigmadigital.paraguas.usecases.GeoLookUpApiUseCase
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -24,10 +23,13 @@ class GeoLookUpApiUseCaseShould : MockWebServerTestBase() {
 
         useCase.execute("37.776289", "-122.395234")
 
-                .subscribe({
-            assertThat(it?.location?.city).isEqualTo("San Francisco")
-            assertThat(it?.location?.country).isEqualTo("US")
-        })
+                .subscribe(
+                        {
+                            assertThat(it?.location?.city).isEqualTo("San Francisco")
+                            assertThat(it?.location?.country).isEqualTo("US")
+                        },
+                        {}
+                )
     }
 
     @Test

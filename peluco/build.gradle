@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "com.paradigmadigital.paraguas"
         minSdkVersion 23
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -33,15 +33,10 @@ android {
 }
 
 dependencies {
-    ext.playservices = '11.4.2'
-    ext.support = '2.1.0'
-
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile "com.google.android.support:wearable:$support"
-    provided "com.google.android.wearable:wearable:$support"
+    compile "com.google.android.support:wearable:$wear_support"
+    provided "com.google.android.wearable:wearable:$wear_support"
     compile "com.google.android.gms:play-services-wearable:$playservices"
 }
-repositories {
-    mavenCentral()
-}
+
