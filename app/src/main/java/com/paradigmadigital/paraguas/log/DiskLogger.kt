@@ -52,7 +52,7 @@ constructor() {
         }
 
 
-    fun log(tag: String, message: String) {
+    fun log(tag: String?, message: String) {
         val logFile = file ?: return
 
         try {

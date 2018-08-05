@@ -37,7 +37,7 @@ constructor(
 
     fun initialize(subscriber: RefreshSubscriber) {
         this.subscriber = subscriber
-        scheduler.dispatch()
+        scheduler.start()
     }
 
     fun refresh() {

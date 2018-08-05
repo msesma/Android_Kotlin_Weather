@@ -64,7 +64,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:$playservices"
     implementation "com.google.android.gms:play-services-wearable:$playservices"
 
-    implementation 'com.firebase:firebase-jobdispatcher:0.5.2'
+    // Android JetPack
+    implementation "android.arch.work:work-runtime:$jetpack"
 
     implementation "pub.devrel:easypermissions:$easy_permissions"
 

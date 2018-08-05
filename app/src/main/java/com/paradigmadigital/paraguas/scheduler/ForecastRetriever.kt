@@ -3,8 +3,6 @@ package com.paradigmadigital.paraguas.scheduler
 import android.Manifest
 import android.content.Context
 import android.util.Log
-import com.firebase.jobdispatcher.JobParameters
-import com.firebase.jobdispatcher.JobService
 import com.paradigmadigital.paraguas.domain.Astronomy
 import com.paradigmadigital.paraguas.domain.City
 import com.paradigmadigital.paraguas.domain.CurrentWeather
@@ -16,10 +14,14 @@ import com.paradigmadigital.paraguas.usecases.CityUseCase
 import com.paradigmadigital.paraguas.usecases.ConditionsApiUseCase
 import com.paradigmadigital.paraguas.usecases.ForecastApiUseCase
 import com.paradigmadigital.paraguas.wear.WearUpdater
+import io.reactivex.Observable
+import io.reactivex.subjects.CompletableSubject
 import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
-class ForecastRetriever @Inject constructor(
+class ForecastRetriever
+@Inject
+constructor(
         private val conditionsUseCase: ConditionsApiUseCase,
         private val astronomyUseCase: AstronomyApiUseCase,
         private val hourlyUseCase: ForecastApiUseCase,
@@ -30,17 +32,17 @@ class ForecastRetriever @Inject constructor(
         private val diskLogger: DiskLogger
 ) {
 
-    private val TAG = ForecastRetriever::class.simpleName!!
-    private var jobService: JobService? = null
-    private var jobParameters: JobParameters? = null
+    companion object {
+        private val TAG = ForecastRetriever::class.simpleName
+    }
 
-    fun start(jobService: ForecastJobService?, jobParameters: JobParameters?) {
-        this.jobService = jobService
-        this.jobParameters = jobParameters
+    private val completable: CompletableSubject = CompletableSubject.create()
+
+    fun getForecast(): Observable<Void> {
 
         if (cache.city != null) {
-            handleOnCityResult(cache.city!!)
-            return
+            handleOnCityResult(cache.city)
+            return completable.toObservable<Void>()
         }
 
         if (EasyPermissions.hasPermissions(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
@@ -50,9 +52,15 @@ class ForecastRetriever @Inject constructor(
                             { handleOnError(it) }
                     )
         }
+        return completable.toObservable<Void>()
     }
 
-    private fun handleOnCityResult(city: City) {
+    private fun handleOnCityResult(city: City?) {
+        if (city == null) {
+            completable.onError(Exception("city is null"))
+            return
+        }
+
         Log.d(TAG, cache.city.toString())
         handleOnResult(city = city)
 
@@ -75,10 +83,10 @@ class ForecastRetriever @Inject constructor(
                 )
     }
 
-    private fun handleOnError(throwable: Throwable?) {
+    private fun handleOnError(throwable: Throwable) {
         Log.d(TAG, "Job finished FAIL: " + throwable.toString())
         diskLogger.log(TAG, "Job finished FAIL: " + throwable.toString())
-        jobService?.jobFinished(jobParameters!!, true)
+        completable.onError(throwable)
     }
 
     private fun handleOnResult(
@@ -90,8 +98,7 @@ class ForecastRetriever @Inject constructor(
         wearUpdater.update(currentWeather, astronomy, forecast, city?.city ?: "")
         diskLogger.log(TAG, "Job finished OK in: " + city?.city)
         Log.d(TAG, "Job finished OK")
-        jobService?.jobFinished(jobParameters!!, false)
+        completable.onComplete()
     }
-
 }
 

@@ -34,6 +34,7 @@ ext {
         support = '27.1.1'
         wear_support = '2.3.0'
         constraint = '1.1.2'
+        jetpack = '1.0.0-alpha06'
 
         easy_permissions = '0.3.0'
         retrofit = '2.1.0'
