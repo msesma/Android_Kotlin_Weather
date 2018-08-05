@@ -20,10 +20,10 @@ android {
             storeFile file('debug.keystore')
         }
         release {
-//            storeFile file('paradigma.keystore')
-//            storePassword 'Paradigma'
-//            keyAlias 'paradigma'
-//            keyPassword 'Paradigma'
+//            storeFile file('release.keystore')
+//            storePassword 'release'
+//            keyAlias 'release'
+//            keyPassword 'release'
         }
     }
 
@@ -33,7 +33,6 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-
         }
     }
 
