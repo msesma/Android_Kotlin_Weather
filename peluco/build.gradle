@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion project.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.paradigmadigital.paraguas"
-        minSdkVersion 23
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        applicationId project.ext.applicationId
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
     }
 
     signingConfigs {

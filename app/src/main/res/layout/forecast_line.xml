@@ -6,17 +6,17 @@
     android:id="@+id/forecast_row"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    tools:context="com.paradigmadigital.paraguas.ui.master.MainActivity"
+    tools:context="eu.sesma.paraguas.ui.master.MainActivity"
     android:orientation="horizontal"
     >
 
     <TextView
         android:id="@+id/hour"
         tools:text="18"
-        android:layout_width="18dp"
+        android:layout_width="32dp"
         android:layout_height="24dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBaseline_toBaselineOf="@+id/temp"
         />

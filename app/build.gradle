@@ -3,15 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion project.ext.compileSdkVersion
+
 
     defaultConfig {
-        applicationId "com.paradigmadigital.paraguas"
-        minSdkVersion 21
-        targetSdkVersion 27
-
-        versionCode 1
-        versionName "1.0"
+        applicationId project.ext.applicationId
+        versionCode project.ext.versionCode
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionName project.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

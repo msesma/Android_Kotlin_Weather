@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.51'
+    ext.kotlin_version = '1.2.60'
 
     repositories {
         google()
@@ -17,6 +17,14 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+    }
+    project.ext {
+        minSdkVersion = 21
+        targetSdkVersion = 27
+        compileSdkVersion = 28
+        versionCode = 1
+        versionName = "1.0.0"
+        applicationId = "com.paradigmadigital.paraguas"
     }
 }
 
