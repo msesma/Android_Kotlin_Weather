@@ -76,10 +76,10 @@ class IconMapper {
     }
 
     private fun isDayLight(sunrise: Long, sunset: Long): Boolean {
+        @Suppress("DEPRECATION")
         val time = Time()
         time.setToNow()
         val now = TimeUnit.HOURS.toMillis(time.hour.toLong()) + TimeUnit.MINUTES.toMillis(time.minute.toLong())
-        return sunrise < now && now < sunset
+        return now in (sunrise + 1)..(sunset - 1)
     }
-
 }

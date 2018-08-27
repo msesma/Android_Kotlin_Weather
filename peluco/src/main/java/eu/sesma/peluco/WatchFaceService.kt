@@ -1,5 +1,6 @@
 package eu.sesma.peluco
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,33 +10,37 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.wearable.complications.ComplicationData
+import android.support.wearable.complications.SystemProviders.stepCountProvider
 import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
 import android.text.format.Time
+import android.util.Log
 import android.view.SurfaceHolder
 import android.view.WindowInsets
 import java.text.DateFormatSymbols
 import java.util.*
+
 
 class WatchFaceService : CanvasWatchFaceService() {
 
     companion object {
         private val BOLD_TYPEFACE = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
         private val NORMAL_TYPEFACE = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
-        private val NORMAL_UPDATE_RATE_MS: Long = 500
-        private val MSG_UPDATE_TIME = 0
+        private const val NORMAL_UPDATE_RATE_MS: Long = 500
+        private const val MSG_UPDATE_TIME = 0
         private val WEEKDAYS = DateFormatSymbols().weekdays
         private val MONTHS = DateFormatSymbols().shortMonths
-        private val COLON_STRING = ":"
+        private const val COLON_STRING = ":"
+        private const val STEPS: Int = 101
     }
 
-    override fun onCreateEngine(): Engine {
-        return Engine()
-    }
+    override fun onCreateEngine(): Engine = Engine()
 
     inner class Engine : CanvasWatchFaceService.Engine() {
 
-        internal val updateTimeHandler: Handler = object : Handler() {
+        internal val updateTimeHandler: Handler = @SuppressLint("HandlerLeak")
+        object : Handler() {
             override fun handleMessage(message: Message) {
                 if (message.what == MSG_UPDATE_TIME) {
                     updateTime()
@@ -66,6 +71,7 @@ class WatchFaceService : CanvasWatchFaceService() {
         lateinit private var colonPaint: Paint
 
         private var colonWidth: Float = 0f
+        @Suppress("DEPRECATION")
         lateinit private var currentTime: Time
         private var yOffset: Float = 0f
         private var yStep: Float = 0f
@@ -78,6 +84,7 @@ class WatchFaceService : CanvasWatchFaceService() {
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
 
+            @Suppress("DEPRECATION")
             setWatchFaceStyle(WatchFaceStyle.Builder(this@WatchFaceService)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_VARIABLE)
                     .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
@@ -86,8 +93,17 @@ class WatchFaceService : CanvasWatchFaceService() {
                     .setHideHotwordIndicator(true)
                     .build())
 
+//            setDefaultComplicationProvider(STEPS, stepCountProvider(), ComplicationData.TYPE_SHORT_TEXT)
+//            setActiveComplications(STEPS)
+
             initializeValues()
         }
+
+//        override fun onComplicationDataUpdate(watchFaceComplicationId: Int, data: ComplicationData?) {
+//            super.onComplicationDataUpdate(watchFaceComplicationId, data)
+//            val safedata = data ?: return
+//            Log.d("===", safedata.toString())
+//        }
 
         override fun onPropertiesChanged(properties: Bundle) {
             super.onPropertiesChanged(properties)
@@ -163,8 +179,8 @@ class WatchFaceService : CanvasWatchFaceService() {
             val currentConditions = weatherGraph.drawWeather(canvas, rect)
 
             if (currentConditions.icon != null) {
-                canvas.drawBitmap(currentConditions.icon, ((bounds.width() / 2)-20).toFloat(), 0f, Paint())
-                canvas.drawText(currentConditions.temp, ((bounds.width() * 3 / 4)-20).toFloat(), yStep * 1.5f, currentTempPaint)
+                canvas.drawBitmap(currentConditions.icon, ((bounds.width() / 2) - 20).toFloat(), 0f, Paint())
+                canvas.drawText(currentConditions.temp, ((bounds.width() * 3 / 4) - 20).toFloat(), yStep * 1.5f, currentTempPaint)
                 val xOffset = (canvas.width - cityPaint.measureText(currentConditions.city)) / 2
                 canvas.drawText(currentConditions.city, xOffset, cityYOffset, cityPaint)
             }
@@ -238,13 +254,9 @@ class WatchFaceService : CanvasWatchFaceService() {
 
         }
 
-        private fun formatTwoDigitNumber(hour: Int): String {
-            return String.format("%02d", hour)
-        }
+        private fun formatTwoDigitNumber(hour: Int): String = String.format("%02d", hour)
 
-        private fun shouldTimerBeRunning(): Boolean {
-            return isVisible && !isInAmbientMode
-        }
+        private fun shouldTimerBeRunning(): Boolean = isVisible && !isInAmbientMode
 
         private fun registerReceiver() {
             if (registeredTimeZoneReceiver) return
@@ -275,7 +287,9 @@ class WatchFaceService : CanvasWatchFaceService() {
             currentTempPaint = createTextPaint(Color.LTGRAY, BOLD_TYPEFACE)
             datePaint = createTextPaint(Color.GREEN, BOLD_TYPEFACE)
             batteryPaint = Paint()
+            @Suppress("DEPRECATION")
             colonPaint = createTextPaint(resources.getColor(R.color.digital_colons))
+            @Suppress("DEPRECATION")
             currentTime = Time()
         }
 

@@ -15,10 +15,10 @@ class WeatherGraph(private val context: Context) {
         private val DATA_SETS = 25
     }
 
-    lateinit private var temps: List<Int>
-    lateinit private var adjustedTemps: List<Int>
-    lateinit private var rainsQpf: List<Int>
-    lateinit private var rainsPop: List<Int>
+    private lateinit var temps: List<Int>
+    private lateinit var adjustedTemps: List<Int>
+    private lateinit var rainsQpf: List<Int>
+    private lateinit var rainsPop: List<Int>
     private var minTemp = 0
     private var maxTemp = 0
     private var willRain = false
@@ -27,10 +27,10 @@ class WeatherGraph(private val context: Context) {
     private var sunriseM = 0
     private var sunsetM = 0
     private var iconBitmap: Bitmap? = null
-    private val settings: SharedPreferences
+    private val settings: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    lateinit private var canvas: Canvas
-    lateinit private var bounds: Rect
+    private lateinit var canvas: Canvas
+    private lateinit var bounds: Rect
     private var hours = 0
     private val time = Time()
     private var filesLastUpdateTime = -1L
@@ -50,7 +50,6 @@ class WeatherGraph(private val context: Context) {
     private val tempYOffset = 5
 
     init {
-        settings = PreferenceManager.getDefaultSharedPreferences(context)
         rainPaint.color = Color.BLUE
         linePaint.color = Color.GRAY
         tempPaint.strokeWidth = 10f
