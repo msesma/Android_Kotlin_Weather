@@ -45,6 +45,10 @@ android {
         maxProcessCount 4
         javaMaxHeapSize "4g"
     }
+
+    kapt {
+        useBuildCache = true
+    }
 }
 
 dependencies {
