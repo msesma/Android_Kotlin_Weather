@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="eu.sesma.peluco">
+          package="eu.sesma.peluco">
 
-    <uses-feature android:name="android.hardware.type.watch" />
+    <uses-feature android:name="android.hardware.type.watch"/>
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!--<uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA" />-->
 
     <application
@@ -18,22 +18,28 @@
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
                 android:name="android.service.wallpaper"
-                android:resource="@xml/watch_face" />
+                android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_digital" />
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
+                android:resource="@drawable/preview_digital"/>
 
-                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+
+                <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
             </intent-filter>
         </service>
         <service android:name=".UpdateService">
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <data android:scheme="wear" android:host="*" android:path="/forecast" />
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED"/>
+                <data
+                    android:host="*"
+                    android:path="/forecast"
+                    android:scheme="wear"/>
             </intent-filter>
         </service>
+
+        <!--<activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>-->
     </application>
 
 </manifest>

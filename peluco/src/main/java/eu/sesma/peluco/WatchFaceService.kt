@@ -1,17 +1,15 @@
 package eu.sesma.peluco
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.graphics.*
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.wearable.complications.ComplicationData
-import android.support.wearable.complications.SystemProviders.stepCountProvider
+import android.support.wearable.complications.ProviderChooserIntent.createProviderChooserIntent
+import android.support.wearable.complications.SystemProviders.*
 import android.support.wearable.watchface.CanvasWatchFaceService
 import android.support.wearable.watchface.WatchFaceStyle
 import android.text.format.Time
@@ -93,14 +91,18 @@ class WatchFaceService : CanvasWatchFaceService() {
                     .setHideHotwordIndicator(true)
                     .build())
 
+//            Log.d("===", "Initialising complications...")
 //            setDefaultComplicationProvider(STEPS, stepCountProvider(), ComplicationData.TYPE_SHORT_TEXT)
 //            setActiveComplications(STEPS)
+//            val component = ComponentName(applicationContext, WatchFaceService::class.java)
+//            createProviderChooserIntent(component, STEPS, ComplicationData.TYPE_SHORT_TEXT)
 
             initializeValues()
         }
 
 //        override fun onComplicationDataUpdate(watchFaceComplicationId: Int, data: ComplicationData?) {
-//            super.onComplicationDataUpdate(watchFaceComplicationId, data)
+////            super.onComplicationDataUpdate(watchFaceComplicationId, data)
+//            Log.d("===", "data received")
 //            val safedata = data ?: return
 //            Log.d("===", safedata.toString())
 //        }
