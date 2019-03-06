@@ -21,3 +21,4 @@ Android location  permissions are supported by means of Easypermissions library 
 Get a Dark Sky API KEY and add it to your global gradle properties file as `DarkSky_api_token="lkhdkfldskf,jhkjhkjlsd"`
 
 Based on https://github.com/kevinzetterstrom/forecast-android
+https://api.darksky.net/forecast/apikey/51.5268642,-0.0927058

@@ -1,17 +1,19 @@
 package eu.sesma.paraguas.ui.master
 
 import android.util.Log
-import eu.sesma.paraguas.domain.Astronomy
-import eu.sesma.paraguas.domain.CurrentWeather
 import eu.sesma.paraguas.domain.ForecastItem
+import eu.sesma.paraguas.domain.WeatherData
 import javax.inject.Inject
 
 class MainActivityPresenter
 @Inject
 constructor(
-        private val interactor: MainActivityInteractor) {
+    private val interactor: MainActivityInteractor
+) {
 
-    val TAG = MainActivityPresenter::class.simpleName
+    companion object {
+        private val TAG = MainActivityPresenter::class.simpleName
+    }
 
     private var decorator: MainActivityUserInterface? = null
 
@@ -23,19 +25,14 @@ constructor(
     }
 
     private val subscriber = object : MainActivityInteractor.RefreshSubscriber {
-        override fun handleOnAstronomyResult(astronomy: Astronomy?) {
-            Log.d(TAG, astronomy.toString())
-            if (astronomy != null) decorator?.showCurrentAstronomy(astronomy)
-        }
-
-        override fun handleOnForecastResult(forecast: List<ForecastItem>?) {
+        override fun handleOnForecastResult(data: WeatherData) {
+            val (_, currentWeather, astronomy, forecast) = data
             Log.d(TAG, forecast.toString())
-            if (forecast != null) decorator?.showForecast(forecast)
-        }
-
-        override fun handleOnWheatherResult(currentWeather: CurrentWeather?) {
+            Log.d(TAG, astronomy.toString())
             Log.d(TAG, currentWeather.toString())
             Log.d(TAG, "City: ${interactor.city}")
+            if (forecast != null) decorator?.showForecast(forecast)
+            if (astronomy != null) decorator?.showCurrentAstronomy(astronomy)
             if (currentWeather != null) decorator?.showCurrentWeather(currentWeather)
             decorator?.setCity(interactor.city ?: "")
         }
@@ -54,6 +51,7 @@ constructor(
     fun onResume() = interactor.refresh()
 
     fun dispose() {
-        this.decorator = null
+        interactor.dispose()
+        decorator = null
     }
 }

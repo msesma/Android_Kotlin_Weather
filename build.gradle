@@ -24,7 +24,7 @@ allprojects {
         compileSdkVersion = 28
         versionCode = 110
         versionName = "1.1.0"
-        applicationId = "com.paradigmadigital.paraguas"
+        applicationId = "eu.sesma.paraguas"
     }
 }
 

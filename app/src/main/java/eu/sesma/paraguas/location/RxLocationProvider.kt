@@ -1,33 +1,31 @@
 package eu.sesma.paraguas.location
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import com.google.android.gms.location.LocationServices
-import com.jakewharton.rxrelay2.PublishRelay
-import eu.sesma.paraguas.api.model.GeoLookUp
-import eu.sesma.paraguas.usecases.GeoLookUpApiUseCase
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 
 class RxLocationProvider
 @Inject
-constructor(val context: Context, val useCase: GeoLookUpApiUseCase) {
+constructor(val context: Context) {
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    private val relay: PublishRelay<GeoLookUp> = PublishRelay.create()
+    private val subject = BehaviorSubject.create<Location>()
 
-    fun getGeoLookUpObservable(): Observable<GeoLookUp> {
+    fun getLocationObservable(): Observable<Location> {
         getLocation()
-        return relay
+        return subject
     }
 
-    @Synchronized private fun getLocation() {
+    @SuppressLint("MissingPermission")
+    @Synchronized
+    private fun getLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location?.let {
-                useCase.execute(location.latitude.toString(), location.longitude.toString())
-                        .subscribe( { s -> relay.accept(s) })
-            }
+            location?.let { subject.onNext(location) }
         }
     }
 }

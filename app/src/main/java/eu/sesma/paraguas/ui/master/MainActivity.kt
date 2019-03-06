@@ -12,8 +12,8 @@ class MainActivity : BaseActivity() {
     @Inject
     lateinit var delegate: MainActivityDelegate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreate(bundle: Bundle?) {
+        super.onCreate(bundle)
         setContentView(R.layout.activity_main)
         activityComponent.inject(this)
 
