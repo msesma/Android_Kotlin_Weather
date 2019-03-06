@@ -36,5 +36,5 @@ class Flags {
     val sources: ArrayList<String>? = null
 
     @SerializedName(ModelConstants.FIELD_UNITS)
-    val unit: Unit? = null
+    val unit: Units? = null
 }

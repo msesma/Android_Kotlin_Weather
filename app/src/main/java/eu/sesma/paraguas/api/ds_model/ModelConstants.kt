@@ -127,7 +127,7 @@ object ModelConstants {
     const val PRECIPITATION_SLEET = "sleet"
     const val PRECIPITATION_HAIL = "hail"
 
-    // Unit enum strings
+    // Units enum strings
     const val UNIT_US = "us"
     const val UNIT_SI = "si"
     const val UNIT_CA = "ca"

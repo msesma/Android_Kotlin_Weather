@@ -3,9 +3,9 @@ package eu.sesma.paraguas.api.ds_model
 import com.google.gson.annotations.SerializedName
 
 /**
- * Unit represents the several types of measurement units that the Forecast API uses
+ * Units represents the several types of measurement units that the Forecast API uses
  */
-enum class Unit private constructor(val text: String) {
+enum class Units private constructor(val text: String) {
 
     @SerializedName(ModelConstants.UNIT_US)
     US(ModelConstants.UNIT_US),
