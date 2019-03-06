@@ -23,7 +23,7 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: CurrentWeather
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(endpoint.URL)
+                .baseUrl(endpoint.url)
                 .build()
                 .create(WeatherService::class.java)
     }

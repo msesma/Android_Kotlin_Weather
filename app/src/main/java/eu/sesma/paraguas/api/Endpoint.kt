@@ -1,11 +1,13 @@
 package eu.sesma.paraguas.api
 
+import android.content.Context
+import eu.sesma.paraguas.R
 import javax.inject.Inject
 
 class Endpoint
 @Inject
-constructor() {
-    private val WUKEY: String = "93d0c442f87c0b10"
-    var URL: String = "http://api.wunderground.com/api/$WUKEY/"
+constructor(context: Context) {
+    private val wuKey: String = context.getString(R.string.wu_api_token)
+    var url: String = "http://api.wunderground.com/api/$wuKey/"
 }
 

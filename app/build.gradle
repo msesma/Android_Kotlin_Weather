@@ -13,6 +13,8 @@ android {
         targetSdkVersion project.ext.targetSdkVersion
         versionName project.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        resValue "string", "wu_api_token", WU_api_token
     }
 
     signingConfigs {
@@ -37,8 +39,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     dexOptions {
@@ -61,12 +63,12 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android"
     implementation "com.jakewharton.rxrelay2:rxrelay:$rx_relay"
 
+    implementation "com.android.support:support-v4:$support"
     implementation "com.android.support:design:$support"
-    implementation "com.android.support:support-annotations:$support"
     implementation "com.android.support.constraint:constraint-layout:$constraint"
     implementation "com.google.android.gms:play-services-base:$playservices"
-    implementation "com.google.android.gms:play-services-location:$playservices"
-    implementation "com.google.android.gms:play-services-wearable:$playservices"
+    implementation "com.google.android.gms:play-services-location:$playservices_location"
+    implementation "com.google.android.gms:play-services-wearable:$playservices_wear"
 
     // Android JetPack
     implementation "android.arch.work:work-runtime:$jetpack"

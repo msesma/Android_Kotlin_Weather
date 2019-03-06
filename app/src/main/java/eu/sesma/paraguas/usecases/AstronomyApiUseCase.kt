@@ -22,7 +22,7 @@ constructor(client: OkHttpClient, endpoint: Endpoint, val mapper: AstronomyMappe
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(endpoint.URL)
+                .baseUrl(endpoint.url)
                 .build()
                 .create(WeatherService::class.java)
     }
