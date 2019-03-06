@@ -7,7 +7,7 @@ import javax.inject.Inject
 class Endpoint
 @Inject
 constructor(context: Context) {
-    private val wuKey: String = context.getString(R.string.wu_api_token)
-    var url: String = "https://api.wunderground.com/api/$wuKey/"
+    private val dsKey: String = context.getString(R.string.DarkSky_api_token)
+    var url: String = "https://api.darksky.net/forecast/$dsKey/"
 }
 

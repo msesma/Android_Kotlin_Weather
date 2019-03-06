@@ -18,4 +18,4 @@ Pet project for testing several technologies:
 Shows the Current weather and hourly forecast for the next 36 hours. 
 Android location  permissions are supported by means of Easypermissions library (https://github.com/googlesamples/easypermissions). Storage permission must be granted manually, but it is only necessary for disk logging.
 
-Get a Weather Underground API KEY and add it to your global gradle properties file as `WU_api_token="lkhdkfldskfjlsd"`
+Get a Dark Sky API KEY and add it to your global gradle properties file as `DarkSky_api_token="lkhdkfldskf,jhkjhkjlsd"`

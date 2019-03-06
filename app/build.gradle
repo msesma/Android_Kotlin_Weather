@@ -14,7 +14,7 @@ android {
         versionName project.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        resValue "string", "wu_api_token", WU_api_token
+        resValue "string", "DarkSky_api_token", DarkSky_api_token
     }
 
     signingConfigs {
