@@ -1,5 +1,7 @@
 package eu.sesma.paraguas.usecases
 
+import android.content.Context
+import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.Constants
 import eu.sesma.paraguas.api.ds_model.Forecast
 import eu.sesma.paraguas.api.ds_model.Language
@@ -16,10 +18,15 @@ import javax.inject.Inject
 //TODO set exact parameters of the query
 class ForecastApiUseCase
 @Inject constructor(
+    private val context: Context,
     private val service: WeatherService,
     private val mapper: ForecastMapper,
     private val cacheControl: CacheControl
 ) {
+
+
+    private val key = context.getString(R.string.DarkSky_api_token) ?: ""
+
     fun execute(city: City) = getForecast(
         latitude = city.location.latitude,
         longitude = city.location.longitude
@@ -46,8 +53,7 @@ class ForecastApiUseCase
         language: Language?, units: Units?,
         excludeList: List<String>?, extendHourly: Boolean
     ): Single<Forecast> {
-
-        return service.getForecast(
+        return service.getForecast( key,
             latitude.toString(), longitude.toString(),
             getQueryMapParameters(
                 language, units, excludeList,

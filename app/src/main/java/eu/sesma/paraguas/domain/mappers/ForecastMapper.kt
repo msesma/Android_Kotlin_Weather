@@ -15,23 +15,21 @@ constructor(
     override fun map(input: Pair<Forecast, City>): WeatherData {
         val (forecast, city) = input
         val currentWeather = currentWeatherMapper.map(forecast.currently)
-        val astronomy = astronomyMapper.map(forecast.daily)
+        val astronomy = astronomyMapper.map(forecast.currently)
         val hourly = forecast.hourly?.dataPoints?.map { dataPoint ->
             ForecastItem(
-//                            time = getTime(hourlyForecast.fctTime?.epoch ?: "0"),
-//                            temp = hourlyForecast.temp?.metric?.toFloatOrNull() ?: 0f,
-//                            feelslike = hourlyForecast.feelslike?.metric?.toFloatOrNull() ?: 0f,
-//                            windSpeed = hourlyForecast.wspd?.metric?.toFloatOrNull() ?: 0f,
-//                            rainProbability = hourlyForecast.pop?.toFloatOrNull() ?: 0f,
-//                            rainQuantity = hourlyForecast.qpf?.metric?.toFloatOrNull() ?: 0f,
-//                            snow = hourlyForecast.snow?.metric?.toFloatOrNull() ?: 0f,
-//                            condition = hourlyForecast.condition ?: "",
-//                            iconUrl = hourlyForecast.iconUrl ?: "",
-//                            humidity = hourlyForecast.humidity?.toFloatOrNull() ?: 0f
+                time = dataPoint.time,
+                temp = dataPoint.temperature ?: 0.0,
+                feelslike = dataPoint.apparentTemperature ?: 0.0,
+                windSpeed = dataPoint.windSpeed ?: 0.0,
+                rainProbability = dataPoint.precipProbability ?: 0.0,
+                rainQuantity = dataPoint.precipIntensity ?: 0.0,
+//                snow = dataPoint.apparentTemperature ?: 0.0,
+                condition = dataPoint.summary ?: "",
+                iconUrl = dataPoint.icon?.text ?: "",
+                humidity = dataPoint.humidity ?: 0.0
             )
         }
         return WeatherData(city = city, currentWeather = currentWeather, astronomy = astronomy, forecast = hourly)
     }
-
-//    fun getTime(epoch: String) = Date(epoch.toLong() * 1000)
 }

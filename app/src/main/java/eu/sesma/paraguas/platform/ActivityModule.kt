@@ -20,7 +20,4 @@ class ActivityModule(private val activity: AppCompatActivity) {
     @PerActivity
     fun provideLinearLayoutManager(activity: AppCompatActivity) = LinearLayoutManager(activity as Context)
 
-    @Provides
-    @PerActivity
-    fun provideGeocoder(context: Context) = Geocoder(context, Locale.getDefault())
 }

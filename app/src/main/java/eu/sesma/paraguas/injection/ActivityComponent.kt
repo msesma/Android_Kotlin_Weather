@@ -1,5 +1,6 @@
 package eu.sesma.paraguas.injection
 
+import android.location.Geocoder
 import android.support.v7.app.AppCompatActivity
 import eu.sesma.paraguas.platform.ActivityModule
 import eu.sesma.paraguas.ui.detail.DetailActivity
@@ -15,5 +16,5 @@ interface ActivityComponent {
     fun inject(detailActivity: DetailActivity)
 
     //Exposed to sub-graphs.
-    fun activity(): AppCompatActivity
+    fun provideActivity(): AppCompatActivity
 }

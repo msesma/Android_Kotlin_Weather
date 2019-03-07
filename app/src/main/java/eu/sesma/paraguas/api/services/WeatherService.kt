@@ -22,8 +22,9 @@ interface WeatherService {
 //    @GET("geolookup/q/{latitude},{longitude}.json")
 //    fun getGeoLookUp(@Path("latitude") latitude: String, @Path("longitude") longitude: String): Single<GeoLookUp>
 
-    @GET("/{latitude},{longitude}")
+    @GET("forecast/{key}/{latitude},{longitude}")
     fun getForecast(
+        @Path("key") key: String,
         @Path("latitude") latitude: String,
         @Path("longitude") longitude: String,
         @QueryMap queryParameter: Map<String, String>,

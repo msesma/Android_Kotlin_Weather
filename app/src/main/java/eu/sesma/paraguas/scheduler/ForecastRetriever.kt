@@ -59,7 +59,7 @@ constructor(
 
         Log.d(TAG, cache.city.toString())
 
-        compositeDisposable.add(forecastUseCase.execute(location = city.location)
+        compositeDisposable.add(forecastUseCase.execute(city)
             .subscribe(
                 { handleOnResult(it) },
                 { handleOnError(it.cause as Exception) }

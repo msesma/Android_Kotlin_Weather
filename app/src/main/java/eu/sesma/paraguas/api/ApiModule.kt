@@ -8,6 +8,7 @@ import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import eu.sesma.paraguas.BuildConfig
+import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.services.WeatherService
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -32,13 +33,15 @@ class ApiModule() {
         .build()
 
     @Provides
-    fun provideWeatherService(client: OkHttpClient, endpoint: Endpoint): WeatherService = Retrofit.Builder()
-        .client(client)
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(endpoint.url)
-        .build()
-        .create(WeatherService::class.java)
+    fun provideWeatherService(client: OkHttpClient): WeatherService {
+        return Retrofit.Builder()
+            .client(client)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(Endpoint.url)
+            .build()
+            .create(WeatherService::class.java)
+    }
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {

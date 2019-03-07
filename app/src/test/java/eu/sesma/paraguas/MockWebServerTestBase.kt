@@ -26,7 +26,7 @@ open class MockWebServerTestBase {
 
     protected val baseEndpoint: Endpoint
         get() {
-            val endpoint = Endpoint()
+            val endpoint = Endpoint
             endpoint.url = server.url("/").toString()
             return endpoint
         }

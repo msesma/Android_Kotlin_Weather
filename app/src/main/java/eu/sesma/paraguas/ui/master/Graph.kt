@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.support.annotation.ColorRes
 import android.text.format.Time
 import android.view.ViewTreeObserver
 import android.widget.ImageView
@@ -26,10 +25,10 @@ constructor(private val context: Context) {
     }
 
     private val time = Time()
-    private val temps = mutableListOf<Float>()
-    private val feelLike = mutableListOf<Float>()
-    private val rainsQuantity = mutableListOf<Float>()
-    private val rainsProbability = mutableListOf<Float>()
+    private val temps = mutableListOf<Double>()
+    private val feelLike = mutableListOf<Double>()
+    private val rainsQuantity = mutableListOf<Double>()
+    private val rainsProbability = mutableListOf<Double>()
 
     var imageView: ImageView? = null
     var currentWeather: CurrentWeather? = null
@@ -55,10 +54,10 @@ constructor(private val context: Context) {
         rainsQuantity.clear()
         rainsProbability.clear()
 
-        temps.add(currentWeather!!.temp)
-        feelLike.add(currentWeather!!.feelsLike)
-        rainsQuantity.add(currentWeather!!.precip1hrMetric)
-        rainsProbability.add(if (rainsQuantity[0] > 0) 50f else 0f)
+        temps.add(currentWeather?.temp ?: 0.0)
+        feelLike.add(currentWeather?.feelsLike ?: 0.0)
+        rainsQuantity.add(currentWeather?.precip1hrMetric ?: 0.0)
+        rainsProbability.add(if (rainsQuantity[0] > 0) 50.0 else 0.0)
         for (item in forecast) {
             temps.add(item.temp)
             feelLike.add(item.feelslike)
@@ -90,8 +89,8 @@ constructor(private val context: Context) {
         feelPaint.color = Color.RED
         feelPaint.strokeWidth = FL_WIDTH
 
-        var min = 100f
-        var max = -100f
+        var min = 100.0
+        var max = -100.0
         for (temp in temps) {
             min = Math.min(min, temp)
             max = Math.max(max, temp)
@@ -153,7 +152,6 @@ constructor(private val context: Context) {
         canvas.drawText(Integer.toString(min.toInt()), 0f, (ypos - 10), linePaint)
     }
 
-    @ColorRes
     private fun getDaylightColor(night: Boolean): Int {
         return if (night) context.resources.getColor(R.color.darkYellow) else Color.YELLOW
     }
@@ -170,7 +168,7 @@ constructor(private val context: Context) {
 
         for (i in 0 until hours) {
             paint.alpha = 96 + rainsQuantity[i].toInt() * 8
-            val ypos = height - rainsProbability[i] * degree
+            val ypos = height - rainsProbability[i].toFloat() * degree
             if (i == 0) {
                 canvas.drawRect(xpos, ypos, xpos + step * (60 - time.minute) / 60, canvas.height.toFloat(), paint)
                 xpos += step * (60 - time.minute) / 60

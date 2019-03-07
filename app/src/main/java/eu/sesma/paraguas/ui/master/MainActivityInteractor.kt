@@ -58,7 +58,7 @@ constructor(
     private fun handleOnCityResult(city: City) {
         Log.d(TAG, cache.city.toString())
 
-        compositeDisposable.add(forecastUseCase.execute(location = city.location)
+        compositeDisposable.add(forecastUseCase.execute(city)
             .subscribe(
                 { subscriber?.handleOnForecastResult(it) },
                 { subscriber?.onError(it.cause as Exception) }

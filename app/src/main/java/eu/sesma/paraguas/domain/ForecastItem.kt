@@ -5,13 +5,13 @@ import java.util.*
 
 data class ForecastItem(
         val time: Date? = null,
-        val temp: Float = 0f,
-        val feelslike: Float = 0f,
-        val windSpeed: Float = 0f,
-        val rainQuantity: Float = 0f,
-        val rainProbability: Float = 0f,
-        val snow: Float = 0f,
+        val temp: Double = 0.0,
+        val feelslike: Double = 0.0,
+        val windSpeed: Double = 0.0,
+        val rainQuantity: Double = 0.0,
+        val rainProbability: Double = 0.0,
+        val snow: Double = 0.0,
         val condition: String = "",
         val iconUrl: String = "",
-        val humidity: Float? = 0f
+        val humidity: Double? = 0.0
 ) : Serializable
