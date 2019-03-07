@@ -10,8 +10,8 @@ constructor() : Mapper<Astronomy, DataPoint?> {
     override fun map(input: DataPoint?): Astronomy {
         return Astronomy(
             ageOfMoon = input?.moonPhase?.toInt() ?: 0,
-            sunrise = input?.sunriseTime,
-            sunset = input?.sunsetTime
+            sunrise = input?.sunriseTime.toDate(),
+            sunset = input?.sunsetTime.toDate()
         )
     }
 }

@@ -21,7 +21,7 @@ import java.util.*
 class DataPoint {
 
     @SerializedName(ModelConstants.FIELD_TIME)
-    val time: Date? = null
+    val time: String? = null
 
     @SerializedName(ModelConstants.FIELD_SUMMARY)
     val summary: String? = null
@@ -30,10 +30,10 @@ class DataPoint {
     val icon: Icon? = null
 
     @SerializedName(ModelConstants.FIELD_SUNSET_TIME)
-    val sunsetTime: Date? = null
+    val sunsetTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_SUNRISE_TIME)
-    val sunriseTime: Date? = null
+    val sunriseTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_MOON_PHASE)
     val moonPhase: Double? = null
@@ -51,7 +51,7 @@ class DataPoint {
     val precipIntensityMax: Double? = null
 
     @SerializedName(ModelConstants.FIELD_PRECIP_INTENSITY_MAX_TIME)
-    val precipIntensityMaxTime: Date? = null
+    val precipIntensityMaxTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_PRECIP_PROBABILITY)
     val precipProbability: Double? = null
@@ -69,13 +69,13 @@ class DataPoint {
     val temperatureMin: Double? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_MIN_TIME)
-    val temperatureMinTime: Date? = null
+    val temperatureMinTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_MAX)
     val temperatureMax: Double? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_MAX_TIME)
-    val temperatureMaxTime: Date? = null
+    val temperatureMaxTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE)
     val apparentTemperature: Double? = null
@@ -84,36 +84,36 @@ class DataPoint {
     val apparentTemperatureMin: Double? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_MIN_TIME)
-    val apparentTemperatureMinTime: Date? = null
+    val apparentTemperatureMinTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_MAX)
     val apparentTemperatureMax: Double? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_MAX_TIME)
-    val apparentTemperatureMaxTime: Date? = null
+    val apparentTemperatureMaxTime: String? = null
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_LOW)
     val apparentTemperatureLow: Double? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_LOW_TIME)
-    val apparentTemperatureLowTime: Date? = null
+    val apparentTemperatureLowTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_HIGH)
     val apparentTemperatureHigh: Double? = null
 
     @SerializedName(ModelConstants.FIELD_APPARENT_TEMPERATURE_HIGH_TIME)
-    val apparentTemperatureHighTime: Date? = null
+    val apparentTemperatureHighTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_LOW)
     val temperatureLow: Double? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_LOW_TIME)
-    val temperatureLowTime: Date? = null
+    val temperatureLowTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_HIGH)
     val temperatureHigh: Double? = null
 
     @SerializedName(ModelConstants.FIELD_TEMPERATURE_HIGH_TIME)
-    val temperatureHighTime: Date? = null
+    val temperatureHighTime: String? = null
 
     @SerializedName(ModelConstants.FIELD_DEW_POINT)
     val dewPoint: Double? = null
@@ -143,5 +143,5 @@ class DataPoint {
     val uvIndex: Double? = null
 
     @SerializedName(ModelConstants.FIELD_UV_INDEX_TIME)
-    val uvIndexTime: Date? = null
+    val uvIndexTime: String? = null
 }

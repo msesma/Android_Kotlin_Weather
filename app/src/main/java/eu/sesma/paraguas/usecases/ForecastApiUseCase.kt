@@ -18,13 +18,11 @@ import javax.inject.Inject
 //TODO set exact parameters of the query
 class ForecastApiUseCase
 @Inject constructor(
-    private val context: Context,
+    context: Context,
     private val service: WeatherService,
     private val mapper: ForecastMapper,
     private val cacheControl: CacheControl
 ) {
-
-
     private val key = context.getString(R.string.DarkSky_api_token) ?: ""
 
     fun execute(city: City) = getForecast(

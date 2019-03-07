@@ -22,11 +22,11 @@ class Alert {
     val description: String? = null
 
     @SerializedName(ModelConstants.FIELD_EXPIRES)
-    val expires: Date? = null
+    val expires: String? = null
 
     @SerializedName(ModelConstants.FIELD_URI)
     val uri: String? = null
 
     @SerializedName(ModelConstants.FIELD_TIME)
-    val time: Date? = null
+    val time: String? = null
 }
