@@ -14,6 +14,7 @@ import eu.sesma.paraguas.domain.CurrentWeather
 import eu.sesma.paraguas.domain.ForecastItem
 import java.text.SimpleDateFormat
 import javax.inject.Inject
+import kotlin.math.min
 
 
 class Graph
@@ -57,7 +58,7 @@ constructor(private val context: Context) {
         temps.add(currentWeather?.temp ?: 0.0)
         feelLike.add(currentWeather?.feelsLike ?: 0.0)
         rainsQuantity.add(currentWeather?.precip1hrMetric ?: 0.0)
-        rainsProbability.add(if (rainsQuantity[0] > 0) 50.0 else 0.0)
+        rainsProbability.add(if (rainsQuantity[0] > 0) 0.5 else 0.0)
         for (item in forecast) {
             temps.add(item.temp)
             feelLike.add(item.feelslike)
@@ -162,12 +163,13 @@ constructor(private val context: Context) {
         paint.color = Color.BLUE
 
         val height = canvas.height.toFloat()
-        val degree = canvas.height / 100
+        val degree = canvas.height
         val step: Float = 60 * canvas.width / (hours * 60 - time.minute).toFloat()
         var xpos = 0f
 
         for (i in 0 until hours) {
-            paint.alpha = 96 + rainsQuantity[i].toInt() * 8
+            val alpha = 80 + (rainsQuantity[i] * 80).toInt()
+            paint.alpha = min(alpha, 160)
             val ypos = height - rainsProbability[i].toFloat() * degree
             if (i == 0) {
                 canvas.drawRect(xpos, ypos, xpos + step * (60 - time.minute) / 60, canvas.height.toFloat(), paint)

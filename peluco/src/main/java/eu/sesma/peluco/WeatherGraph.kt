@@ -67,7 +67,7 @@ class WeatherGraph(private val context: Context) {
         this.bounds = bounds
         time.setToNow()
         rainHeight = bounds.height().toFloat()
-        rainDegree = rainHeight / 100
+        rainDegree = rainHeight
         rainStep = bounds.width().toFloat() / hours
         tempHeight = bounds.height() * 0.9f
         tempDegree = tempHeight / (maxTemp - minTemp)
@@ -147,7 +147,7 @@ class WeatherGraph(private val context: Context) {
         val offset = bounds.top + rainHeight - canvas.height + tempHeight + bounds.top
 
         for (i in 0 until hours) {
-            rainPaint.alpha = 128 + rainsQpf[i + firstSet] * 8
+            rainPaint.alpha = 128 + rainsQpf[i + firstSet] * 80
             ypos = offset - rainsPop[i + firstSet] * rainDegree
             canvas.drawRect(xpos, ypos, xpos + rainStep, tempHeight + bounds.top, rainPaint)
             xpos += rainStep
