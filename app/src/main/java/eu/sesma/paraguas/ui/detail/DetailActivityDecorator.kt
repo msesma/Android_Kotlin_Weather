@@ -1,7 +1,5 @@
 package eu.sesma.paraguas.ui.detail
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -9,9 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.ImageRepository
 import eu.sesma.paraguas.domain.ForecastItem
@@ -21,8 +16,8 @@ import javax.inject.Inject
 class DetailActivityDecorator
 @Inject
 constructor(
-        private val activity: AppCompatActivity,
-        private val imageRepo: ImageRepository
+    private val activity: AppCompatActivity,
+    private val imageRepo: ImageRepository
 ) : DetailActivityUserInterface {
 
     @BindView(R.id.toolbar)
@@ -44,19 +39,6 @@ constructor(
     @BindView(R.id.wind)
     lateinit var wind: TextView
 
-    private val iconTarget = object : Target {
-
-        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-            icon.setImageBitmap(bitmap)
-        }
-
-        override fun onBitmapFailed(errorDrawable: Drawable?) {
-        }
-
-        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-        }
-    }
-
     fun bind(view: View) {
         ButterKnife.bind(this, view)
         initToolbar()
@@ -68,12 +50,17 @@ constructor(
     }
 
     private fun showForecast(forecast: ForecastItem?) {
-        val url = forecast?.iconUrl ?: ""
-        imageRepo.getCurrentIcon(url, iconTarget)
+        icon.setImageResource(imageRepo.getCurrentIcon(forecast?.iconName ?: ""))
         tvcondition.setText(forecast?.condition)
         tvtemp.setText(String.format(activity.getString(R.string.temp), forecast?.temp))
         tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), forecast?.feelslike))
-        rain.setText(String.format(activity.getString(R.string.rain), forecast?.rainProbability, forecast?.rainQuantity))
+        rain.setText(
+            String.format(
+                activity.getString(R.string.rain),
+                forecast?.rainProbability,
+                forecast?.rainQuantity
+            )
+        )
         humidity.setText(String.format(activity.getString(R.string.humidity), forecast?.humidity))
         snow.setText(String.format(activity.getString(R.string.snow), forecast?.snow))
         wind.setText(String.format(activity.getString(R.string.wind), forecast?.windSpeed))

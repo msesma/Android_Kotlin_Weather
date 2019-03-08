@@ -179,7 +179,7 @@ class WeatherGraph(private val context: Context) {
             val dateSunset = Date(sunset)
             sunsetH = dateSunset.hours
             sunsetM = dateSunset.minutes
-            iconBitmap = getIconBitmap(sunrise, sunset, settings.getString(WearConstants.ICON, ""))
+            iconBitmap = getIconBitmap(settings.getString(WearConstants.ICON, ""))
         } catch (jse: JSONException) {
             return false
         }
@@ -197,8 +197,8 @@ class WeatherGraph(private val context: Context) {
         return result
     }
 
-    private fun getIconBitmap(sunrise: Long, sunset: Long, iconKey: String): Bitmap? {
-        val resource = IconMapper().map(iconKey, sunrise, sunset)
+    private fun getIconBitmap(iconKey: String): Bitmap? {
+        val resource = IconMapper().map(iconKey)
         if (resource != 0) {
             return BitmapFactory.decodeResource(context.resources, resource)
         }

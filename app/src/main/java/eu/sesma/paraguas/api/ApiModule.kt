@@ -2,13 +2,9 @@ package eu.sesma.paraguas.api
 
 import android.content.Context
 import android.util.Log
-import com.squareup.picasso.Cache
-import com.squareup.picasso.LruCache
-import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import eu.sesma.paraguas.BuildConfig
-import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.services.WeatherService
 import okhttp3.CacheControl
 import okhttp3.OkHttpClient
@@ -17,7 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 @Module
 class ApiModule() {
@@ -59,18 +54,4 @@ class ApiModule() {
         .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
         .readTimeout(TIMEOUT, TimeUnit.SECONDS)
         .build()
-
-    @Provides
-    @Singleton
-    fun provideCache(application: Context): Cache {
-        return LruCache(application)
-    }
-
-    @Provides
-    @Singleton
-    fun providePicasso(cache: Cache, application: Context): Picasso {
-        val builder = Picasso.Builder(application)
-        builder.memoryCache(cache)
-        return builder.build()
-    }
 }

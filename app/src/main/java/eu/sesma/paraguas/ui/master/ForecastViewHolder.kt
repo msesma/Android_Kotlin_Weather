@@ -2,8 +2,6 @@ package eu.sesma.paraguas.ui.master
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,13 +13,11 @@ import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.ImageRepository
 import eu.sesma.paraguas.domain.ForecastItem
 import eu.sesma.paraguas.platform.format
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import java.text.SimpleDateFormat
 
 class ForecastViewHolder(
-        itemView: ViewGroup,
-        val imageRepo: ImageRepository
+    itemView: ViewGroup,
+    val imageRepo: ImageRepository
 ) : RecyclerView.ViewHolder(itemView) {
 
     @BindView(R.id.icon)
@@ -43,19 +39,6 @@ class ForecastViewHolder(
     private val context: Context
     private val resources: Resources
 
-    private val iconTarget = object : Target {
-
-        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-            icon.setImageBitmap(bitmap)
-        }
-
-        override fun onBitmapFailed(errorDrawable: Drawable?) {
-        }
-
-        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-        }
-    }
-
     init {
         ButterKnife.bind(this, itemView)
         resources = itemView.resources
@@ -69,7 +52,7 @@ class ForecastViewHolder(
     }
 
     private fun configureView() {
-        imageRepo.getCurrentIcon(forecastItem.iconUrl, iconTarget)
+        icon.setImageResource(imageRepo.getCurrentIcon(forecastItem.iconName))
 
         val hr = SimpleDateFormat("HH").format(forecastItem.time).toInt()
         hour.setText("$hr")

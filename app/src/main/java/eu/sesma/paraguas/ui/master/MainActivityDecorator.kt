@@ -1,7 +1,5 @@
 package eu.sesma.paraguas.ui.master
 
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
@@ -21,19 +19,17 @@ import eu.sesma.paraguas.api.ImageRepository
 import eu.sesma.paraguas.domain.Astronomy
 import eu.sesma.paraguas.domain.CurrentWeather
 import eu.sesma.paraguas.domain.ForecastItem
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Target
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 class MainActivityDecorator
 @Inject
 constructor(
-        val activity: AppCompatActivity,
-        val imagerepo: ImageRepository,
-        val layoutManager: LinearLayoutManager,
-        val adapter: ForecastAdapter,
-        val graph: Graph
+    val activity: AppCompatActivity,
+    val imagerepo: ImageRepository,
+    val layoutManager: LinearLayoutManager,
+    val adapter: ForecastAdapter,
+    val graph: Graph
 ) : MainActivityUserInterface {
 
     private val TAG = MainActivityDecorator::class.simpleName
@@ -60,26 +56,14 @@ constructor(
     private var delegate: MainActivityUserInterface.Delegate? = null
     private var city: String? = null
 
-    private val iconTarget = object : Target {
-
-        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-            icon.setImageBitmap(bitmap)
-        }
-
-        override fun onBitmapFailed(errorDrawable: Drawable?) {
-        }
-
-        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-        }
-    }
-
     private val forecastClickListener = object : ForecastClickListener {
         override fun onClick(index: Int) {
             delegate?.onClick(adapter.getItemAtPosition(index))
         }
     }
 
-    internal var refreshListener: SwipeRefreshLayout.OnRefreshListener = SwipeRefreshLayout.OnRefreshListener { delegate?.onRefresh() }
+    internal var refreshListener: SwipeRefreshLayout.OnRefreshListener =
+        SwipeRefreshLayout.OnRefreshListener { delegate?.onRefresh() }
 
     fun bind(view: View) {
         ButterKnife.bind(this, view)
@@ -111,8 +95,7 @@ constructor(
 
     override fun showCurrentWeather(currentWeather: CurrentWeather) {
         setWaitingMode(false)
-        val url = currentWeather.iconUrl
-        imagerepo.getCurrentIcon(url, iconTarget)
+        icon.setImageResource(imagerepo.getCurrentIcon(currentWeather.iconName))
         tvcondition.setText(currentWeather.condition)
         tvtemp.setText(String.format(activity.getString(R.string.number), currentWeather.temp))
         tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), currentWeather.feelsLike))

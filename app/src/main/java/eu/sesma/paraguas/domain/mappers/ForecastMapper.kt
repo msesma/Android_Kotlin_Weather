@@ -27,7 +27,7 @@ constructor(
                 rainQuantity = dataPoint.precipIntensity ?: 0.0,
 //                snow = dataPoint.apparentTemperature ?: 0.0,
                 condition = dataPoint.summary ?: "",
-                iconUrl = dataPoint.icon?.text ?: "",
+                iconName = dataPoint.icon?.text ?: "",
                 humidity = dataPoint.humidity ?: 0.0
             )
         }

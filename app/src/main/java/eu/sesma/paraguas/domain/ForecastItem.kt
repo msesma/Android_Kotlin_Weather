@@ -12,6 +12,6 @@ data class ForecastItem(
         val rainProbability: Double = 0.0,
         val snow: Double = 0.0,
         val condition: String = "",
-        val iconUrl: String = "",
+        val iconName: String = "",
         val humidity: Double? = 0.0
 ) : Serializable

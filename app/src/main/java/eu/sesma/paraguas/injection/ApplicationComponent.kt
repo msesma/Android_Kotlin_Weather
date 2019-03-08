@@ -3,7 +3,6 @@ package eu.sesma.paraguas.injection
 import android.content.Context
 import android.content.SharedPreferences
 import android.location.Geocoder
-import com.squareup.picasso.Picasso
 import dagger.Component
 import eu.sesma.paraguas.api.ApiModule
 import eu.sesma.paraguas.api.services.WeatherService
@@ -29,8 +28,6 @@ interface ApplicationComponent {
     fun provideCacheControl(): CacheControl
 
     fun provideGeocoder(): Geocoder
-
-    fun providePicasso(): Picasso
 
     fun provideCacheProvider(): CacheProvider
 }

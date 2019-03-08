@@ -53,7 +53,6 @@ ext {
     okhttp = '3.6.0'
     butterknife = '8.8.1'
     dagger = '2.5'
-    picasso = '2.5.2'
     android_chart = 'v3.0.1'
 
     junit = '4.11'

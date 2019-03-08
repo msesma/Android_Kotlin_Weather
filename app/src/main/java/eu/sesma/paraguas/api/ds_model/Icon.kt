@@ -8,43 +8,43 @@ import com.google.gson.annotations.SerializedName
 enum class Icon private constructor(val text: String) {
 
     @SerializedName(ModelConstants.ICON_CLEAR_DAY)
-    CLEAR_DAY(ModelConstants.ICON_CLEAR_DAY),
+    CLEAR_DAY("sunny"),
 
     @SerializedName(ModelConstants.ICON_CLEAR_NIGHT)
-    CLEAR_NIGHT(ModelConstants.ICON_CLEAR_NIGHT),
+    CLEAR_NIGHT("nt_sunny"),
 
     @SerializedName(ModelConstants.ICON_RAIN)
-    RAIN(ModelConstants.ICON_RAIN),
+    RAIN("rain"),
 
     @SerializedName(ModelConstants.ICON_SNOW)
-    SNOW(ModelConstants.ICON_SNOW),
+    SNOW("snow"),
 
     @SerializedName(ModelConstants.ICON_SLEET)
-    SLEET(ModelConstants.ICON_SLEET),
+    SLEET("sleet"),
 
     @SerializedName(ModelConstants.ICON_WIND)
-    WIND(ModelConstants.ICON_WIND),
+    WIND("wind"),
 
     @SerializedName(ModelConstants.ICON_FOG)
-    FOG(ModelConstants.ICON_FOG),
+    FOG("fog"),
 
     @SerializedName(ModelConstants.ICON_CLOUDY)
-    CLOUDY(ModelConstants.ICON_CLOUDY),
+    CLOUDY("cloudy"),
 
     @SerializedName(ModelConstants.ICON_PARTLY_CLOUDY_DAY)
-    PARTLY_CLOUDY_DAY(ModelConstants.ICON_PARTLY_CLOUDY_DAY),
+    PARTLY_CLOUDY_DAY("partlucloudy"),
 
     @SerializedName(ModelConstants.ICON_PARTLY_CLOUDY_NIGHT)
-    PARTLY_CLOUDY_NIGHT(ModelConstants.ICON_PARTLY_CLOUDY_NIGHT),
+    PARTLY_CLOUDY_NIGHT("nt_partlycloudy"),
 
     @SerializedName(ModelConstants.ICON_HAIL)
-    HAIL(ModelConstants.ICON_HAIL),
+    HAIL("hail"),
 
-    @SerializedName(ModelConstants.ICON_THUNDERSTORM)
+    @SerializedName("tstorms")
     THUNDERSTORM(ModelConstants.ICON_THUNDERSTORM),
 
     @SerializedName(ModelConstants.ICON_TORNADO)
-    TORNADO(ModelConstants.ICON_TORNADO);
+    TORNADO("wind");
 
     companion object {
         private val map = Icon.values().associateBy(Icon::text)
