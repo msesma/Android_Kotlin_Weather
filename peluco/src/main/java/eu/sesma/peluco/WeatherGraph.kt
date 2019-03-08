@@ -17,8 +17,8 @@ class WeatherGraph(private val context: Context) {
 
     private lateinit var temps: List<Int>
     private lateinit var adjustedTemps: List<Int>
-    private lateinit var rainsQpf: List<Int>
-    private lateinit var rainsPop: List<Int>
+    private lateinit var rainsQpf: List<Float>
+    private lateinit var rainsPop: List<Float>
     private var minTemp = 0
     private var maxTemp = 0
     private var willRain = false
@@ -103,7 +103,7 @@ class WeatherGraph(private val context: Context) {
 
         for (i in 0 until hours) {
             var hour = time.hour + i
-            if (hour > 24) hour = hour - 24
+            if (hour > 24) hour -= 24
             if (hour % 6 == 0) canvas.drawLine(xpos, upperLineY, xpos, tempHeight + bounds.top, linePaint)
 
             ypos = tempHeight + bounds.top - (adjustedTemps[i + firstSet] * tempDegree) - tempYOffset
@@ -127,14 +127,20 @@ class WeatherGraph(private val context: Context) {
         }
 
         canvas.drawText(Integer.toString(maxTemp), 0f, (upperLineY + 18).toInt().toFloat(), numberPaint)
-        canvas.drawText(Integer.toString(minTemp), 0f, (tempHeight + bounds.top.toFloat() + 12f).toInt().toFloat(), numberPaint)
+        canvas.drawText(
+            Integer.toString(minTemp),
+            0f,
+            (tempHeight + bounds.top.toFloat() + 12f).toInt().toFloat(),
+            numberPaint
+        )
     }
 
     private fun setDaylightColor(paint: Paint, hour: Int, minute: Int) {
         paint.color = if (hour < sunriseH ||
-                hour == sunriseH && minute < sunriseM ||
-                hour > sunsetH ||
-                hour == sunsetH && minute >= sunsetM)
+            hour == sunriseH && minute < sunriseM ||
+            hour > sunsetH ||
+            hour == sunsetH && minute >= sunsetM
+        )
             NIGHT_COLOR
         else
             DAY_COLOR
@@ -147,7 +153,7 @@ class WeatherGraph(private val context: Context) {
         val offset = bounds.top + rainHeight - canvas.height + tempHeight + bounds.top
 
         for (i in 0 until hours) {
-            rainPaint.alpha = 128 + rainsQpf[i + firstSet] * 80
+            rainPaint.alpha = 128 + (rainsQpf[i + firstSet] * 80).toInt()
             ypos = offset - rainsPop[i + firstSet] * rainDegree
             canvas.drawRect(xpos, ypos, xpos + rainStep, tempHeight + bounds.top, rainPaint)
             xpos += rainStep
@@ -167,9 +173,9 @@ class WeatherGraph(private val context: Context) {
             maxTemp = (temps.subList(fromIndex = firstSet, toIndex = toIndex).max() ?: 500) / 10
             adjustedTemps = temps.map { Math.round(it.toFloat() / 10) - minTemp }
 
-            rainsQpf = jsonArrayToIntArrayList(rainsQpfJSONArray)
-            rainsPop = jsonArrayToIntArrayList(rainsPopJSONArray)
-            rainsPop.forEach { if (it > 0) willRain = true }
+            rainsQpf = jsonArrayToFloatArrayList(rainsQpfJSONArray)
+            rainsPop = jsonArrayToFloatArrayList(rainsPopJSONArray)
+            willRain = rainsPop.any { it > 0 }
 
             val sunrise = settings.getLong(WearConstants.KEY_SUNRISE, 0L)
             val sunset = settings.getLong(WearConstants.KEY_SUNSET, 0L)
@@ -192,6 +198,17 @@ class WeatherGraph(private val context: Context) {
         if (jsonArray != null) {
             for (i in 0 until jsonArray.length()) {
                 result.add(jsonArray.get(i) as Int)
+            }
+        }
+        return result
+    }
+
+    @Throws(JSONException::class)
+    private fun jsonArrayToFloatArrayList(jsonArray: JSONArray?): List<Float> {
+        val result = mutableListOf<Float>()
+        if (jsonArray != null) {
+            for (i in 0 until jsonArray.length()) {
+                result.add(jsonArray.get(i) as Int / 10f)
             }
         }
         return result
