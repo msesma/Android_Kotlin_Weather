@@ -1,10 +1,12 @@
 package eu.sesma.paraguas.ui.master
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.support.annotation.ColorInt
 import android.text.format.Time
 import android.view.ViewTreeObserver
 import android.widget.ImageView
@@ -22,7 +24,7 @@ class Graph
 constructor(private val context: Context) {
 
     companion object {
-        val FL_WIDTH = 4f
+        const val FL_WIDTH = 4f
     }
 
     private val time = Time()
@@ -31,25 +33,26 @@ constructor(private val context: Context) {
     private val rainsQuantity = mutableListOf<Double>()
     private val rainsProbability = mutableListOf<Double>()
 
-    var imageView: ImageView? = null
+    private var imageView: ImageView? = null
     var currentWeather: CurrentWeather? = null
-    var forecast: List<ForecastItem> = listOf()
+    var forecast: List<ForecastItem> = emptyList()
     var astronomy: Astronomy? = null
 
-    val layoutListener = ViewTreeObserver.OnGlobalLayoutListener { drawInternal() }
+    private val layoutListener = ViewTreeObserver.OnGlobalLayoutListener { drawInternal() }
 
     fun draw(imageView: ImageView) {
-        if (currentWeather == null || astronomy == null || forecast.isEmpty()) {
-            return
-        }
+        if (currentWeather == null || astronomy == null || forecast.isEmpty()) return
+
         this.imageView = imageView
         imageView.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
     }
 
-    fun drawInternal() {
-        imageView?.viewTreeObserver?.removeOnGlobalLayoutListener(layoutListener);
-        time.setToNow()
+    private fun drawInternal() {
+        val safeView = imageView ?: return
 
+        safeView.viewTreeObserver?.removeOnGlobalLayoutListener(layoutListener)
+
+        time.setToNow()
         temps.clear()
         feelLike.clear()
         rainsQuantity.clear()
@@ -58,24 +61,25 @@ constructor(private val context: Context) {
         temps.add(currentWeather?.temp ?: 0.0)
         feelLike.add(currentWeather?.feelsLike ?: 0.0)
         rainsQuantity.add(currentWeather?.precip1hrMetric ?: 0.0)
-        rainsProbability.add(if (rainsQuantity[0] > 0) 0.5 else 0.0)
-        for (item in forecast) {
-            temps.add(item.temp)
-            feelLike.add(item.feelslike)
-            rainsQuantity.add(item.rainQuantity)
-            rainsProbability.add(item.rainProbability)
+        rainsProbability.add(0.0)
+        forecast.forEach {
+            temps.add(it.temp)
+            feelLike.add(it.feelslike)
+            rainsQuantity.add(it.rainQuantity)
+            rainsProbability.add(it.rainProbability)
         }
+        rainsProbability[0] = if (rainsQuantity[0] > 0) 1.0 else rainsProbability[1]
 
-
-        val bitmap = Bitmap.createBitmap(imageView!!.width, imageView!!.height, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(safeView.width, safeView.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
         drawTemp(canvas)
         drawRain(canvas)
 
-        imageView?.setImageBitmap(bitmap)
+        safeView.setImageBitmap(bitmap)
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun drawTemp(canvas: Canvas) {
         val sunriseH = SimpleDateFormat("HH").format(astronomy?.sunrise).toInt()
         val sunsetH = SimpleDateFormat("HH").format(astronomy?.sunset).toInt()
@@ -153,31 +157,30 @@ constructor(private val context: Context) {
         canvas.drawText(Integer.toString(min.toInt()), 0f, (ypos - 10), linePaint)
     }
 
-    private fun getDaylightColor(night: Boolean): Int {
-        return if (night) context.resources.getColor(R.color.darkYellow) else Color.YELLOW
-    }
-
     private fun drawRain(canvas: Canvas) {
         val paint = Paint()
         val hours = temps.size
         paint.color = Color.BLUE
 
-        val height = canvas.height.toFloat()
-        val degree = canvas.height
+        val height = canvas.height
         val step: Float = 60 * canvas.width / (hours * 60 - time.minute).toFloat()
         var xpos = 0f
 
-        for (i in 0 until hours) {
-            val alpha = 80 + (rainsQuantity[i] * 80).toInt()
+        (0 until hours).forEach {
+            val alpha = 80 + (rainsQuantity[it] * 80).toInt()
             paint.alpha = min(alpha, 160)
-            val ypos = height - rainsProbability[i].toFloat() * degree
-            if (i == 0) {
+            val ypos = height - (rainsProbability[it].toFloat() * 0.9f) * height
+            xpos += if (it == 0) {
                 canvas.drawRect(xpos, ypos, xpos + step * (60 - time.minute) / 60, canvas.height.toFloat(), paint)
-                xpos += step * (60 - time.minute) / 60
+                step * (60 - time.minute) / 60
             } else {
                 canvas.drawRect(xpos, ypos, xpos + step, canvas.height.toFloat(), paint)
-                xpos += step
+                step
             }
         }
     }
+
+    @ColorInt
+    private fun getDaylightColor(night: Boolean) =
+        if (night) context.resources.getColor(R.color.darkYellow) else Color.YELLOW
 }
