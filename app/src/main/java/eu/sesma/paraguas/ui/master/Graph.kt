@@ -68,7 +68,7 @@ constructor(private val context: Context) {
             rainsQuantity.add(it.rainQuantity)
             rainsProbability.add(it.rainProbability)
         }
-        rainsProbability[0] = if (rainsQuantity[0] > 0) 1.0 else rainsProbability[1]
+        rainsProbability[0] = if (rainsQuantity[0] > 0) 0.5 else rainsProbability[1]
 
         val bitmap = Bitmap.createBitmap(safeView.width, safeView.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)

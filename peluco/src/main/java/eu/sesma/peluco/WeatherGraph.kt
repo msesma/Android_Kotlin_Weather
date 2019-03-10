@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.*
 import android.preference.PreferenceManager
 import android.text.format.Time
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONException
 import java.util.*
@@ -47,7 +48,6 @@ class WeatherGraph(private val context: Context) {
     private var tempStep = 0f
     private val NIGHT_COLOR = context.resources.getColor(R.color.DARK_YELLOW)
     private val DAY_COLOR = Color.YELLOW
-    private val tempYOffset = 5
 
     init {
         rainPaint.color = Color.BLUE
@@ -66,7 +66,7 @@ class WeatherGraph(private val context: Context) {
         this.canvas = canvas
         this.bounds = bounds
         time.setToNow()
-        rainHeight = bounds.height().toFloat()
+        rainHeight = bounds.height() * 0.9f
         rainDegree = rainHeight
         rainStep = bounds.width().toFloat() / hours
         tempHeight = bounds.height() * 0.9f
@@ -77,6 +77,7 @@ class WeatherGraph(private val context: Context) {
         drawTempForecast()
         if (willRain) drawRainForecast()
 
+        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         return CurrentConditions(iconBitmap, temp, settings.getString(WearConstants.CITY, ""))
     }
 
@@ -106,8 +107,9 @@ class WeatherGraph(private val context: Context) {
             if (hour > 24) hour -= 24
             if (hour % 6 == 0) canvas.drawLine(xpos, upperLineY, xpos, tempHeight + bounds.top, linePaint)
 
-            ypos = tempHeight + bounds.top - (adjustedTemps[i + firstSet] * tempDegree) - tempYOffset
-            val yposEnd = tempHeight + bounds.top - (adjustedTemps[i + firstSet + 1] * tempDegree) - tempYOffset
+            ypos = tempHeight + bounds.top - (adjustedTemps[i + firstSet] * tempDegree) + tempDegree
+            val yposEnd =
+                tempHeight + bounds.top - (adjustedTemps[i + firstSet + 1] * tempDegree) + tempDegree
 
             if (hour == sunriseH || hour == sunsetH) {
                 val minute = if (hour == sunsetH) sunsetM else sunriseM
@@ -150,12 +152,13 @@ class WeatherGraph(private val context: Context) {
         var xpos = 0f
         var ypos: Float
 
-        val offset = bounds.top + rainHeight - canvas.height + tempHeight + bounds.top
+        val offset = bounds.top + rainHeight
 
         for (i in 0 until hours) {
             rainPaint.alpha = 128 + (rainsQpf[i + firstSet] * 80).toInt()
             ypos = offset - rainsPop[i + firstSet] * rainDegree
-            canvas.drawRect(xpos, ypos, xpos + rainStep, tempHeight + bounds.top, rainPaint)
+
+            canvas.drawRect(xpos, ypos, xpos + rainStep, rainHeight + bounds.top, rainPaint)
             xpos += rainStep
         }
     }
@@ -173,8 +176,8 @@ class WeatherGraph(private val context: Context) {
             maxTemp = (temps.subList(fromIndex = firstSet, toIndex = toIndex).max() ?: 500) / 10
             adjustedTemps = temps.map { Math.round(it.toFloat() / 10) - minTemp }
 
-            rainsQpf = jsonArrayToFloatArrayList(rainsQpfJSONArray)
-            rainsPop = jsonArrayToFloatArrayList(rainsPopJSONArray)
+            rainsQpf = jsonArrayToFloatArrayList(rainsQpfJSONArray).map { it / 10 }
+            rainsPop = jsonArrayToFloatArrayList(rainsPopJSONArray).map { it / 10 }
             willRain = rainsPop.any { it > 0 }
 
             val sunrise = settings.getLong(WearConstants.KEY_SUNRISE, 0L)
@@ -185,6 +188,7 @@ class WeatherGraph(private val context: Context) {
             val dateSunset = Date(sunset)
             sunsetH = dateSunset.hours
             sunsetM = dateSunset.minutes
+            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
             iconBitmap = getIconBitmap(settings.getString(WearConstants.ICON, ""))
         } catch (jse: JSONException) {
             return false

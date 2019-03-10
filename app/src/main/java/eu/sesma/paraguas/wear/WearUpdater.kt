@@ -9,11 +9,16 @@ import com.google.android.gms.wearable.Wearable
 import eu.sesma.paraguas.domain.Astronomy
 import eu.sesma.paraguas.domain.CurrentWeather
 import eu.sesma.paraguas.domain.ForecastItem
+import eu.sesma.paraguas.log.DiskLogger
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class WearUpdater @Inject constructor(val context: Context) {
+class WearUpdater
+@Inject constructor(
+    private val context: Context,
+    private val diskLogger: DiskLogger
+) {
 
     private val TAG = WearUpdater::class.simpleName
 
@@ -49,48 +54,47 @@ class WearUpdater @Inject constructor(val context: Context) {
         val rainsQpf = mutableListOf<Int>()
         val rainsPop = mutableListOf<Int>()
 
-        if (forecast.get(0).time?.hours != Date().hours) {
+        if (forecast[0].time?.hours != Date().hours) {
             temps.add((currentWeather.temp * 10).toInt())
             rainsQpf.add(currentWeather.precip1hrMetric.toInt())
-            rainsPop.add(if (currentWeather.precip1hrMetric > 0) 100 else 0)
+            rainsPop.add(0)
         }
-
-        for (forecastItem in forecast) {
-            temps.add((forecastItem.temp * 10).toInt())
-            rainsQpf.add(forecastItem.rainQuantity.toInt())
-            rainsPop.add(forecastItem.rainProbability.toInt())
+        forecast.forEach {
+            temps.add((it.temp * 10).toInt())
+            rainsQpf.add((it.rainQuantity * 100).toInt())
+            rainsPop.add((it.rainProbability * 100).toInt())
         }
+        rainsPop[0] = if (rainsQpf[0] > 0) 50 else rainsPop[1]
 
         val putDataMapRequest = PutDataMapRequest.create(WearConstants.WATCH_SET_FORECAST_PATH)
-        putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_TEMPS, temps as ArrayList<Int>)
-        putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_RAINS_QPF, rainsQpf as ArrayList<Int>)
-        putDataMapRequest.getDataMap().putIntegerArrayList(WearConstants.KEY_RAINS_POP, rainsPop as ArrayList<Int>)
-        putDataMapRequest.getDataMap().putLong(WearConstants.KEY_SUNRISE, sunrise ?: 0)
-        putDataMapRequest.getDataMap().putLong(WearConstants.KEY_SUNSET, sunset ?: TimeUnit.DAYS.toMillis(1))
-        putDataMapRequest.getDataMap().putString(WearConstants.CITY, city)
-        putDataMapRequest.getDataMap().putString(WearConstants.ICON, currentWeather.iconName)
+        putDataMapRequest.dataMap.putIntegerArrayList(WearConstants.KEY_TEMPS, temps as ArrayList<Int>)
+        putDataMapRequest.dataMap.putIntegerArrayList(WearConstants.KEY_RAINS_QPF, rainsQpf as ArrayList<Int>)
+        putDataMapRequest.dataMap.putIntegerArrayList(WearConstants.KEY_RAINS_POP, rainsPop as ArrayList<Int>)
+        putDataMapRequest.dataMap.putLong(WearConstants.KEY_SUNRISE, sunrise ?: 0)
+        putDataMapRequest.dataMap.putLong(WearConstants.KEY_SUNSET, sunset ?: TimeUnit.DAYS.toMillis(1))
+        putDataMapRequest.dataMap.putString(WearConstants.CITY, city)
+        putDataMapRequest.dataMap.putString(WearConstants.ICON, currentWeather.iconName)
 
-        putDataMapRequest.getDataMap().putLong(WearConstants.LAST_UPDATE_TIME, Date().time)
+        putDataMapRequest.dataMap.putLong(WearConstants.LAST_UPDATE_TIME, Date().time)
         val request = putDataMapRequest.asPutDataRequest()
         Wearable.DataApi.putDataItem(googleApiClient, request)
-                .setResultCallback { dataItemResult ->
-                    if (!dataItemResult.getStatus().isSuccess()) {
-                        Log.e(TAG, "Update Wearable forecast(): Failed to set the data, "
-                                + "status: " + dataItemResult.getStatus().getStatusCode())
-                    } else {
-                        Log.d(TAG, "Update Wearable forecast(): Success "
-                                + "status: " + dataItemResult.getStatus().getStatusCode())
-                    }
+            .setResultCallback { dataItemResult ->
+                val status = dataItemResult.status.isSuccess
+                if (!status) {
+                    diskLogger.log(TAG, "Update Wearable forecast(): Failed to set the data, status: $status")
+                } else {
+                    Log.d(TAG, "Update Wearable forecast(): Success status: $status")
                 }
-
+            }
     }
 
-    @Synchronized private fun buildGoogleApiClient() {
+    @Synchronized
+    private fun buildGoogleApiClient() {
         if (googleApiClient == null) {
             googleApiClient = GoogleApiClient.Builder(context)
-                    .addConnectionCallbacks(connectionCallback)
-                    .addApi(Wearable.API)
-                    .build()
+                .addConnectionCallbacks(connectionCallback)
+                .addApi(Wearable.API)
+                .build()
         }
 
         googleApiClient?.connect()
