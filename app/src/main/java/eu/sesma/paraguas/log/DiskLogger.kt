@@ -1,12 +1,12 @@
 package eu.sesma.paraguas.log
 
+import android.annotation.SuppressLint
 import android.os.Environment
 
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -16,16 +16,16 @@ class DiskLogger
 
 constructor() {
     companion object {
-        val LOG_PATH = "paraguas"
-        val LOG = "paraguas.log"
-        val LOG_BACK = "paraguasBack.log"
-        val MAX_SIZE = 200000
+        const val LOG_PATH = "paraguas"
+        const val LOG = "paraguas.log"
+        const val LOG_BACK = "paraguasBack.log"
+        const val MAX_SIZE = 100000
         val PATH: String
             get() {
                 var filepath = Environment.getExternalStorageDirectory().absolutePath
                 val file = File(filepath, LOG_PATH)
                 file.mkdirs()
-                filepath = filepath + "/" + LOG_PATH
+                filepath = "$filepath/$LOG_PATH"
                 return filepath
             }
     }
@@ -35,11 +35,9 @@ constructor() {
             val path = PATH
             var logFile = File(path, LOG)
             if (logFile.length() > MAX_SIZE) {
-                val fileback = File(path, LOG_BACK)
-                if (fileback.exists()) {
-                    fileback.delete()
-                }
-                logFile.renameTo(fileback)
+                val fileBack = File(path, LOG_BACK)
+                if (fileBack.exists()) fileBack.delete()
+                logFile.renameTo(fileBack)
                 logFile = File(path, LOG)
             }
             try {
@@ -52,6 +50,7 @@ constructor() {
         }
 
 
+    @SuppressLint("SimpleDateFormat")
     fun log(tag: String?, message: String) {
         val logFile = file ?: return
 

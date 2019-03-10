@@ -1,5 +1,6 @@
 package eu.sesma.paraguas.ui.master
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
@@ -33,7 +34,7 @@ class ForecastViewHolder(
     @BindView(R.id.hour)
     lateinit var hour: TextView
 
-    lateinit private var forecastItem: ForecastItem
+    private lateinit var forecastItem: ForecastItem
     private var forecastClickListener: ForecastClickListener? = null
 
     private val context: Context
@@ -51,20 +52,21 @@ class ForecastViewHolder(
         configureView()
     }
 
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun configureView() {
         icon.setImageResource(imageRepo.getCurrentIcon(forecastItem.iconName))
 
         val hr = SimpleDateFormat("HH").format(forecastItem.time).toInt()
-        hour.setText("$hr")
+        hour.text = "$hr"
 
-        temp.setText(String.format(context.getString(R.string.number), forecastItem.temp))
+        temp.text = String.format(context.getString(R.string.number), forecastItem.temp)
 
         var dataText = "ºC "
         if (forecastItem.feelslike != forecastItem.temp) dataText += "(${forecastItem.feelslike}ºC) "
-        data.setText(dataText)
+        data.text = dataText
 
-        data2.setText("${forecastItem.windSpeed.format(0)} km/h")
-        data3.setText("${forecastItem.rainProbability.format(0)}%")
+        data2.text = "${forecastItem.windSpeed.format(0)} km/h"
+        data3.text = "${(forecastItem.rainProbability * 100).format(0)}%"
     }
 
     @OnClick(R.id.forecast_row)

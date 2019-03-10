@@ -1,7 +1,6 @@
-package eu.sesma.paraguas.api.ds_model
+package eu.sesma.paraguas.api.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 /**
  * An alert object represents a severe weather warning issued for the requested location by a

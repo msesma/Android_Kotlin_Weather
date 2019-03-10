@@ -37,7 +37,5 @@ constructor(
         this.forecastClickListener = forecastClickListener
     }
 
-    fun getItemAtPosition(position: Int): ForecastItem {
-        return forecast[position]
-    }
+    fun getItemAtPosition(position: Int): ForecastItem = forecast[position]
 }

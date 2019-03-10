@@ -3,9 +3,9 @@ package eu.sesma.paraguas.usecases
 import android.content.Context
 import eu.sesma.paraguas.R
 import eu.sesma.paraguas.api.Constants
-import eu.sesma.paraguas.api.ds_model.Forecast
-import eu.sesma.paraguas.api.ds_model.Language
-import eu.sesma.paraguas.api.ds_model.Units
+import eu.sesma.paraguas.api.model.Forecast
+import eu.sesma.paraguas.api.model.Language
+import eu.sesma.paraguas.api.model.Units
 import eu.sesma.paraguas.api.services.WeatherService
 import eu.sesma.paraguas.domain.City
 import eu.sesma.paraguas.domain.mappers.ForecastMapper
@@ -25,41 +25,27 @@ class ForecastApiUseCase
 ) {
     private val key = context.getString(R.string.DarkSky_api_token) ?: ""
 
-    fun execute(city: City) = getForecast(
-        latitude = city.location.latitude,
-        longitude = city.location.longitude
-    )
+    fun execute(city: City) = getForecast(city.location.latitude, city.location.longitude)
         .map { mapper.map(Pair(it, city)) }
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    private fun getForecast(latitude: Double, longitude: Double): Single<Forecast> =
+        getForecast(latitude, longitude, null, null, null, false)
 
     private fun getForecast(
-        latitude: Double, longitude: Double
-    ): Single<Forecast> {
-        return getForecast(latitude, longitude, null)
-    }
-
-    private fun getForecast(
-        latitude: Double, longitude: Double, time: Int?
-    ): Single<Forecast> {
-        return getForecast(latitude, longitude, time, null, null, null, false)
-    }
-
-    private fun getForecast(
-        latitude: Double, longitude: Double, time: Int?,
-        language: Language?, units: Units?,
-        excludeList: List<String>?, extendHourly: Boolean
-    ): Single<Forecast> {
-        return service.getForecast( key,
-            latitude.toString(), longitude.toString(),
-            getQueryMapParameters(
-                language, units, excludeList,
-                extendHourly
-            ),
-            cacheControl.toString()
-        )
-    }
+        latitude: Double,
+        longitude: Double,
+        language: Language?,
+        units: Units?,
+        excludeList: List<String>?,
+        extendHourly: Boolean
+    ): Single<Forecast> = service.getForecast(
+        key,
+        latitude.toString(), longitude.toString(),
+        getQueryMapParameters(language, units, excludeList, extendHourly),
+        cacheControl.toString()
+    )
 
     private fun getQueryMapParameters(
         language: Language?,

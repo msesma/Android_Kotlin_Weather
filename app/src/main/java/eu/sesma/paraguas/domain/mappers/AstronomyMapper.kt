@@ -1,6 +1,6 @@
 package eu.sesma.paraguas.domain.mappers
 
-import eu.sesma.paraguas.api.ds_model.DataPoint
+import eu.sesma.paraguas.api.model.DataPoint
 import eu.sesma.paraguas.domain.Astronomy
 import javax.inject.Inject
 

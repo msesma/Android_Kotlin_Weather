@@ -1,7 +1,6 @@
-package eu.sesma.paraguas.api.ds_model
+package eu.sesma.paraguas.api.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 /**
  * A data point object represents the various weather phenomena occurring at a specific instant of time, and

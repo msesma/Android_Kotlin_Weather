@@ -1,5 +1,6 @@
 package eu.sesma.paraguas.ui.master
 
+import android.annotation.SuppressLint
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DefaultItemAnimator
@@ -89,25 +90,26 @@ constructor(
         activity.runOnUiThread {
             setWaitingMode(false)
             Log.e(TAG, error.toString())
-            tvtemp.setText(activity.getString(R.string.connection_error))
+            tvtemp.text = activity.getString(R.string.connection_error)
         }
     }
 
     override fun showCurrentWeather(currentWeather: CurrentWeather) {
         setWaitingMode(false)
         icon.setImageResource(imagerepo.getCurrentIcon(currentWeather.iconName))
-        tvcondition.setText(currentWeather.condition)
-        tvtemp.setText(String.format(activity.getString(R.string.number), currentWeather.temp))
-        tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), currentWeather.feelsLike))
+        tvcondition.text = currentWeather.condition
+        tvtemp.text = String.format(activity.getString(R.string.number), currentWeather.temp)
+        tvfeelslike.text = String.format(activity.getString(R.string.feels_like), currentWeather.feelsLike)
         graph.currentWeather = currentWeather
         graph.draw(graphView);
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun showCurrentAstronomy(astronomy: Astronomy) {
         setWaitingMode(false)
         val sunrise = SimpleDateFormat("HH:mm").format(astronomy.sunrise)
         val sunset = SimpleDateFormat("HH:mm").format(astronomy.sunset)
-        tvdaylight.setText(String.format(activity.getString(R.string.daylight), sunrise, sunset))
+        tvdaylight.text = String.format(activity.getString(R.string.daylight), sunrise, sunset)
         graph.astronomy = astronomy
         graph.draw(graphView);
     }

@@ -1,5 +1,6 @@
 package eu.sesma.paraguas.ui.detail
 
+import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
@@ -44,6 +45,7 @@ constructor(
         initToolbar()
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun initialize(forecastItem: ForecastItem?) {
         toolbar.title = SimpleDateFormat("HH:00").format(forecastItem?.time)
         showForecast(forecastItem)
@@ -51,19 +53,17 @@ constructor(
 
     private fun showForecast(forecast: ForecastItem?) {
         icon.setImageResource(imageRepo.getCurrentIcon(forecast?.iconName ?: ""))
-        tvcondition.setText(forecast?.condition)
-        tvtemp.setText(String.format(activity.getString(R.string.temp), forecast?.temp))
-        tvfeelslike.setText(String.format(activity.getString(R.string.feels_like), forecast?.feelslike))
-        rain.setText(
-            String.format(
-                activity.getString(R.string.rain),
-                forecast?.rainProbability,
-                forecast?.rainQuantity
-            )
+        tvcondition.text = forecast?.condition
+        tvtemp.text = String.format(activity.getString(R.string.temp), forecast?.temp)
+        tvfeelslike.text = String.format(activity.getString(R.string.feels_like), forecast?.feelslike)
+        rain.text = String.format(
+            activity.getString(R.string.rain),
+            (forecast?.rainProbability ?: 0.0) * 100,
+            forecast?.rainQuantity
         )
-        humidity.setText(String.format(activity.getString(R.string.humidity), forecast?.humidity))
-        snow.setText(String.format(activity.getString(R.string.snow), forecast?.snow))
-        wind.setText(String.format(activity.getString(R.string.wind), forecast?.windSpeed))
+        humidity.text = String.format(activity.getString(R.string.humidity), forecast?.humidity)
+        snow.text = String.format(activity.getString(R.string.snow), forecast?.snow)
+        wind.text = String.format(activity.getString(R.string.wind), forecast?.windSpeed)
     }
 
     private fun initToolbar() {

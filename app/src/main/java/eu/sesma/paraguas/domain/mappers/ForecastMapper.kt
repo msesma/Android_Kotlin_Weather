@@ -1,6 +1,6 @@
 package eu.sesma.paraguas.domain.mappers
 
-import eu.sesma.paraguas.api.ds_model.Forecast
+import eu.sesma.paraguas.api.model.Forecast
 import eu.sesma.paraguas.domain.City
 import eu.sesma.paraguas.domain.ForecastItem
 import eu.sesma.paraguas.domain.WeatherData

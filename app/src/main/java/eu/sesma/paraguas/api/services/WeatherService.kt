@@ -1,7 +1,7 @@
 package eu.sesma.paraguas.api.services
 
 
-import eu.sesma.paraguas.api.ds_model.Forecast
+import eu.sesma.paraguas.api.model.Forecast
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Header
