@@ -25,6 +25,6 @@ class CityUseCase
         .timeout(TIMEOUT, TimeUnit.SECONDS)
         .map { location ->
             val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            cityMapper.map(Pair(location, if (addresses.isNotEmpty()) addresses[0] else null))
+            cityMapper.map(Pair(location, addresses.firstOrNull()))
         }
 }

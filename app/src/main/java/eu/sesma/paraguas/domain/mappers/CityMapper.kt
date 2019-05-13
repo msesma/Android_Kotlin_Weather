@@ -11,7 +11,7 @@ constructor() : Mapper<City, Pair<Location, Address?>> {
     override fun map(input: Pair<Location, Address?>): City {
         val (location, address) = input
         return City(
-            city = address?.locality ?: "",
+            city = address?.subLocality ?: address?.locality ?: address?.subAdminArea ?: address?.adminArea ?: address?.countryName ?: "",
             countryCode = address?.countryCode ?: "",
             location = location
         )
