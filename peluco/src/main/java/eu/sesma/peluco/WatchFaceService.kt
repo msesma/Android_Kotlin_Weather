@@ -30,7 +30,8 @@ class WatchFaceService : CanvasWatchFaceService() {
         private val WEEKDAYS = DateFormatSymbols().weekdays
         private val MONTHS = DateFormatSymbols().shortMonths
         private const val COLON_STRING = ":"
-        private const val STEPS: Int = 101
+//        private const val STEPS: Int = 0
+//        private const val BATTERY: Int = 1
     }
 
     override fun onCreateEngine(): Engine = Engine()
@@ -91,20 +92,19 @@ class WatchFaceService : CanvasWatchFaceService() {
                     .setHideHotwordIndicator(true)
                     .build())
 
-//            Log.d("===", "Initialising complications...")
-//            setDefaultComplicationProvider(STEPS, stepCountProvider(), ComplicationData.TYPE_SHORT_TEXT)
-//            setActiveComplications(STEPS)
-//            val component = ComponentName(applicationContext, WatchFaceService::class.java)
-//            createProviderChooserIntent(component, STEPS, ComplicationData.TYPE_SHORT_TEXT)
+//            Log.d("===>", "Initialising complications...")
+//            setDefaultSystemComplicationProvider(STEPS, STEP_COUNT, ComplicationData.TYPE_SHORT_TEXT)
+//            setDefaultSystemComplicationProvider(BATTERY, WATCH_BATTERY, ComplicationData.TYPE_SHORT_TEXT)
+//            setActiveComplications(STEPS, BATTERY)
 
             initializeValues()
         }
 
 //        override fun onComplicationDataUpdate(watchFaceComplicationId: Int, data: ComplicationData?) {
-////            super.onComplicationDataUpdate(watchFaceComplicationId, data)
-//            Log.d("===", "data received")
+//            super.onComplicationDataUpdate(watchFaceComplicationId, data)
+//            Log.d("===>", "data received")
 //            val safedata = data ?: return
-//            Log.d("===", safedata.toString())
+//            Log.d("===>", safedata.toString())
 //        }
 
         override fun onPropertiesChanged(properties: Bundle) {
