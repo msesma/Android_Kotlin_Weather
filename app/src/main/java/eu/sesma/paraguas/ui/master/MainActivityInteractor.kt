@@ -49,7 +49,7 @@ constructor(
             compositeDisposable.add(cityUseCase.execute()
                 .subscribe(
                     { cache.city = it; this.handleOnCityResult(it) },
-                    { subscriber?.onError(it as Exception) }
+                    { subscriber?.onError(Exception(it)) }
                 )
             )
         }
@@ -61,7 +61,7 @@ constructor(
         compositeDisposable.add(forecastUseCase.execute(city)
             .subscribe(
                 { subscriber?.handleOnForecastResult(it) },
-                { subscriber?.onError(it.cause as Exception) }
+                { subscriber?.onError(Exception(it)) }
             )
         )
     }

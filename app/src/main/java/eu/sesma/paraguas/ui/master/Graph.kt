@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.support.annotation.ColorInt
 import android.text.format.Time
+import android.util.TypedValue
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import eu.sesma.paraguas.R
@@ -32,6 +33,7 @@ constructor(private val context: Context) {
     private val feelLike = mutableListOf<Double>()
     private val rainsQuantity = mutableListOf<Double>()
     private val rainsProbability = mutableListOf<Double>()
+    private val linePaint = Paint()
 
     private var imageView: ImageView? = null
     var currentWeather: CurrentWeather? = null
@@ -43,8 +45,27 @@ constructor(private val context: Context) {
     fun draw(imageView: ImageView) {
         if (currentWeather == null || astronomy == null || forecast.isEmpty()) return
 
+        linePaint.color = Color.BLACK
         this.imageView = imageView
         imageView.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
+    }
+
+    fun drawWidget(): Bitmap? {
+        if (currentWeather == null || astronomy == null || forecast.isEmpty()) return null
+
+        prepareData()
+
+        linePaint.color = Color.WHITE
+
+        val width = context.toPixels(240)
+        val height = context.toPixels(80)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        drawTemp(canvas)
+        drawRain(canvas)
+
+        return bitmap
     }
 
     private fun drawInternal() {
@@ -52,6 +73,18 @@ constructor(private val context: Context) {
 
         safeView.viewTreeObserver?.removeOnGlobalLayoutListener(layoutListener)
 
+        prepareData()
+
+        val bitmap = Bitmap.createBitmap(safeView.width, safeView.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        drawTemp(canvas)
+        drawRain(canvas)
+
+        safeView.setImageBitmap(bitmap)
+    }
+
+    private fun prepareData() {
         time.setToNow()
         temps.clear()
         feelLike.clear()
@@ -69,15 +102,14 @@ constructor(private val context: Context) {
             rainsProbability.add(it.rainProbability)
         }
         rainsProbability[0] = if (rainsQuantity[0] > 0) 0.5 else rainsProbability[1]
-
-        val bitmap = Bitmap.createBitmap(safeView.width, safeView.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-
-        drawTemp(canvas)
-        drawRain(canvas)
-
-        safeView.setImageBitmap(bitmap)
     }
+
+    private fun Context.toPixels(dp: Int) =
+        TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            resources.displayMetrics
+        ).toInt()
 
     @SuppressLint("SimpleDateFormat")
     private fun drawTemp(canvas: Canvas) {
@@ -88,8 +120,7 @@ constructor(private val context: Context) {
         val hours = temps.size
 
         val paint = Paint()
-        val linePaint = Paint()
-        linePaint.color = Color.BLACK
+
         val feelPaint = Paint()
         feelPaint.color = Color.RED
         feelPaint.strokeWidth = FL_WIDTH
@@ -116,7 +147,13 @@ constructor(private val context: Context) {
             if (i == 0) {
                 val isNight = hour < sunriseH || hour > sunsetH
                 paint.color = getDaylightColor(isNight)
-                canvas.drawRect(xpos, ypos, xpos + step * (60 - time.minute) / 60, canvas.height.toFloat(), paint)
+                canvas.drawRect(
+                    xpos,
+                    ypos,
+                    xpos + step * (60 - time.minute) / 60,
+                    canvas.height.toFloat(),
+                    paint
+                )
             } else if (hour == sunriseH || hour == sunsetH) {
                 val minute = if (hour == sunriseH) sunriseM else sunsetM
                 val isNight = hour < sunriseH || hour == sunriseH && minute < sunriseM ||
@@ -171,7 +208,13 @@ constructor(private val context: Context) {
             paint.alpha = min(alpha, 160)
             val ypos = height - (rainsProbability[it].toFloat() * 0.9f) * height
             xpos += if (it == 0) {
-                canvas.drawRect(xpos, ypos, xpos + step * (60 - time.minute) / 60, canvas.height.toFloat(), paint)
+                canvas.drawRect(
+                    xpos,
+                    ypos,
+                    xpos + step * (60 - time.minute) / 60,
+                    canvas.height.toFloat(),
+                    paint
+                )
                 step * (60 - time.minute) / 60
             } else {
                 canvas.drawRect(xpos, ypos, xpos + step, canvas.height.toFloat(), paint)
