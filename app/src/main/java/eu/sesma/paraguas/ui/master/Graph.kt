@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import android.text.format.Time
 import android.util.TypedValue
 import android.view.ViewTreeObserver
@@ -20,6 +20,7 @@ import javax.inject.Inject
 import kotlin.math.min
 
 
+@Suppress("DEPRECATION")
 class Graph
 @Inject
 constructor(private val context: Context) {
@@ -34,6 +35,8 @@ constructor(private val context: Context) {
     private val rainsQuantity = mutableListOf<Double>()
     private val rainsProbability = mutableListOf<Double>()
     private val linePaint = Paint()
+    private val textPaint = Paint()
+    private var isWidget = false
 
     private var imageView: ImageView? = null
     var currentWeather: CurrentWeather? = null
@@ -46,6 +49,7 @@ constructor(private val context: Context) {
         if (currentWeather == null || astronomy == null || forecast.isEmpty()) return
 
         linePaint.color = Color.BLACK
+        textPaint.color = Color.BLACK
         this.imageView = imageView
         imageView.viewTreeObserver.addOnGlobalLayoutListener(layoutListener)
     }
@@ -55,10 +59,12 @@ constructor(private val context: Context) {
 
         prepareData()
 
-        linePaint.color = Color.WHITE
+        linePaint.color = Color.LTGRAY
+        textPaint.color = Color.RED
+        isWidget = true
 
-        val width = context.toPixels(240)
-        val height = context.toPixels(80)
+        val width = context.toPixels(300)
+        val height = context.toPixels(100)
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
@@ -176,22 +182,23 @@ constructor(private val context: Context) {
                 canvas.drawLine(xpos, yposFeel, xpos + step, yposFeel, feelPaint)
             }
 
-            linePaint.textSize = 36f
+            textPaint.textSize = 36f
+            if (isWidget) textPaint.color  = Color.GREEN
             if (hour % 6 == 0) {
-                canvas.drawText(Integer.toString(hour), xpos, 32f, linePaint)
+                canvas.drawText(Integer.toString(hour), xpos, 32f, textPaint)
                 canvas.drawLine(xpos, 0f, xpos, canvas.height.toFloat(), linePaint)
             }
 
             xpos += if (i == 0) step * (60 - time.minute) / 60 else step
         }
 
-        linePaint.textSize = 48f
+        if (!isWidget) textPaint.textSize = 48f else textPaint.color = Color.RED
         var ypos = height - ((max - min) * degree).toInt()
         canvas.drawLine(0f, ypos, canvas.width.toFloat(), ypos, linePaint)
-        canvas.drawText(Integer.toString(max.toInt()), 0f, (ypos + 40), linePaint)
+        canvas.drawText(Integer.toString(max.toInt()), 0f, (ypos + 40), textPaint)
         ypos = height
         canvas.drawLine(0f, ypos, canvas.width.toFloat(), ypos, linePaint)
-        canvas.drawText(Integer.toString(min.toInt()), 0f, (ypos - 10), linePaint)
+        canvas.drawText(Integer.toString(min.toInt()), 0f, (ypos - 10), textPaint)
     }
 
     private fun drawRain(canvas: Canvas) {

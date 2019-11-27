@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.util.Log
 import android.widget.RemoteViews
+import eu.sesma.paraguas.R
 import eu.sesma.paraguas.domain.City
 import eu.sesma.paraguas.domain.WeatherData
 import eu.sesma.paraguas.domain.cache.CacheProvider
@@ -91,7 +92,7 @@ constructor(
 
     private fun updateWidget(data: WeatherData) {
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        val remoteViews = RemoteViews(context.packageName, eu.sesma.paraguas.R.layout.appwidget)
+        val remoteViews = RemoteViews(context.packageName, R.layout.appwidget)
 
         val bitmap = Graph(context).apply {
             val (_, currentWeather, astronomy, forecast) = data

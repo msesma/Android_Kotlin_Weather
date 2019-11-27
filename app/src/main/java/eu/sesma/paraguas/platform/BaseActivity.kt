@@ -2,7 +2,7 @@ package eu.sesma.paraguas.platform
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.ViewGroup
 import eu.sesma.paraguas.injection.ActivityComponent
 import eu.sesma.paraguas.injection.ApplicationComponent

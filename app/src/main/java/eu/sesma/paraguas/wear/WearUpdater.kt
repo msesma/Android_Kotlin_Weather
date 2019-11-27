@@ -22,11 +22,12 @@ class WearUpdater
 
     private val TAG = WearUpdater::class.simpleName
 
+    //TODO update to GoogleApi https://android-developers.googleblog.com/2017/11/moving-past-googleapiclient_21.html
     private var googleApiClient: GoogleApiClient? = null
-    lateinit private var currentWeather: CurrentWeather
-    lateinit private var astronomy: Astronomy
-    lateinit private var forecast: List<ForecastItem>
-    lateinit private var city: String
+    private lateinit var currentWeather: CurrentWeather
+    private lateinit var astronomy: Astronomy
+    private lateinit var forecast: List<ForecastItem>
+    private lateinit var city: String
 
     private val connectionCallback = object : GoogleApiClient.ConnectionCallbacks {
         override fun onConnected(bundle: Bundle?) {

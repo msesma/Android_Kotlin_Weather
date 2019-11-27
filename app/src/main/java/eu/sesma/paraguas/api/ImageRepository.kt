@@ -1,6 +1,6 @@
 package eu.sesma.paraguas.api
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import eu.sesma.paraguas.R
 import javax.inject.Inject
 

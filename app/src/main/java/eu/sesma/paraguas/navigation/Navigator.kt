@@ -1,7 +1,7 @@
 package eu.sesma.paraguas.navigation
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import eu.sesma.paraguas.R
 import eu.sesma.paraguas.domain.ForecastItem
 import eu.sesma.paraguas.ui.detail.DetailActivity

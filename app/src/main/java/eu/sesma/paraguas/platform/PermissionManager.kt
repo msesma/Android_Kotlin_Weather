@@ -2,7 +2,7 @@ package eu.sesma.paraguas.platform
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import eu.sesma.paraguas.R
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions

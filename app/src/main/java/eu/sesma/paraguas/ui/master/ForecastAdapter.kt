@@ -1,6 +1,6 @@
 package eu.sesma.paraguas.ui.master
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import eu.sesma.paraguas.R
@@ -12,7 +12,7 @@ class ForecastAdapter
 @Inject
 constructor(
         private val imageRepository: ImageRepository
-) : RecyclerView.Adapter<ForecastViewHolder>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<ForecastViewHolder>() {
 
     private var forecast: List<ForecastItem> = listOf()
     private var forecastClickListener: ForecastClickListener? = null
